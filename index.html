@@ -521,20 +521,20 @@
       <div class="settings-group-title">Intensity Preview</div>
       <div class="settings-row" id="intensity-preview-row">
         <div class="settings-item">
-          <div class="settings-item-label">Work Duration</div>
-          <div class="settings-item-value" id="prev-work">30s</div>
+          <div class="settings-item-label">Interval Duration</div>
+          <div class="settings-item-value" id="prev-work">60s</div>
         </div>
         <div class="settings-item">
-          <div class="settings-item-label">Rest Duration</div>
-          <div class="settings-item-value" id="prev-rest">30s</div>
+          <div class="settings-item-label">Rest</div>
+          <div class="settings-item-value" id="prev-rest">Time remaining</div>
         </div>
         <div class="settings-item">
-          <div class="settings-item-label">Rounds</div>
-          <div class="settings-item-value" id="prev-rounds">8</div>
+          <div class="settings-item-label">Circuits</div>
+          <div class="settings-item-value" id="prev-rounds">3</div>
         </div>
         <div class="settings-item">
-          <div class="settings-item-label">Total Time</div>
-          <div class="settings-item-value" id="prev-time">~8 min</div>
+          <div class="settings-item-label">Total Time (est.)</div>
+          <div class="settings-item-value" id="prev-time">~15 min</div>
         </div>
       </div>
     </div>
@@ -898,11 +898,14 @@ const WORKOUTS = [
 
 // ═══════════════════════════════════════════
 //  INTENSITY SETTINGS
+//  True EMOM: each exercise = 1 full minute.
+//  Finish your reps, rest for what remains.
+//  Rounds = how many full circuits through the exercise list.
 // ═══════════════════════════════════════════
 const INTENSITY = {
-  1: { label: 'Beginner',     work: 30, rest: 30, rounds: 8,  color: '#30d158' },
-  2: { label: 'Intermediate', work: 40, rest: 20, rounds: 10, color: '#ff9f0a' },
-  3: { label: 'Advanced',     work: 50, rest: 10, rounds: 12, color: '#ff375f' },
+  1: { label: 'Beginner',     rounds: 3,  color: '#30d158' },
+  2: { label: 'Intermediate', rounds: 5,  color: '#ff9f0a' },
+  3: { label: 'Advanced',     rounds: 8,  color: '#ff375f' },
 };
 
 // ═══════════════════════════════════════════
@@ -1025,10 +1028,10 @@ function renderEquipmentGrid() {
 //  HELPERS
 // ═══════════════════════════════════════════
 function getWorkoutDuration(w) {
-  const { work, rest, rounds } = INTENSITY[state.intensity];
+  const { rounds } = INTENSITY[state.intensity];
   const ex = getExercisesForWorkout(w);
-  const total = ex.length * rounds * (work + rest);
-  return Math.ceil(total / 60);
+  // Each exercise = exactly 1 minute
+  return ex.length * rounds;
 }
 
 function getDiffLabel(d) {
@@ -1080,11 +1083,11 @@ function setIntensity(level, btn) {
 
 function updateIntensityPreview() {
   const s = INTENSITY[state.intensity];
-  document.getElementById('prev-work').textContent = s.work + 's';
-  document.getElementById('prev-rest').textContent = s.rest + 's';
+  document.getElementById('prev-work').textContent = '60s';
+  document.getElementById('prev-rest').textContent = 'Time remaining';
   document.getElementById('prev-rounds').textContent = s.rounds;
-  const totalSec = s.rounds * (s.work + s.rest);
-  document.getElementById('prev-time').textContent = '~' + Math.ceil(totalSec / 60) + ' min';
+  // Approximate: assume 5 exercises per workout
+  document.getElementById('prev-time').textContent = '~' + (s.rounds * 5) + ' min';
 }
 
 function toggleEquipment(id, el, always) {
@@ -1144,8 +1147,8 @@ function openWorkout(id) {
   state.prevScreen = state.currentScreen;
 
   const exercises = w._resolved || getExercisesForWorkout(w);
-  const { work, rest, rounds } = INTENSITY[state.intensity];
-  const totalMin = Math.ceil(exercises.length * rounds * (work + rest) / 60);
+  const { rounds } = INTENSITY[state.intensity];
+  const totalMin = exercises.length * rounds; // 1 min per exercise per round
   const cals = Math.round(totalMin * w.calPerMin);
 
   // Hero
@@ -1220,9 +1223,13 @@ function filterWorkouts(cat, btn) {
 }
 
 // ═══════════════════════════════════════════
-//  TIMER ENGINE
+//  TIMER ENGINE — true EMOM
+//  Each exercise gets exactly 60 seconds.
+//  Do your reps, rest for whatever's left.
+//  No separate rest phase.
 // ═══════════════════════════════════════════
 const RING_CIRCUMFERENCE = 2 * Math.PI * 96; // 603.2
+const EMOM_INTERVAL = 60; // seconds per exercise slot
 
 function startCountdown(secs) {
   state.timerState = 'countdown';
@@ -1232,10 +1239,9 @@ function startCountdown(secs) {
   state.timer = setInterval(tick, 1000);
 }
 
-function startPhase(phase) {
-  const { work, rest } = INTENSITY[state.intensity];
-  state.timerState = phase;
-  state.timeLeft = phase === 'work' ? work : rest;
+function startEmomSlot() {
+  state.timerState = 'emom';
+  state.timeLeft = EMOM_INTERVAL;
   updateTimerUI();
 }
 
@@ -1252,27 +1258,22 @@ function tick() {
 
 function advance() {
   if (state.timerState === 'countdown') {
-    startPhase('work');
+    startEmomSlot();
     return;
   }
 
-  if (state.timerState === 'work') {
-    startPhase('rest');
-    return;
-  }
-
-  if (state.timerState === 'rest') {
+  if (state.timerState === 'emom') {
+    // Move to next exercise
     state.currentExIdx++;
     if (state.currentExIdx >= state.exercises.length) {
       state.currentExIdx = 0;
       state.currentRound++;
     }
-
     if (state.currentRound >= state.totalRounds) {
       finishTimer();
       return;
     }
-    startPhase('work');
+    startEmomSlot();
     return;
   }
 }
@@ -1318,7 +1319,6 @@ function confirmStop() {
 }
 
 function updateTimerUI() {
-  const { work, rest } = INTENSITY[state.intensity];
   const phase = state.timerState;
   const exs = state.exercises;
   const ex = exs[state.currentExIdx] || { name: 'Loading', icon: '⏳', target: '', reps: '' };
@@ -1329,7 +1329,7 @@ function updateTimerUI() {
     : `Round ${state.currentRound + 1} of ${state.totalRounds}`;
   document.getElementById('timer-round-label').textContent = roundLabel;
 
-  // Ring
+  // Ring colour: blue countdown → accent red during EMOM, pulse green in last 10s
   const ringEl = document.getElementById('ring-progress');
   const ringLabel = document.getElementById('ring-label');
   const ringTime = document.getElementById('ring-time');
@@ -1341,52 +1341,46 @@ function updateTimerUI() {
     ringLabel.textContent = 'GET READY';
     phaseBadge.className = 'timer-phase-badge phase-get-ready';
     phaseBadge.textContent = 'GET READY';
-  } else if (phase === 'work') {
-    maxTime = work; ringColor = '#ff375f';
-    ringLabel.textContent = 'WORK';
-    phaseBadge.className = 'timer-phase-badge phase-work';
-    phaseBadge.textContent = 'WORK';
   } else {
-    maxTime = rest; ringColor = '#30d158';
-    ringLabel.textContent = 'REST';
-    phaseBadge.className = 'timer-phase-badge phase-rest';
-    phaseBadge.textContent = 'REST';
+    maxTime = EMOM_INTERVAL;
+    // Show green "rest" colour in the last 15s to signal finish your reps
+    ringColor = state.timeLeft <= 15 ? '#30d158' : '#ff375f';
+    ringLabel.textContent = state.timeLeft <= 15 ? 'REST' : 'WORK';
+    if (state.timeLeft <= 15) {
+      phaseBadge.className = 'timer-phase-badge phase-rest';
+      phaseBadge.textContent = 'REST';
+    } else {
+      phaseBadge.className = 'timer-phase-badge phase-work';
+      phaseBadge.textContent = 'WORK';
+    }
   }
 
   ringEl.style.stroke = ringColor;
   const pct = state.timeLeft / maxTime;
   ringEl.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct);
   ringTime.textContent = String(state.timeLeft).padStart(2, '0');
-  if (state.timeLeft <= 3 && phase !== 'countdown') {
+  if (state.timeLeft <= 5 && phase !== 'countdown') {
     ringTime.classList.add('pulse');
   } else {
     ringTime.classList.remove('pulse');
   }
 
-  // Exercise display
+  // Exercise display — show current exercise the whole 60s
   document.getElementById('timer-ex-icon').textContent = ex.icon;
   document.getElementById('timer-ex-name').textContent =
-    phase === 'rest' ? 'Rest' : phase === 'countdown' ? ex.name : ex.name;
+    phase === 'countdown' ? ex.name : ex.name;
   document.getElementById('timer-ex-target').textContent =
-    phase === 'rest' ? 'Breathe, prepare for next exercise' :
-    phase === 'countdown' ? 'Prepare...' :
-    `${ex.target} · ${ex.reps}`;
+    phase === 'countdown' ? 'Prepare...' : `${ex.target} · ${ex.reps}`;
 
-  // Next exercise
-  let nextEx = null;
-  if (phase === 'work') {
-    nextEx = { label: 'Rest', icon: '😮‍💨' };
-  } else if (phase === 'rest' || phase === 'countdown') {
-    const nextIdx = phase === 'rest'
-      ? (state.currentExIdx + 1 >= exs.length ? 0 : state.currentExIdx + 1)
-      : state.currentExIdx;
-    nextEx = exs[nextIdx] || null;
-    if (nextEx) nextEx = { label: nextEx.name, icon: nextEx.icon };
-  }
+  // Up Next: show next exercise
+  const nextIdx = (state.currentExIdx + 1) % exs.length;
+  const isLastInRound = state.currentExIdx === exs.length - 1;
+  const nextRound = state.currentRound + (isLastInRound ? 1 : 0);
+  const nextEx = exs[nextIdx];
 
-  if (nextEx) {
+  if (phase !== 'countdown' && nextEx && !(isLastInRound && nextRound >= state.totalRounds)) {
     document.getElementById('next-ex-icon').textContent = nextEx.icon;
-    document.getElementById('next-ex-name').textContent = nextEx.label;
+    document.getElementById('next-ex-name').textContent = nextEx.name;
     document.getElementById('timer-next-wrap').style.opacity = '1';
   } else {
     document.getElementById('timer-next-wrap').style.opacity = '0';
@@ -1397,8 +1391,8 @@ function updateTimerUI() {
   const doneSets = state.currentRound * exs.length + state.currentExIdx;
   const pctDone = doneSets / totalSets * 100;
   document.getElementById('workout-progress-fill').style.width = pctDone + '%';
-  document.getElementById('progress-done').textContent = doneSets + ' done';
-  document.getElementById('progress-total').textContent = totalSets + ' total';
+  document.getElementById('progress-done').textContent = `Min ${doneSets + 1} of ${totalSets}`;
+  document.getElementById('progress-total').textContent = totalSets + ' min total';
 }
 
 // ═══════════════════════════════════════════
