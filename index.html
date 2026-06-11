@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="EMOM Fitness">
+<meta name="apple-mobile-web-app-title" content="Property Manager">
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.json">
-<title>EMOM Fitness</title>
+<title>Property Manager</title>
 <style>
   :root {
     --bg: #000;
@@ -18,33 +18,27 @@
     --text: #fff;
     --text2: #ebebf599;
     --text3: #ebebf54d;
-    --accent: #ff375f;
+    --accent: #0a84ff;
     --green: #30d158;
-    --blue: #0a84ff;
+    --red: #ff453a;
     --orange: #ff9f0a;
     --purple: #bf5af2;
-    --ring-move: #ff375f;
-    --ring-ex: #30d158;
-    --ring-stand: #1ac8db;
+    --teal: #40c8e0;
     --radius: 16px;
     --radius-sm: 10px;
+    --border: #ffffff14;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
   body {
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg); color: var(--text);
     font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    overflow-x: hidden;
-    overscroll-behavior: none;
-    -webkit-font-smoothing: antialiased;
+    min-height: 100vh; min-height: -webkit-fill-available;
+    overflow-x: hidden; overscroll-behavior: none; -webkit-font-smoothing: antialiased;
     padding-top: env(safe-area-inset-top);
   }
-
   html { height: -webkit-fill-available; }
+  button { font-family: inherit; cursor: pointer; }
+  input, select, textarea { font-family: inherit; }
 
   /* ─── SCREENS ─── */
   .screen { display: none; min-height: 100vh; flex-direction: column; }
@@ -53,1367 +47,773 @@
   /* ─── NAV BAR ─── */
   .nav-bar {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px 0;
-    position: sticky; top: 0; z-index: 10;
-    background: var(--bg);
+    padding: 14px 20px 4px; position: sticky; top: 0; z-index: 10; background: var(--bg);
+    gap: 12px;
   }
-  .nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
-  .nav-sub { font-size: 17px; font-weight: 600; }
+  .nav-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .nav-title { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nav-back { background: none; border: none; color: var(--accent); font-size: 17px; display: flex; align-items: center; gap: 2px; padding: 4px 0; }
   .nav-icon-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--surface2); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text); font-size: 16px;
+    width: 36px; height: 36px; border-radius: 50%; background: var(--surface2); border: none;
+    display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 22px; flex-shrink: 0;
   }
 
   /* ─── SCROLL CONTENT ─── */
-  .scroll-content {
-    flex: 1; overflow-y: auto; padding: 16px 0 100px;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-  }
+  .scroll-content { flex: 1; overflow-y: auto; padding: 8px 0 110px; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
   .scroll-content::-webkit-scrollbar { display: none; }
 
-  /* ─── SECTION HEADER ─── */
-  .section-header {
-    display: flex; align-items: baseline; justify-content: space-between;
-    padding: 16px 20px 8px;
-  }
-  .section-title { font-size: 20px; font-weight: 700; }
-  .section-see-all { font-size: 15px; color: var(--blue); cursor: pointer; }
+  /* ─── SECTIONS / CARDS ─── */
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; padding: 18px 20px 8px; }
+  .section-title { font-size: 15px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.4px; }
+  .section-action { font-size: 15px; color: var(--accent); background: none; border: none; }
+  .group { margin: 0 16px 8px; background: var(--surface); border-radius: var(--radius); overflow: hidden; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 0.5px solid var(--border); position: relative; }
+  .row:last-child { border-bottom: none; }
+  .row.tappable:active { background: var(--surface2); }
+  .row-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .row-body { flex: 1; min-width: 0; }
+  .row-title { font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row-sub { font-size: 13px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row-trail { font-size: 16px; color: var(--text2); display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .row-trail .chev { color: var(--text3); font-size: 18px; }
+  .amount { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .amount.pos { color: var(--green); }
+  .amount.neg { color: var(--red); }
 
-  /* ─── FEATURED BANNER ─── */
-  .featured-banner {
-    margin: 8px 20px 0;
-    border-radius: var(--radius);
-    overflow: hidden;
-    position: relative;
-    height: 200px;
-    cursor: pointer;
-    transition: transform .15s;
-  }
-  .featured-banner:active { transform: scale(.98); }
-  .featured-banner .banner-bg {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .featured-banner .banner-content {
-    position: absolute; inset: 0; padding: 20px;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 60%);
-  }
-  .banner-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); margin-bottom: 4px; }
-  .banner-title { font-size: 24px; font-weight: 800; line-height: 1.1; }
-  .banner-sub { font-size: 13px; color: var(--text2); margin-top: 4px; }
+  /* ─── BADGES ─── */
+  .badge { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .badge.green { background: #30d15822; color: var(--green); }
+  .badge.red { background: #ff453a22; color: var(--red); }
+  .badge.orange { background: #ff9f0a22; color: var(--orange); }
+  .badge.gray { background: var(--surface3); color: var(--text2); }
+  .badge.blue { background: #0a84ff22; color: var(--accent); }
 
-  /* ─── HORIZONTAL SCROLL ─── */
-  .h-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 4px 20px 8px; scroll-snap-type: x mandatory; }
-  .h-scroll::-webkit-scrollbar { display: none; }
+  /* ─── DASHBOARD STAT CARDS ─── */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 8px 16px; }
+  .stat-card { background: var(--surface); border-radius: var(--radius); padding: 16px; }
+  .stat-label { font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 6px; }
+  .stat-value { font-size: 26px; font-weight: 700; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .stat-foot { font-size: 12px; color: var(--text3); margin-top: 4px; }
 
-  /* ─── WORKOUT CARD ─── */
-  .workout-card {
-    flex-shrink: 0; width: 160px; border-radius: var(--radius);
-    overflow: hidden; cursor: pointer; scroll-snap-align: start;
-    position: relative; transition: transform .15s;
-    background: var(--surface);
-  }
-  .workout-card:active { transform: scale(.97); }
-  .workout-card .card-thumb {
-    width: 100%; height: 110px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 44px;
-  }
-  .workout-card .card-body { padding: 10px 12px 12px; }
-  .workout-card .card-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
-  .workout-card .card-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
-  .card-tag {
-    position: absolute; top: 8px; right: 8px;
-    background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
-    border-radius: 20px; padding: 2px 8px;
-    font-size: 10px; font-weight: 700;
-  }
+  /* ─── EMPTY STATE ─── */
+  .empty { text-align: center; padding: 48px 32px; color: var(--text2); }
+  .empty .emoji { font-size: 44px; display: block; margin-bottom: 12px; }
+  .empty .title { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .empty .sub { font-size: 14px; line-height: 1.4; }
 
-  /* ─── SETTINGS SCREEN ─── */
-  .settings-group { margin: 16px 20px 0; }
-  .settings-group-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; padding: 0 4px; }
-  .settings-row {
-    background: var(--surface); border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-  .settings-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 16px; border-bottom: .5px solid var(--surface3);
-  }
-  .settings-item:last-child { border-bottom: none; }
-  .settings-item-label { font-size: 16px; }
-  .settings-item-value { font-size: 16px; color: var(--blue); }
+  /* ─── BUTTONS ─── */
+  .btn { display: block; width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 17px; font-weight: 600; background: var(--accent); color: #fff; }
+  .btn:active { opacity: .85; }
+  .btn.secondary { background: var(--surface2); color: var(--accent); }
+  .btn.danger { background: #ff453a1f; color: var(--red); }
+  .btn.green { background: var(--green); color: #fff; }
+  .btn:disabled { opacity: .45; }
 
-  /* ─── PILL SELECTOR ─── */
-  .pill-selector { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 20px 0; }
-  .pill {
-    padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--surface3);
-    background: transparent; color: var(--text2); font-size: 14px; font-weight: 600;
-    cursor: pointer; transition: all .15s;
-  }
-  .pill.selected { background: var(--blue); border-color: var(--blue); color: #fff; }
-  .pill.intensity-1.selected { background: var(--green); border-color: var(--green); }
-  .pill.intensity-2.selected { background: var(--orange); border-color: var(--orange); }
-  .pill.intensity-3.selected { background: var(--accent); border-color: var(--accent); }
-
-  /* ─── EQUIPMENT GRID ─── */
-  .equip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 20px 0; }
-  .equip-card {
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 14px; display: flex; align-items: center; gap: 12px;
-    cursor: pointer; border: 1.5px solid transparent; transition: all .15s;
-  }
-  .equip-card.selected { border-color: var(--blue); background: rgba(10,132,255,.15); }
-  .equip-icon { font-size: 28px; width: 36px; text-align: center; }
-  .equip-label { font-size: 13px; font-weight: 600; }
-
-  /* ─── WORKOUT DETAIL SCREEN ─── */
-  .workout-hero {
-    height: 260px; position: relative;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .workout-hero-icon { font-size: 80px; }
-  .workout-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,.2), var(--bg));
-  }
-  .workout-hero-content {
-    position: absolute; bottom: 20px; left: 20px; right: 20px;
-  }
-  .workout-hero-title { font-size: 28px; font-weight: 800; }
-  .workout-hero-meta { font-size: 14px; color: var(--text2); margin-top: 4px; }
-  .workout-stats {
-    display: flex; gap: 0;
-    margin: 16px 20px 0;
-    background: var(--surface); border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-  .workout-stat {
-    flex: 1; padding: 14px 12px; text-align: center;
-    border-right: .5px solid var(--surface3);
-  }
-  .workout-stat:last-child { border-right: none; }
-  .workout-stat-val { font-size: 22px; font-weight: 700; }
-  .workout-stat-lbl { font-size: 11px; color: var(--text2); margin-top: 2px; text-transform: uppercase; letter-spacing: .3px; }
-  .exercise-list { margin: 16px 20px 0; }
-  .exercise-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 12px 0; border-bottom: .5px solid var(--surface3);
-  }
-  .exercise-item:last-child { border-bottom: none; }
-  .exercise-num {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: var(--surface2); display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; flex-shrink: 0;
-  }
-  .exercise-info { flex: 1; }
-  .exercise-name { font-size: 15px; font-weight: 600; }
-  .exercise-detail { font-size: 12px; color: var(--text2); margin-top: 2px; }
-  .exercise-icon { font-size: 22px; }
-
-  /* ─── START BUTTON ─── */
-  .start-btn-wrap { padding: 20px; }
-  .start-btn {
-    width: 100%; padding: 18px; border-radius: var(--radius);
-    border: none; font-size: 17px; font-weight: 700;
-    cursor: pointer; transition: transform .1s, opacity .1s;
-    color: #fff;
-  }
-  .start-btn:active { transform: scale(.98); opacity: .9; }
-  .btn-primary { background: var(--accent); }
-  .btn-green { background: var(--green); }
-
-  /* ─── MOBILE RESPONSIVE ─── */
-  @media (max-width: 390px) {
-    .nav-title { font-size: 28px; }
-    .ring-time { font-size: 52px; }
-    .timer-ex-name { font-size: 18px; }
-    .equip-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .workout-card { width: 145px; }
-    .stats-grid { gap: 8px; }
-  }
-
-  @media (min-width: 600px) {
-    body { max-width: 430px; margin: 0 auto; }
-    .tab-bar { max-width: 430px; left: 50%; transform: translateX(-50%); }
-    .toast { max-width: 300px; }
-  }
-
-  /* Ensure all interactive elements meet 44pt touch target */
-  button, .workout-card, .equip-card, .pill, .featured-banner {
-    cursor: pointer;
-  }
-  .equip-card { min-height: 60px; }
-  .pill { min-height: 36px; }
-  .timer-btn { min-height: 52px; }
-
-  /* ─── TIMER SCREEN ─── */
-  #screen-timer { background: var(--bg); }
-  .timer-header {
-    padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;
-  }
-  .timer-back-btn {
-    background: var(--surface2); border: none; color: var(--text);
-    width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
-    font-size: 16px; display: flex; align-items: center; justify-content: center;
-  }
-  .timer-title { font-size: 17px; font-weight: 600; }
-  .timer-round { font-size: 14px; color: var(--text2); }
-
-  .timer-ring-wrap {
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px 0;
-  }
-  .ring-svg { transform: rotate(-90deg); }
-  .ring-track { fill: none; stroke: var(--surface2); stroke-width: 12; }
-  .ring-progress { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset .05s linear; }
-  .ring-center {
-    position: absolute;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-  }
-  .ring-time { font-size: 64px; font-weight: 200; letter-spacing: -3px; line-height: 1; }
-  .ring-label { font-size: 14px; color: var(--text2); font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
-  .ring-container { position: relative; display: inline-flex; align-items: center; justify-content: center; }
-
-  .timer-exercise-card {
-    margin: 0 20px;
-    background: var(--surface); border-radius: var(--radius);
-    padding: 20px; text-align: center;
-  }
-  .timer-ex-icon { font-size: 48px; margin-bottom: 8px; }
-  .timer-ex-name { font-size: 22px; font-weight: 700; }
-  .timer-ex-target { font-size: 15px; color: var(--text2); margin-top: 4px; }
-  .timer-phase-badge {
-    display: inline-block; padding: 4px 12px; border-radius: 20px;
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-  .phase-work { background: rgba(255,55,95,.2); color: var(--accent); }
-  .phase-rest { background: rgba(48,209,88,.2); color: var(--green); }
-  .phase-get-ready { background: rgba(10,132,255,.2); color: var(--blue); }
-
-  .timer-next { margin: 12px 20px 0; }
-  .timer-next-label { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
-  .timer-next-item {
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 12px 16px; display: flex; align-items: center; gap: 12px;
-  }
-  .timer-next-icon { font-size: 22px; }
-  .timer-next-name { font-size: 14px; font-weight: 600; }
-
-  .timer-controls { display: flex; gap: 16px; padding: 20px; }
-  .timer-btn {
-    flex: 1; padding: 16px; border-radius: var(--radius);
-    border: none; font-size: 16px; font-weight: 700;
-    cursor: pointer; transition: transform .1s;
-  }
-  .timer-btn:active { transform: scale(.97); }
-  .btn-pause { background: var(--surface2); color: var(--text); }
-  .btn-skip { background: var(--surface2); color: var(--blue); }
-  .btn-stop { background: rgba(255,55,95,.2); color: var(--accent); }
-
-  /* ─── PROGRESS BAR ─── */
-  .workout-progress { padding: 0 20px; margin-top: 4px; }
-  .progress-track { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width .3s; }
-  .progress-label { font-size: 11px; color: var(--text3); margin-top: 4px; display: flex; justify-content: space-between; }
-
-  /* ─── COMPLETE SCREEN ─── */
-  .complete-hero { padding: 60px 20px 30px; text-align: center; }
-  .complete-rings { display: flex; justify-content: center; gap: -20px; margin-bottom: 24px; }
-  .complete-icon { font-size: 80px; margin-bottom: 16px; }
-  .complete-title { font-size: 34px; font-weight: 800; }
-  .complete-sub { font-size: 16px; color: var(--text2); margin-top: 8px; }
-  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 20px 0; }
-  .stat-card {
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 16px; text-align: center;
-  }
-  .stat-card-icon { font-size: 22px; margin-bottom: 6px; }
-  .stat-card-val { font-size: 28px; font-weight: 700; }
-  .stat-card-lbl { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  /* ─── SEGMENTED CONTROL ─── */
+  .segmented { display: flex; background: var(--surface2); border-radius: 10px; padding: 2px; margin: 8px 16px; }
+  .segmented button { flex: 1; border: none; background: none; color: var(--text2); font-size: 14px; font-weight: 600; padding: 8px; border-radius: 8px; }
+  .segmented button.active { background: var(--surface3); color: var(--text); }
 
   /* ─── TAB BAR ─── */
   .tab-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(0,0,0,.92); backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-top: .5px solid var(--surface2);
-    display: flex; padding: 8px 0 max(12px, env(safe-area-inset-bottom));
-    z-index: 100;
+    position: fixed; bottom: 0; left: 0; right: 0; display: flex; z-index: 50;
+    background: #0a0a0aee; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid var(--border); padding-bottom: env(safe-area-inset-bottom);
   }
-  .tab-item {
-    flex: 1; display: flex; flex-direction: column; align-items: center;
-    gap: 3px; cursor: pointer; padding: 4px 0; border: none; background: transparent;
-    color: var(--text3); transition: color .15s;
-    min-height: 44px; /* iOS minimum touch target */
-  }
+  .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0 7px; background: none; border: none; color: var(--text3); }
   .tab-item.active { color: var(--accent); }
-  .tab-icon { font-size: 22px; line-height: 1; }
-  .tab-label { font-size: 10px; font-weight: 600; }
+  .tab-item .ico { font-size: 22px; line-height: 1; }
+  .tab-item .lbl { font-size: 10px; font-weight: 500; }
 
-  /* ─── ACTIVITY RINGS (decorative) ─── */
-  .rings-widget {
-    margin: 12px 20px 0;
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 16px; display: flex; align-items: center; gap: 20px;
+  /* ─── MODAL / SHEET ─── */
+  .sheet-overlay { position: fixed; inset: 0; background: #000000aa; z-index: 100; display: none; align-items: flex-end; }
+  .sheet-overlay.open { display: flex; }
+  .sheet {
+    background: #1c1c1e; width: 100%; max-height: 92vh; border-radius: 20px 20px 0 0; overflow-y: auto;
+    padding: 8px 20px calc(28px + env(safe-area-inset-bottom)); animation: slideUp .28s cubic-bezier(.2,.8,.2,1);
   }
-  .mini-rings svg { filter: drop-shadow(0 0 6px rgba(255,55,95,.4)); }
-  .rings-info { flex: 1; }
-  .rings-info-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .rings-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .rings-text { font-size: 12px; }
-  .rings-val { font-weight: 700; }
-
-  /* ─── BACK BUTTON ─── */
-  .back-btn {
-    background: transparent; border: none; color: var(--blue);
-    font-size: 16px; cursor: pointer; display: flex; align-items: center; gap: 4px;
-    padding: 0;
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .sheet-grip { width: 38px; height: 5px; background: var(--surface3); border-radius: 3px; margin: 8px auto 12px; }
+  .sheet-title { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+  .field input, .field select, .field textarea {
+    width: 100%; background: var(--surface2); border: 0.5px solid var(--border); color: var(--text);
+    font-size: 16px; padding: 13px 14px; border-radius: 12px; outline: none;
   }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
+  .field textarea { min-height: 80px; resize: vertical; }
+  .field-row { display: flex; gap: 12px; }
+  .field-row .field { flex: 1; }
+  .sheet-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
 
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-  @keyframes countdownPop { 0% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  /* ─── AUTH ─── */
+  .auth-wrap { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 32px 28px calc(32px + env(safe-area-inset-bottom)); }
+  .auth-logo { font-size: 56px; text-align: center; margin-bottom: 12px; }
+  .auth-title { font-size: 30px; font-weight: 800; text-align: center; letter-spacing: -0.5px; }
+  .auth-sub { font-size: 15px; color: var(--text2); text-align: center; margin: 8px 0 28px; line-height: 1.4; }
+  .auth-toggle { text-align: center; margin-top: 18px; color: var(--text2); font-size: 14px; }
+  .auth-toggle button { background: none; border: none; color: var(--accent); font-size: 14px; font-weight: 600; }
+  .auth-msg { text-align: center; font-size: 14px; margin-top: 16px; min-height: 20px; }
+  .auth-msg.err { color: var(--red); }
+  .auth-msg.ok { color: var(--green); }
 
-  .screen.active { animation: fadeIn .2s ease-out; }
-  .pulse { animation: pulse 1s infinite; }
-  .countdown-pop { animation: countdownPop .3s ease-out; }
+  /* ─── PHOTO GRID ─── */
+  .photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; padding: 4px 16px; }
+  .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: var(--surface2); }
+  .room-label { font-size: 14px; font-weight: 600; color: var(--text2); padding: 14px 20px 2px; }
 
-  /* ─── GRADIENT BACKGROUNDS ─── */
-  .grad-red { background: linear-gradient(135deg, #ff375f33, #ff375f66); }
-  .grad-orange { background: linear-gradient(135deg, #ff9f0a33, #ff9f0a66); }
-  .grad-green { background: linear-gradient(135deg, #30d15833, #30d15866); }
-  .grad-blue { background: linear-gradient(135deg, #0a84ff33, #0a84ff66); }
-  .grad-purple { background: linear-gradient(135deg, #bf5af233, #bf5af266); }
-  .grad-cyan { background: linear-gradient(135deg, #1ac8db33, #1ac8db66); }
-
-  /* ─── TOAST ─── */
-  .toast {
-    position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px);
-    background: var(--surface2); border-radius: 20px; padding: 10px 20px;
-    font-size: 14px; font-weight: 600; z-index: 999; opacity: 0;
-    transition: all .3s; pointer-events: none; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* highlight on generated workout */
-  .generated-badge {
-    background: linear-gradient(135deg, var(--blue), var(--purple));
-    color: #fff; border-radius: 4px; padding: 1px 6px;
-    font-size: 10px; font-weight: 700; text-transform: uppercase;
-  }
+  /* ─── MISC ─── */
+  .spinner { width: 22px; height: 22px; border: 2.5px solid var(--surface3); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .center-load { display: flex; justify-content: center; padding: 48px; }
+  .toast { position: fixed; bottom: calc(80px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); background: var(--surface3); color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 14px; font-weight: 500; z-index: 200; opacity: 0; transition: opacity .2s; pointer-events: none; box-shadow: 0 8px 30px #00000080; }
+  .toast.show { opacity: 1; }
+  .copy-link { display: flex; gap: 8px; align-items: center; background: var(--surface2); border-radius: 12px; padding: 12px 14px; margin-top: 4px; }
+  .copy-link .url { flex: 1; font-size: 13px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .copy-link button { background: var(--accent); color: #fff; border: none; padding: 8px 14px; border-radius: 9px; font-size: 14px; font-weight: 600; }
+  .config-warn { margin: 16px; padding: 14px 16px; background: #ff9f0a1f; border: 0.5px solid #ff9f0a55; border-radius: 12px; color: var(--orange); font-size: 13px; line-height: 1.5; }
 </style>
 </head>
 <body>
 
-<!-- TOAST -->
+<!-- ══════════ AUTH ══════════ -->
+<div id="auth" class="screen active">
+  <div class="auth-wrap">
+    <div class="auth-logo">🏠</div>
+    <div class="auth-title">Property Manager</div>
+    <div class="auth-sub">Track tenants, money & inspections — all in one place.</div>
+    <div id="configWarn"></div>
+    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+    <div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+    <button id="authSubmit" class="btn">Sign in</button>
+    <div id="authMsg" class="auth-msg"></div>
+    <div class="auth-toggle"><span id="authToggleText">No account yet?</span> <button id="authToggle">Create one</button></div>
+  </div>
+</div>
+
+<!-- ══════════ MAIN APP ══════════ -->
+<div id="app" class="screen">
+
+  <!-- DASHBOARD -->
+  <div id="screen-dashboard" class="screen active">
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Overview</span></div><button class="nav-icon-btn" id="signOutBtn" title="Sign out">⏻</button></div>
+    <div class="scroll-content" id="dashboardContent"></div>
+  </div>
+
+  <!-- PROPERTIES -->
+  <div id="screen-properties" class="screen">
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Properties</span></div><button class="nav-icon-btn" data-add="property">＋</button></div>
+    <div class="scroll-content" id="propertiesContent"></div>
+  </div>
+
+  <!-- PROPERTY DETAIL -->
+  <div id="screen-property" class="screen">
+    <div class="nav-bar"><div class="nav-left"><button class="nav-back" data-tab="properties">‹ Properties</button></div><button class="nav-icon-btn" id="editPropertyBtn">⋯</button></div>
+    <div class="scroll-content" id="propertyContent"></div>
+  </div>
+
+  <!-- TENANTS -->
+  <div id="screen-tenants" class="screen">
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Tenants</span></div><button class="nav-icon-btn" data-add="tenant">＋</button></div>
+    <div class="scroll-content" id="tenantsContent"></div>
+  </div>
+
+  <!-- MONEY -->
+  <div id="screen-money" class="screen">
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Money</span></div><button class="nav-icon-btn" id="moneyAddBtn">＋</button></div>
+    <div class="segmented" id="moneySeg">
+      <button data-money="payments" class="active">Rent</button>
+      <button data-money="expenses">Expenses</button>
+      <button data-money="bills">Bills</button>
+    </div>
+    <div class="scroll-content" id="moneyContent"></div>
+  </div>
+
+  <!-- INSPECTIONS -->
+  <div id="screen-inspections" class="screen">
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Inspections</span></div><button class="nav-icon-btn" data-add="inspection">＋</button></div>
+    <div class="scroll-content" id="inspectionsContent"></div>
+  </div>
+
+  <!-- INSPECTION DETAIL -->
+  <div id="screen-inspection" class="screen">
+    <div class="nav-bar"><div class="nav-left"><button class="nav-back" data-tab="inspections">‹ Inspections</button></div><button class="nav-icon-btn" id="inspectionMenuBtn">⋯</button></div>
+    <div class="scroll-content" id="inspectionContent"></div>
+  </div>
+
+  <!-- TAB BAR -->
+  <nav class="tab-bar">
+    <button class="tab-item active" data-tab="dashboard"><span class="ico">⌂</span><span class="lbl">Overview</span></button>
+    <button class="tab-item" data-tab="properties"><span class="ico">🏠</span><span class="lbl">Properties</span></button>
+    <button class="tab-item" data-tab="tenants"><span class="ico">👤</span><span class="lbl">Tenants</span></button>
+    <button class="tab-item" data-tab="money"><span class="ico">£</span><span class="lbl">Money</span></button>
+    <button class="tab-item" data-tab="inspections"><span class="ico">📷</span><span class="lbl">Inspect</span></button>
+  </nav>
+</div>
+
+<!-- SHEET / MODAL -->
+<div class="sheet-overlay" id="sheetOverlay"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 1: HOME / DISCOVER
-════════════════════════════════════════════ -->
-<div class="screen active" id="screen-home">
-  <div class="nav-bar">
-    <div class="nav-title">Fitness</div>
-    <button class="nav-icon-btn" onclick="showToast('Search coming soon')">🔍</button>
-  </div>
-  <div class="scroll-content">
+<script src="config.js"></script>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-    <!-- Activity Rings Widget -->
-    <div class="rings-widget">
-      <div class="mini-rings">
-        <svg width="70" height="70" viewBox="0 0 70 70">
-          <circle cx="35" cy="35" r="30" fill="none" stroke="#3a1a1f" stroke-width="7"/>
-          <circle cx="35" cy="35" r="30" fill="none" stroke="#ff375f" stroke-width="7" stroke-linecap="round"
-            stroke-dasharray="188" stroke-dashoffset="52" transform="rotate(-90 35 35)"/>
-          <circle cx="35" cy="35" r="22" fill="none" stroke="#1a3322" stroke-width="7"/>
-          <circle cx="35" cy="35" r="22" fill="none" stroke="#30d158" stroke-width="7" stroke-linecap="round"
-            stroke-dasharray="138" stroke-dashoffset="30" transform="rotate(-90 35 35)"/>
-          <circle cx="35" cy="35" r="14" fill="none" stroke="#0d2a32" stroke-width="7"/>
-          <circle cx="35" cy="35" r="14" fill="none" stroke="#1ac8db" stroke-width="7" stroke-linecap="round"
-            stroke-dasharray="88" stroke-dashoffset="20" transform="rotate(-90 35 35)"/>
-        </svg>
-      </div>
-      <div class="rings-info">
-        <div class="rings-info-row"><div class="rings-dot" style="background:#ff375f"></div><span class="rings-text"><span class="rings-val">420</span> / 600 cal Move</span></div>
-        <div class="rings-info-row"><div class="rings-dot" style="background:#30d158"></div><span class="rings-text"><span class="rings-val">25</span> / 30 min Exercise</span></div>
-        <div class="rings-info-row"><div class="rings-dot" style="background:#1ac8db"></div><span class="rings-text"><span class="rings-val">8</span> / 12 hrs Stand</span></div>
-      </div>
-    </div>
+const CFG = window.APP_CONFIG || {};
+const configured = CFG.SUPABASE_URL && !CFG.SUPABASE_URL.startsWith('REPLACE');
+let sb = null;
+if (configured) sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
 
-    <!-- Featured -->
-    <div class="section-header" style="padding-top:20px">
-      <div class="section-title">Featured</div>
-    </div>
-    <div class="featured-banner" onclick="openWorkout(0)">
-      <div class="banner-bg grad-red">
-        <span style="font-size:90px;opacity:.6">🔥</span>
-      </div>
-      <div class="banner-content">
-        <div class="banner-label">EMOM Spotlight</div>
-        <div class="banner-title">Bodyweight Blast</div>
-        <div class="banner-sub">No equipment · 20 min · All levels</div>
-      </div>
-    </div>
+// ─── State ───
+const state = { properties: [], tenants: [], expenses: [], bills: [], payments: [], inspections: [], currentTab: 'dashboard', currentProperty: null, currentInspection: null, moneyTab: 'payments' };
 
-    <!-- Quick Start -->
-    <div class="section-header">
-      <div class="section-title">EMOM Programs</div>
-      <div class="section-see-all" onclick="switchTab('workouts')">See All</div>
-    </div>
-    <div class="h-scroll" id="home-cards"></div>
+// ─── Helpers ───
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => (s==null?'':String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '£' + (Number(n)||0).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtDate = d => d ? new Date(d).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—';
+const fmtDay = n => { const s=['th','st','nd','rd']; const v=n%100; return n + (s[(v-20)%10]||s[v]||s[0]); };
+const todayISO = () => new Date().toISOString().slice(0,10);
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&0x3|0x8)).toString(16);}));
+const propName = id => (state.properties.find(p=>p.id===id)||{}).name || 'Unknown property';
+const tenantName = id => (state.tenants.find(t=>t.id===id)||{}).name || '—';
 
-    <!-- Recent / Suggestions -->
-    <div class="section-header">
-      <div class="section-title">Quick Workouts</div>
-    </div>
-    <div class="h-scroll" id="quick-cards"></div>
+let toastTimer;
+function toast(msg) { const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1900); }
 
-  </div>
-</div>
+const CATEGORY_ICONS = { Maintenance:'🔧', Repairs:'🛠️', Insurance:'🛡️', Tax:'🏛️', Management:'📋', Cleaning:'🧹', Utilities:'💡', Mortgage:'🏦', Other:'📦' };
+const BILL_ICONS = { Electricity:'⚡', Gas:'🔥', Water:'💧', Internet:'🌐', Council:'🏛️', Insurance:'🛡️', Service:'🧰', Other:'📄' };
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 2: WORKOUTS
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-workouts">
-  <div class="nav-bar">
-    <div class="nav-title">Workouts</div>
-    <button class="nav-icon-btn" onclick="switchTab('settings')">⚙️</button>
-  </div>
-  <div class="scroll-content">
-    <div class="pill-selector" id="filter-pills">
-      <button class="pill selected" onclick="filterWorkouts('all', this)">All</button>
-      <button class="pill" onclick="filterWorkouts('strength', this)">Strength</button>
-      <button class="pill" onclick="filterWorkouts('cardio', this)">Cardio</button>
-      <button class="pill" onclick="filterWorkouts('core', this)">Core</button>
-      <button class="pill" onclick="filterWorkouts('full-body', this)">Full Body</button>
-    </div>
-    <div id="workouts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 20px 0;"></div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 3: SETTINGS
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-settings">
-  <div class="nav-bar">
-    <div class="nav-title">Settings</div>
-  </div>
-  <div class="scroll-content">
-
-    <div class="settings-group">
-      <div class="settings-group-title">Intensity Level</div>
-      <div class="pill-selector" style="margin:0">
-        <button class="pill intensity-1 selected" onclick="setIntensity(1,this)" id="intensity-pill-1">🟢 Beginner</button>
-        <button class="pill intensity-2" onclick="setIntensity(2,this)" id="intensity-pill-2">🟡 Intermediate</button>
-        <button class="pill intensity-3" onclick="setIntensity(3,this)" id="intensity-pill-3">🔴 Advanced</button>
-      </div>
-    </div>
-
-    <div class="settings-group" style="margin-top:20px">
-      <div class="settings-group-title">Intensity Preview</div>
-      <div class="settings-row" id="intensity-preview-row">
-        <div class="settings-item">
-          <div class="settings-item-label">Interval Duration</div>
-          <div class="settings-item-value" id="prev-work">60s</div>
-        </div>
-        <div class="settings-item">
-          <div class="settings-item-label">Rest</div>
-          <div class="settings-item-value" id="prev-rest">Time remaining</div>
-        </div>
-        <div class="settings-item">
-          <div class="settings-item-label">Circuits</div>
-          <div class="settings-item-value" id="prev-rounds">3</div>
-        </div>
-        <div class="settings-item">
-          <div class="settings-item-label">Total Time (est.)</div>
-          <div class="settings-item-value" id="prev-time">~15 min</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="settings-group" style="margin-top:20px">
-      <div class="settings-group-title">Available Equipment</div>
-      <div class="equip-grid" id="equip-grid"></div>
-    </div>
-
-    <div class="settings-group" style="margin-top:20px">
-      <div class="settings-group-title">Generate Workout</div>
-      <div class="settings-row">
-        <div class="settings-item">
-          <div class="settings-item-label">Auto-generate from equipment</div>
-          <div id="gen-badge"></div>
-        </div>
-      </div>
-      <button class="start-btn btn-primary" style="margin-top:12px" onclick="generateWorkout()">Generate My Workout ✨</button>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 4: WORKOUT DETAIL
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-detail">
-  <div style="position:sticky;top:0;z-index:10;padding:16px 20px;background:var(--bg);display:flex;align-items:center;gap:12px">
-    <button class="back-btn" onclick="goBack()">‹ Back</button>
-  </div>
-  <div class="scroll-content" style="padding-top:0">
-    <div class="workout-hero" id="detail-hero">
-      <div class="workout-hero-icon" id="detail-hero-icon"></div>
-      <div class="workout-hero-overlay"></div>
-      <div class="workout-hero-content">
-        <div class="workout-hero-title" id="detail-title"></div>
-        <div class="workout-hero-meta" id="detail-meta"></div>
-      </div>
-    </div>
-    <div class="workout-stats">
-      <div class="workout-stat"><div class="workout-stat-val" id="ds-time"></div><div class="workout-stat-lbl">Minutes</div></div>
-      <div class="workout-stat"><div class="workout-stat-val" id="ds-rounds"></div><div class="workout-stat-lbl">Rounds</div></div>
-      <div class="workout-stat"><div class="workout-stat-val" id="ds-cals"></div><div class="workout-stat-lbl">Cal Est.</div></div>
-    </div>
-    <div style="margin:20px 20px 0">
-      <div class="section-title">Exercises</div>
-      <div class="exercise-list" id="detail-exercises"></div>
-    </div>
-    <div class="start-btn-wrap">
-      <button class="start-btn btn-primary" onclick="startWorkout()">Start Workout</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 5: TIMER
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-timer">
-  <div class="timer-header">
-    <button class="timer-back-btn" onclick="confirmStop()">✕</button>
-    <div>
-      <div class="timer-title" id="timer-workout-name"></div>
-      <div class="timer-round" id="timer-round-label"></div>
-    </div>
-    <div style="width:36px"></div>
-  </div>
-
-  <div class="workout-progress">
-    <div class="progress-track">
-      <div class="progress-fill" id="workout-progress-fill" style="width:0%"></div>
-    </div>
-    <div class="progress-label">
-      <span id="progress-done">0 done</span>
-      <span id="progress-total"></span>
-    </div>
-  </div>
-
-  <div class="timer-ring-wrap">
-    <div class="ring-container">
-      <svg class="ring-svg" width="220" height="220" viewBox="0 0 220 220">
-        <circle class="ring-track" cx="110" cy="110" r="96"/>
-        <circle class="ring-progress" id="ring-progress" cx="110" cy="110" r="96"
-          stroke="#ff375f" stroke-dasharray="603" stroke-dashoffset="0"/>
-      </svg>
-      <div class="ring-center">
-        <div class="ring-time" id="ring-time">00</div>
-        <div class="ring-label" id="ring-label">GET READY</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="timer-exercise-card">
-    <div class="timer-phase-badge" id="phase-badge">GET READY</div>
-    <div class="timer-ex-icon" id="timer-ex-icon">🏃</div>
-    <div class="timer-ex-name" id="timer-ex-name">Loading...</div>
-    <div class="timer-ex-target" id="timer-ex-target"></div>
-  </div>
-
-  <div class="timer-next" id="timer-next-wrap">
-    <div class="timer-next-label">Up Next</div>
-    <div class="timer-next-item">
-      <div class="timer-next-icon" id="next-ex-icon">⏭</div>
-      <div class="timer-next-name" id="next-ex-name">—</div>
-    </div>
-  </div>
-
-  <div class="timer-controls">
-    <button class="timer-btn btn-pause" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
-    <button class="timer-btn btn-skip" onclick="skipPhase()">Skip ›</button>
-    <button class="timer-btn btn-stop" onclick="confirmStop()">Stop</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 6: COMPLETE
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-complete">
-  <div class="scroll-content">
-    <div class="complete-hero">
-      <div class="complete-icon">🏆</div>
-      <div class="complete-title">Workout Complete!</div>
-      <div class="complete-sub" id="complete-sub">Great work today</div>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-card-icon">⏱</div>
-        <div class="stat-card-val" id="c-time">—</div>
-        <div class="stat-card-lbl">Minutes</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">🔥</div>
-        <div class="stat-card-val" id="c-cals">—</div>
-        <div class="stat-card-lbl">Calories</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">🔄</div>
-        <div class="stat-card-val" id="c-rounds">—</div>
-        <div class="stat-card-lbl">Rounds</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">💪</div>
-        <div class="stat-card-val" id="c-exercises">—</div>
-        <div class="stat-card-lbl">Exercises</div>
-      </div>
-    </div>
-    <div class="start-btn-wrap" style="margin-top:24px">
-      <button class="start-btn btn-green" onclick="finishWorkout()">Done</button>
-    </div>
-  </div>
-</div>
-
-<!-- TAB BAR (hidden during timer/complete) -->
-<div class="tab-bar" id="tab-bar">
-  <button class="tab-item active" onclick="switchTab('home')" id="tab-home">
-    <span class="tab-icon">🏠</span><span class="tab-label">Home</span>
-  </button>
-  <button class="tab-item" onclick="switchTab('workouts')" id="tab-workouts">
-    <span class="tab-icon">🏋️</span><span class="tab-label">Workouts</span>
-  </button>
-  <button class="tab-item" onclick="switchTab('settings')" id="tab-settings">
-    <span class="tab-icon">⚙️</span><span class="tab-label">Settings</span>
-  </button>
-</div>
-
-<script>
-// ═══════════════════════════════════════════
-//  DATA: EXERCISES LIBRARY
-// ═══════════════════════════════════════════
-const EXERCISE_LIBRARY = {
-  bodyweight: [
-    { name: 'Burpees', icon: '🤸', target: 'Full Body', reps: '10 reps' },
-    { name: 'Push-Ups', icon: '💪', target: 'Chest & Triceps', reps: '15 reps' },
-    { name: 'Jump Squats', icon: '🦵', target: 'Legs & Glutes', reps: '15 reps' },
-    { name: 'Mountain Climbers', icon: '🏔', target: 'Core & Cardio', reps: '20 reps' },
-    { name: 'Lunges', icon: '🚶', target: 'Legs', reps: '12 each leg' },
-    { name: 'Plank Hold', icon: '🧘', target: 'Core', reps: 'Max hold' },
-    { name: 'High Knees', icon: '🏃', target: 'Cardio', reps: '30 reps' },
-    { name: 'Tricep Dips', icon: '🪑', target: 'Triceps', reps: '12 reps' },
-    { name: 'Superman', icon: '🦸', target: 'Lower Back', reps: '12 reps' },
-    { name: 'Hip Thrusts', icon: '🍑', target: 'Glutes', reps: '15 reps' },
-    { name: 'Crunches', icon: '🎯', target: 'Abs', reps: '20 reps' },
-    { name: 'Broad Jumps', icon: '🦘', target: 'Power', reps: '8 reps' },
-  ],
-  dumbbells: [
-    { name: 'DB Thrusters', icon: '🏋️', target: 'Full Body', reps: '10 reps' },
-    { name: 'DB Rows', icon: '💪', target: 'Back & Biceps', reps: '12 reps' },
-    { name: 'DB Shoulder Press', icon: '🔝', target: 'Shoulders', reps: '12 reps' },
-    { name: 'DB RDL', icon: '🦵', target: 'Hamstrings', reps: '12 reps' },
-    { name: 'DB Bicep Curls', icon: '💪', target: 'Biceps', reps: '15 reps' },
-    { name: 'DB Goblet Squat', icon: '🏆', target: 'Legs', reps: '12 reps' },
-    { name: 'DB Lateral Raise', icon: '↔️', target: 'Delts', reps: '12 reps' },
-    { name: 'DB Snatch', icon: '⚡', target: 'Full Body', reps: '8 each' },
-  ],
-  kettlebell: [
-    { name: 'KB Swings', icon: '🔔', target: 'Posterior Chain', reps: '15 reps' },
-    { name: 'KB Clean & Press', icon: '🏅', target: 'Full Body', reps: '8 each' },
-    { name: 'KB Goblet Squat', icon: '🏆', target: 'Legs', reps: '12 reps' },
-    { name: 'KB Turkish Get-Up', icon: '🛋', target: 'Full Body', reps: '4 each' },
-    { name: 'KB Windmill', icon: '🌬', target: 'Core & Hips', reps: '8 each' },
-    { name: 'KB Sumo Deadlift', icon: '🏋️', target: 'Hamstrings', reps: '12 reps' },
-  ],
-  barbell: [
-    { name: 'Barbell Back Squat', icon: '🏋️', target: 'Legs', reps: '8 reps' },
-    { name: 'Barbell Deadlift', icon: '💀', target: 'Full Body', reps: '6 reps' },
-    { name: 'Barbell Clean', icon: '⚡', target: 'Full Body', reps: '5 reps' },
-    { name: 'Barbell Press', icon: '🔝', target: 'Chest', reps: '8 reps' },
-    { name: 'Barbell Row', icon: '↩️', target: 'Back', reps: '10 reps' },
-    { name: 'Power Clean', icon: '💥', target: 'Full Body', reps: '5 reps' },
-  ],
-  pullup_bar: [
-    { name: 'Pull-Ups', icon: '🙌', target: 'Back & Biceps', reps: '8 reps' },
-    { name: 'Chin-Ups', icon: '🧗', target: 'Biceps & Back', reps: '8 reps' },
-    { name: 'Hanging Knee Raises', icon: '🦵', target: 'Core', reps: '15 reps' },
-    { name: 'Dead Hang', icon: '🎯', target: 'Grip & Lat', reps: '30s hold' },
-  ],
-  resistance_bands: [
-    { name: 'Band Pull-Aparts', icon: '↔️', target: 'Rear Delts', reps: '20 reps' },
-    { name: 'Band Squats', icon: '🦵', target: 'Legs', reps: '15 reps' },
-    { name: 'Band Rows', icon: '↩️', target: 'Back', reps: '15 reps' },
-    { name: 'Band Chest Press', icon: '💪', target: 'Chest', reps: '15 reps' },
-    { name: 'Band Curls', icon: '💪', target: 'Biceps', reps: '15 reps' },
-  ],
-  jump_rope: [
-    { name: 'Jump Rope Singles', icon: '🪢', target: 'Cardio', reps: '60s' },
-    { name: 'Jump Rope Doubles', icon: '🪢', target: 'Cardio Power', reps: '30s' },
-    { name: 'Jump Rope Alternating', icon: '🪢', target: 'Coordination', reps: '45s' },
-  ],
-  box: [
-    { name: 'Box Jumps', icon: '📦', target: 'Explosive Power', reps: '8 reps' },
-    { name: 'Step-Ups', icon: '📦', target: 'Legs & Glutes', reps: '12 each' },
-    { name: 'Box Push-Ups', icon: '📦', target: 'Chest', reps: '12 reps' },
-    { name: 'Depth Jumps', icon: '📦', target: 'Plyometrics', reps: '6 reps' },
-  ],
+// ════════ AUTH ════════
+let authMode = 'signin';
+if (!configured) {
+  $('#configWarn').innerHTML = '<div class="config-warn">⚠️ Backend not configured yet. Add your Supabase URL and key to <b>config.js</b> to enable sign-in and saving.</div>';
+}
+$('#authToggle').onclick = () => {
+  authMode = authMode === 'signin' ? 'signup' : 'signin';
+  $('#authSubmit').textContent = authMode === 'signin' ? 'Sign in' : 'Create account';
+  $('#authToggleText').textContent = authMode === 'signin' ? 'No account yet?' : 'Already have an account?';
+  $('#authToggle').textContent = authMode === 'signin' ? 'Create one' : 'Sign in';
+  $('#authMsg').textContent = '';
 };
-
-// ═══════════════════════════════════════════
-//  DATA: 10 WORKOUT PROGRAMS
-// ═══════════════════════════════════════════
-const WORKOUTS = [
-  {
-    id: 0,
-    name: 'Bodyweight Blast',
-    icon: '🔥',
-    category: 'full-body',
-    gradient: 'grad-red',
-    description: 'Pure bodyweight EMOM that builds full-body strength and conditioning',
-    equipment: [],
-    baseExercises: ['Burpees','Push-Ups','Jump Squats','Mountain Climbers','Lunges','Plank Hold'],
-    difficulty: 'all',
-    calPerMin: 12,
-  },
-  {
-    id: 1,
-    name: 'Kettlebell Power',
-    icon: '🔔',
-    category: 'strength',
-    gradient: 'grad-orange',
-    description: 'Drive strength and power through classical kettlebell movements',
-    equipment: ['kettlebell'],
-    baseExercises: ['KB Swings','KB Clean & Press','KB Goblet Squat','KB Sumo Deadlift'],
-    difficulty: 'intermediate',
-    calPerMin: 14,
-  },
-  {
-    id: 2,
-    name: 'Barbell Strength',
-    icon: '🏋️',
-    category: 'strength',
-    gradient: 'grad-blue',
-    description: 'Heavy compound lifts in EMOM format for raw strength gains',
-    equipment: ['barbell'],
-    baseExercises: ['Barbell Back Squat','Barbell Deadlift','Barbell Press','Power Clean'],
-    difficulty: 'advanced',
-    calPerMin: 11,
-  },
-  {
-    id: 3,
-    name: 'Dumbbell Circuits',
-    icon: '💪',
-    category: 'strength',
-    gradient: 'grad-purple',
-    description: 'Sculpt and strengthen with targeted dumbbell EMOM circuits',
-    equipment: ['dumbbells'],
-    baseExercises: ['DB Thrusters','DB Rows','DB Shoulder Press','DB RDL','DB Goblet Squat'],
-    difficulty: 'beginner',
-    calPerMin: 10,
-  },
-  {
-    id: 4,
-    name: 'Core Crusher',
-    icon: '🎯',
-    category: 'core',
-    gradient: 'grad-cyan',
-    description: 'Intense core-focused EMOM to build a strong, stable midsection',
-    equipment: [],
-    baseExercises: ['Plank Hold','Mountain Climbers','Crunches','Superman','Hip Thrusts'],
-    difficulty: 'all',
-    calPerMin: 9,
-  },
-  {
-    id: 5,
-    name: 'Cardio Burn',
-    icon: '🏃',
-    category: 'cardio',
-    gradient: 'grad-red',
-    description: 'Maximum calorie burn through high-intensity cardio EMOM intervals',
-    equipment: [],
-    baseExercises: ['High Knees','Burpees','Jump Squats','Mountain Climbers','Broad Jumps'],
-    difficulty: 'all',
-    calPerMin: 16,
-  },
-  {
-    id: 6,
-    name: 'Upper Body Focus',
-    icon: '🙌',
-    category: 'strength',
-    gradient: 'grad-blue',
-    description: 'Build pressing, pulling and shoulder strength in a focused upper EMOM',
-    equipment: ['pullup_bar'],
-    baseExercises: ['Pull-Ups','Push-Ups','Hanging Knee Raises','Chin-Ups'],
-    difficulty: 'intermediate',
-    calPerMin: 10,
-  },
-  {
-    id: 7,
-    name: 'Lower Body Drive',
-    icon: '🦵',
-    category: 'strength',
-    gradient: 'grad-green',
-    description: 'Build powerful legs and glutes with targeted lower body EMOM work',
-    equipment: [],
-    baseExercises: ['Jump Squats','Lunges','Hip Thrusts','Broad Jumps','Crunches'],
-    difficulty: 'all',
-    calPerMin: 13,
-  },
-  {
-    id: 8,
-    name: 'Full Body Conditioning',
-    icon: '⚡',
-    category: 'full-body',
-    gradient: 'grad-orange',
-    description: 'Complete athletic conditioning across all muscle groups and energy systems',
-    equipment: ['dumbbells','jump_rope'],
-    baseExercises: ['DB Thrusters','Jump Rope Singles','Burpees','DB Rows','High Knees'],
-    difficulty: 'intermediate',
-    calPerMin: 15,
-  },
-  {
-    id: 9,
-    name: 'Athletic Performance',
-    icon: '🏅',
-    category: 'full-body',
-    gradient: 'grad-purple',
-    description: 'Sport-specific explosive EMOM training for peak athletic output',
-    equipment: ['box','kettlebell'],
-    baseExercises: ['Box Jumps','KB Swings','Power Clean','Broad Jumps','KB Turkish Get-Up'],
-    difficulty: 'advanced',
-    calPerMin: 14,
-  },
-];
-
-// ═══════════════════════════════════════════
-//  INTENSITY SETTINGS
-//  True EMOM: each exercise = 1 full minute.
-//  Finish your reps, rest for what remains.
-//  Rounds = how many full circuits through the exercise list.
-// ═══════════════════════════════════════════
-const INTENSITY = {
-  1: { label: 'Beginner',     rounds: 3,  color: '#30d158' },
-  2: { label: 'Intermediate', rounds: 5,  color: '#ff9f0a' },
-  3: { label: 'Advanced',     rounds: 8,  color: '#ff375f' },
-};
-
-// ═══════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════
-let state = {
-  intensity: 1,
-  equipment: ['bodyweight'],
-  currentWorkout: null,
-  currentScreen: 'home',
-  prevScreen: 'home',
-  filter: 'all',
-  generatedWorkout: null,
-
-  // timer
-  timer: null,
-  timerState: 'idle', // idle | countdown | work | rest | done
-  currentRound: 0,
-  currentExIdx: 0,
-  timeLeft: 0,
-  totalRounds: 0,
-  isPaused: false,
-  workoutStartTime: null,
-  exercises: [],
-};
-
-// ═══════════════════════════════════════════
-//  EQUIPMENT LIST
-// ═══════════════════════════════════════════
-const EQUIPMENT_LIST = [
-  { id: 'bodyweight',      label: 'Bodyweight',    icon: '🤸', always: true },
-  { id: 'dumbbells',       label: 'Dumbbells',     icon: '🏋️' },
-  { id: 'kettlebell',      label: 'Kettlebell',    icon: '🔔' },
-  { id: 'barbell',         label: 'Barbell',       icon: '🥊' },
-  { id: 'pullup_bar',      label: 'Pull-up Bar',   icon: '🙌' },
-  { id: 'resistance_bands',label: 'Bands',         icon: '↔️' },
-  { id: 'jump_rope',       label: 'Jump Rope',     icon: '🪢' },
-  { id: 'box',             label: 'Box / Bench',   icon: '📦' },
-];
-
-// ═══════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  renderEquipmentGrid();
-  renderHomeCards();
-  renderWorkoutsGrid();
-  updateIntensityPreview();
-});
-
-// ═══════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════
-function renderHomeCards() {
-  const container = document.getElementById('home-cards');
-  const quick = document.getElementById('quick-cards');
-  container.innerHTML = '';
-  quick.innerHTML = '';
-
-  WORKOUTS.forEach((w, i) => {
-    const card = buildCard(w, i < 5 ? container : quick);
-  });
-}
-
-function buildCard(w, container) {
-  const div = document.createElement('div');
-  div.className = 'workout-card';
-  div.onclick = () => openWorkout(w.id);
-  div.innerHTML = `
-    <div class="card-thumb ${w.gradient}">${w.icon}</div>
-    <div class="card-body">
-      <div class="card-title">${w.name}</div>
-      <div class="card-meta">${getWorkoutDuration(w)} min · ${w.equipment.length === 0 ? 'Bodyweight' : w.equipment.map(e => EQUIPMENT_LIST.find(x=>x.id===e)?.label||e).join(', ')}</div>
-    </div>
-    <div class="card-tag" style="color:${getDiffColor(w.difficulty)}">${getDiffLabel(w.difficulty)}</div>
-  `;
-  container.appendChild(div);
-}
-
-function renderWorkoutsGrid() {
-  const grid = document.getElementById('workouts-grid');
-  grid.innerHTML = '';
-  const filtered = state.filter === 'all' ? WORKOUTS : WORKOUTS.filter(w => w.category === state.filter);
-
-  // add generated if exists
-  const allWorkouts = state.generatedWorkout
-    ? [state.generatedWorkout, ...filtered]
-    : filtered;
-
-  allWorkouts.forEach(w => {
-    const div = document.createElement('div');
-    div.className = 'workout-card';
-    div.style.width = '100%';
-    div.onclick = () => openWorkout(w.id);
-    const isGen = w.id === 'generated';
-    div.innerHTML = `
-      <div class="card-thumb ${w.gradient}" style="height:130px">${w.icon}</div>
-      <div class="card-body">
-        <div class="card-title">${w.name} ${isGen ? '<span class="generated-badge">Custom</span>' : ''}</div>
-        <div class="card-meta">${getWorkoutDuration(w)} min</div>
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
-
-function renderEquipmentGrid() {
-  const grid = document.getElementById('equip-grid');
-  grid.innerHTML = '';
-  EQUIPMENT_LIST.forEach(eq => {
-    const div = document.createElement('div');
-    div.className = 'equip-card' + (state.equipment.includes(eq.id) ? ' selected' : '');
-    div.onclick = () => toggleEquipment(eq.id, div, eq.always);
-    div.innerHTML = `<div class="equip-icon">${eq.icon}</div><div class="equip-label">${eq.label}${eq.always ? ' ✓' : ''}</div>`;
-    grid.appendChild(div);
-  });
-}
-
-// ═══════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════
-function getWorkoutDuration(w) {
-  const { rounds } = INTENSITY[state.intensity];
-  const ex = getExercisesForWorkout(w);
-  // Each exercise = exactly 1 minute
-  return ex.length * rounds;
-}
-
-function getDiffLabel(d) {
-  return d === 'beginner' ? '🟢' : d === 'advanced' ? '🔴' : d === 'intermediate' ? '🟡' : '⚪';
-}
-function getDiffColor(d) {
-  return d === 'beginner' ? '#30d158' : d === 'advanced' ? '#ff375f' : d === 'intermediate' ? '#ff9f0a' : '#fff';
-}
-
-function getExercisesForWorkout(w) {
-  // Map exercise names to full objects
-  const allExercises = Object.values(EXERCISE_LIBRARY).flat();
-  const found = w.baseExercises.map(name => allExercises.find(e => e.name === name)).filter(Boolean);
-  return found.length >= 3 ? found : [...found, ...EXERCISE_LIBRARY.bodyweight.slice(0, 3 - found.length)];
-}
-
-function getExercisesFromEquipment(equipment) {
-  let pool = [];
-  equipment.forEach(eq => {
-    if (EXERCISE_LIBRARY[eq]) pool.push(...EXERCISE_LIBRARY[eq]);
-  });
-  // Always include bodyweight
-  pool.push(...EXERCISE_LIBRARY.bodyweight);
-  // Deduplicate
-  const seen = new Set();
-  return pool.filter(e => { if (seen.has(e.name)) return false; seen.add(e.name); return true; });
-}
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// ═══════════════════════════════════════════
-//  SETTINGS ACTIONS
-// ═══════════════════════════════════════════
-function setIntensity(level, btn) {
-  state.intensity = level;
-  document.querySelectorAll('[id^="intensity-pill-"]').forEach(p => p.classList.remove('selected'));
-  btn.classList.add('selected');
-  updateIntensityPreview();
-  renderHomeCards();
-  renderWorkoutsGrid();
-}
-
-function updateIntensityPreview() {
-  const s = INTENSITY[state.intensity];
-  document.getElementById('prev-work').textContent = '60s';
-  document.getElementById('prev-rest').textContent = 'Time remaining';
-  document.getElementById('prev-rounds').textContent = s.rounds;
-  // Approximate: assume 5 exercises per workout
-  document.getElementById('prev-time').textContent = '~' + (s.rounds * 5) + ' min';
-}
-
-function toggleEquipment(id, el, always) {
-  if (always) { showToast('Bodyweight always included'); return; }
-  if (state.equipment.includes(id)) {
-    state.equipment = state.equipment.filter(e => e !== id);
-    el.classList.remove('selected');
-  } else {
-    state.equipment.push(id);
-    el.classList.add('selected');
-  }
-}
-
-function generateWorkout() {
-  const pool = getExercisesFromEquipment(state.equipment);
-  const count = state.intensity === 1 ? 4 : state.intensity === 2 ? 5 : 6;
-  const chosen = shuffle(pool).slice(0, count);
-  const equipLabels = state.equipment
-    .filter(e => e !== 'bodyweight')
-    .map(e => EQUIPMENT_LIST.find(x => x.id === e)?.label || e);
-
-  state.generatedWorkout = {
-    id: 'generated',
-    name: 'My Custom Workout',
-    icon: '✨',
-    category: 'full-body',
-    gradient: 'grad-purple',
-    description: `Custom ${INTENSITY[state.intensity].label} EMOM using your available equipment`,
-    equipment: state.equipment.filter(e => e !== 'bodyweight'),
-    baseExercises: chosen.map(e => e.name),
-    difficulty: state.intensity === 1 ? 'beginner' : state.intensity === 2 ? 'intermediate' : 'advanced',
-    calPerMin: 12,
-    _resolved: chosen,
-  };
-
-  renderWorkoutsGrid();
-  showToast('✨ Custom workout generated!');
-  switchTab('workouts');
-}
-
-// ═══════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════
-function switchTab(tab) {
-  ['home','workouts','settings'].forEach(t => {
-    document.getElementById('screen-' + t).classList.toggle('active', t === tab);
-    document.getElementById('tab-' + t)?.classList.toggle('active', t === tab);
-  });
-  state.currentScreen = tab;
-  document.getElementById('tab-bar').style.display = 'flex';
-}
-
-function openWorkout(id) {
-  const w = id === 'generated' ? state.generatedWorkout : WORKOUTS.find(x => x.id === id);
-  if (!w) return;
-  state.currentWorkout = w;
-  state.prevScreen = state.currentScreen;
-
-  const exercises = w._resolved || getExercisesForWorkout(w);
-  const { rounds } = INTENSITY[state.intensity];
-  const totalMin = exercises.length * rounds; // 1 min per exercise per round
-  const cals = Math.round(totalMin * w.calPerMin);
-
-  // Hero
-  document.getElementById('detail-hero').className = 'workout-hero ' + w.gradient;
-  document.getElementById('detail-hero-icon').textContent = w.icon;
-  document.getElementById('detail-title').textContent = w.name;
-  document.getElementById('detail-meta').textContent = w.description;
-  document.getElementById('ds-time').textContent = totalMin;
-  document.getElementById('ds-rounds').textContent = rounds;
-  document.getElementById('ds-cals').textContent = cals;
-
-  // Exercise list
-  const list = document.getElementById('detail-exercises');
-  list.innerHTML = '';
-  exercises.forEach((ex, i) => {
-    const div = document.createElement('div');
-    div.className = 'exercise-item';
-    div.innerHTML = `
-      <div class="exercise-num">${i + 1}</div>
-      <div class="exercise-info">
-        <div class="exercise-name">${ex.name}</div>
-        <div class="exercise-detail">${ex.target} · ${ex.reps}</div>
-      </div>
-      <div class="exercise-icon">${ex.icon}</div>
-    `;
-    list.appendChild(div);
-  });
-
-  showScreen('detail');
-}
-
-function startWorkout() {
-  const w = state.currentWorkout;
-  const exercises = w._resolved || getExercisesForWorkout(w);
-  const { rounds } = INTENSITY[state.intensity];
-
-  state.exercises = exercises;
-  state.totalRounds = rounds;
-  state.currentRound = 0;
-  state.currentExIdx = 0;
-  state.isPaused = false;
-  state.workoutStartTime = Date.now();
-
-  document.getElementById('timer-workout-name').textContent = w.name;
-  document.getElementById('tab-bar').style.display = 'none';
-  showScreen('timer');
-
-  startCountdown(5);
-}
-
-function goBack() {
-  showScreen(state.prevScreen || 'home');
-  document.getElementById('tab-bar').style.display = 'flex';
-}
-
-function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  state.currentScreen = name;
-  if (['home','workouts','settings'].includes(name)) {
-    ['home','workouts','settings'].forEach(t => {
-      document.getElementById('tab-' + t)?.classList.toggle('active', t === name);
-    });
-  }
-}
-
-function filterWorkouts(cat, btn) {
-  state.filter = cat;
-  document.querySelectorAll('#filter-pills .pill').forEach(p => p.classList.remove('selected'));
-  btn.classList.add('selected');
-  renderWorkoutsGrid();
-}
-
-// ═══════════════════════════════════════════
-//  TIMER ENGINE — true EMOM
-//  Each exercise gets exactly 60 seconds.
-//  Do your reps, rest for whatever's left.
-//  No separate rest phase.
-// ═══════════════════════════════════════════
-const RING_CIRCUMFERENCE = 2 * Math.PI * 96; // 603.2
-const EMOM_INTERVAL = 60; // seconds per exercise slot
-
-function startCountdown(secs) {
-  state.timerState = 'countdown';
-  state.timeLeft = secs;
-  updateTimerUI();
-  clearInterval(state.timer);
-  state.timer = setInterval(tick, 1000);
-}
-
-function startEmomSlot() {
-  state.timerState = 'emom';
-  state.timeLeft = EMOM_INTERVAL;
-  updateTimerUI();
-}
-
-function tick() {
-  if (state.isPaused) return;
-  state.timeLeft--;
-
-  if (state.timeLeft <= 0) {
-    advance();
-    return;
-  }
-  updateTimerUI();
-}
-
-function advance() {
-  if (state.timerState === 'countdown') {
-    startEmomSlot();
-    return;
-  }
-
-  if (state.timerState === 'emom') {
-    // Move to next exercise
-    state.currentExIdx++;
-    if (state.currentExIdx >= state.exercises.length) {
-      state.currentExIdx = 0;
-      state.currentRound++;
-    }
-    if (state.currentRound >= state.totalRounds) {
-      finishTimer();
-      return;
-    }
-    startEmomSlot();
-    return;
-  }
-}
-
-function skipPhase() {
-  state.timeLeft = 1;
-}
-
-function finishTimer() {
-  clearInterval(state.timer);
-  state.timerState = 'done';
-
-  const elapsed = Math.round((Date.now() - state.workoutStartTime) / 1000 / 60);
-  const w = state.currentWorkout;
-  const cals = Math.round(elapsed * w.calPerMin);
-
-  document.getElementById('complete-sub').textContent = `${w.name} · ${INTENSITY[state.intensity].label}`;
-  document.getElementById('c-time').textContent = elapsed || getWorkoutDuration(w);
-  document.getElementById('c-cals').textContent = cals;
-  document.getElementById('c-rounds').textContent = state.totalRounds;
-  document.getElementById('c-exercises').textContent = state.exercises.length;
-
-  showScreen('complete');
-  document.getElementById('tab-bar').style.display = 'none';
-}
-
-function finishWorkout() {
-  document.getElementById('tab-bar').style.display = 'flex';
-  switchTab('home');
-  showToast('🏆 Workout saved!');
-}
-
-function togglePause() {
-  state.isPaused = !state.isPaused;
-  document.getElementById('pause-btn').textContent = state.isPaused ? '▶ Resume' : '⏸ Pause';
-}
-
-function confirmStop() {
-  clearInterval(state.timer);
-  state.timerState = 'idle';
-  document.getElementById('tab-bar').style.display = 'flex';
-  showScreen(state.prevScreen || 'workouts');
-}
-
-function updateTimerUI() {
-  const phase = state.timerState;
-  const exs = state.exercises;
-  const ex = exs[state.currentExIdx] || { name: 'Loading', icon: '⏳', target: '', reps: '' };
-
-  // Round label
-  const roundLabel = phase === 'countdown'
-    ? 'Get Ready'
-    : `Round ${state.currentRound + 1} of ${state.totalRounds}`;
-  document.getElementById('timer-round-label').textContent = roundLabel;
-
-  // Ring colour: blue countdown → accent red during EMOM, pulse green in last 10s
-  const ringEl = document.getElementById('ring-progress');
-  const ringLabel = document.getElementById('ring-label');
-  const ringTime = document.getElementById('ring-time');
-  const phaseBadge = document.getElementById('phase-badge');
-
-  let maxTime, ringColor;
-  if (phase === 'countdown') {
-    maxTime = 5; ringColor = '#0a84ff';
-    ringLabel.textContent = 'GET READY';
-    phaseBadge.className = 'timer-phase-badge phase-get-ready';
-    phaseBadge.textContent = 'GET READY';
-  } else {
-    maxTime = EMOM_INTERVAL;
-    // Show green "rest" colour in the last 15s to signal finish your reps
-    ringColor = state.timeLeft <= 15 ? '#30d158' : '#ff375f';
-    ringLabel.textContent = state.timeLeft <= 15 ? 'REST' : 'WORK';
-    if (state.timeLeft <= 15) {
-      phaseBadge.className = 'timer-phase-badge phase-rest';
-      phaseBadge.textContent = 'REST';
+$('#authSubmit').onclick = async () => {
+  if (!sb) { authMsg('Backend not configured.', 'err'); return; }
+  const email = $('#authEmail').value.trim(), password = $('#authPassword').value;
+  if (!email || !password) { authMsg('Enter your email and password.', 'err'); return; }
+  $('#authSubmit').disabled = true;
+  try {
+    if (authMode === 'signup') {
+      const { error } = await sb.auth.signUp({ email, password });
+      if (error) throw error;
+      authMsg('Account created! Check your email if confirmation is required, then sign in.', 'ok');
     } else {
-      phaseBadge.className = 'timer-phase-badge phase-work';
-      phaseBadge.textContent = 'WORK';
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) throw error;
     }
-  }
+  } catch (e) { authMsg(e.message || 'Something went wrong.', 'err'); }
+  finally { $('#authSubmit').disabled = false; }
+};
+function authMsg(m, cls) { const el = $('#authMsg'); el.textContent = m; el.className = 'auth-msg ' + (cls||''); }
+$('#signOutBtn').onclick = async () => { if (sb) await sb.auth.signOut(); };
 
-  ringEl.style.stroke = ringColor;
-  const pct = state.timeLeft / maxTime;
-  ringEl.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct);
-  ringTime.textContent = String(state.timeLeft).padStart(2, '0');
-  if (state.timeLeft <= 5 && phase !== 'countdown') {
-    ringTime.classList.add('pulse');
-  } else {
-    ringTime.classList.remove('pulse');
-  }
-
-  // Exercise display — show current exercise the whole 60s
-  document.getElementById('timer-ex-icon').textContent = ex.icon;
-  document.getElementById('timer-ex-name').textContent =
-    phase === 'countdown' ? ex.name : ex.name;
-  document.getElementById('timer-ex-target').textContent =
-    phase === 'countdown' ? 'Prepare...' : `${ex.target} · ${ex.reps}`;
-
-  // Up Next: show next exercise
-  const nextIdx = (state.currentExIdx + 1) % exs.length;
-  const isLastInRound = state.currentExIdx === exs.length - 1;
-  const nextRound = state.currentRound + (isLastInRound ? 1 : 0);
-  const nextEx = exs[nextIdx];
-
-  if (phase !== 'countdown' && nextEx && !(isLastInRound && nextRound >= state.totalRounds)) {
-    document.getElementById('next-ex-icon').textContent = nextEx.icon;
-    document.getElementById('next-ex-name').textContent = nextEx.name;
-    document.getElementById('timer-next-wrap').style.opacity = '1';
-  } else {
-    document.getElementById('timer-next-wrap').style.opacity = '0';
-  }
-
-  // Progress bar
-  const totalSets = state.totalRounds * exs.length;
-  const doneSets = state.currentRound * exs.length + state.currentExIdx;
-  const pctDone = doneSets / totalSets * 100;
-  document.getElementById('workout-progress-fill').style.width = pctDone + '%';
-  document.getElementById('progress-done').textContent = `Min ${doneSets + 1} of ${totalSets}`;
-  document.getElementById('progress-total').textContent = totalSets + ' min total';
+async function onAuthed() {
+  $('#auth').classList.remove('active');
+  $('#app').classList.add('active');
+  await loadAll();
+}
+function onSignedOut() {
+  $('#app').classList.remove('active');
+  $('#auth').classList.add('active');
+  $('#authPassword').value = '';
+}
+if (sb) {
+  sb.auth.onAuthStateChange((_e, session) => { if (session) onAuthed(); else onSignedOut(); });
+  sb.auth.getSession().then(({ data }) => { if (data.session) onAuthed(); });
 }
 
-// ═══════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════
-let toastTimer = null;
-function showToast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+// ════════ DATA ════════
+async function loadAll() {
+  if (!sb) return;
+  const tables = ['properties','tenants','expenses','bills','payments','inspections'];
+  const results = await Promise.all(tables.map(t => sb.from(t).select('*')));
+  tables.forEach((t,i) => { state[t] = results[i].data || []; });
+  renderCurrent();
+}
+async function insert(table, row) {
+  const { data: { user } } = await sb.auth.getUser();
+  const { data, error } = await sb.from(table).insert({ ...row, owner_id: user.id }).select().single();
+  if (error) { toast(error.message); throw error; }
+  state[table].push(data); return data;
+}
+async function update(table, id, patch) {
+  const { data, error } = await sb.from(table).update(patch).eq('id', id).select().single();
+  if (error) { toast(error.message); throw error; }
+  const arr = state[table]; const i = arr.findIndex(r=>r.id===id); if (i>=0) arr[i]=data; return data;
+}
+async function remove(table, id) {
+  const { error } = await sb.from(table).delete().eq('id', id);
+  if (error) { toast(error.message); throw error; }
+  state[table] = state[table].filter(r=>r.id!==id);
 }
 
-// ═══════════════════════════════════════════
-//  KICK OFF
-// ═══════════════════════════════════════════
-renderHomeCards();
-renderWorkoutsGrid();
-renderEquipmentGrid();
-updateIntensityPreview();
+// ════════ NAVIGATION ════════
+function showScreen(id) {
+  $$('#app > .screen').forEach(s => s.classList.toggle('active', s.id === id));
+}
+function setTab(tab) {
+  state.currentTab = tab;
+  $$('.tab-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  showScreen('screen-' + tab);
+  renderCurrent();
+}
+$$('.tab-item, .nav-back').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+
+function renderCurrent() {
+  const t = state.currentTab;
+  if (t === 'dashboard') renderDashboard();
+  else if (t === 'properties') renderProperties();
+  else if (t === 'tenants') renderTenants();
+  else if (t === 'money') renderMoney();
+  else if (t === 'inspections') renderInspections();
+}
+
+// ════════ DASHBOARD ════════
+function renderDashboard() {
+  const now = new Date(), m = now.getMonth(), y = now.getFullYear();
+  const inMonth = d => { const x = new Date(d); return x.getMonth()===m && x.getFullYear()===y; };
+  const rentDue = state.payments.filter(p => p.status !== 'paid');
+  const overdue = rentDue.filter(p => p.due_date && p.due_date < todayISO());
+  const collected = state.payments.filter(p => p.status==='paid' && inMonth(p.paid_on||p.due_date)).reduce((s,p)=>s+Number(p.amount||0),0);
+  const expMonth = state.expenses.filter(e=>inMonth(e.spent_on)).reduce((s,e)=>s+Number(e.amount||0),0);
+  const pendingInspections = state.inspections.filter(i => i.status === 'pending');
+  const recentExpenses = [...state.expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||'')).slice(0,4);
+
+  let html = `<div class="stat-grid">
+    <div class="stat-card"><div class="stat-label">🏠 Properties</div><div class="stat-value">${state.properties.length}</div><div class="stat-foot">${state.tenants.length} tenant${state.tenants.length!==1?'s':''}</div></div>
+    <div class="stat-card"><div class="stat-label">📷 Pending inspections</div><div class="stat-value">${pendingInspections.length}</div><div class="stat-foot">${state.inspections.filter(i=>i.status==='submitted').length} submitted</div></div>
+    <div class="stat-card"><div class="stat-label">✅ Rent this month</div><div class="stat-value" style="color:var(--green)">${money(collected)}</div><div class="stat-foot">collected</div></div>
+    <div class="stat-card"><div class="stat-label">💸 Expenses this month</div><div class="stat-value" style="color:var(--red)">${money(expMonth)}</div><div class="stat-foot">${state.expenses.filter(e=>inMonth(e.spent_on)).length} item${state.expenses.filter(e=>inMonth(e.spent_on)).length!==1?'s':''}</div></div>
+  </div>`;
+
+  if (overdue.length) {
+    html += `<div class="section-header"><span class="section-title">⚠️ Overdue rent</span></div><div class="group">`;
+    overdue.forEach(p => { html += rowHTML({ icon:'⏰', bg:'#ff453a22', title: tenantName(p.tenant_id), sub: 'Due ' + fmtDate(p.due_date), trail: `<span class="amount neg">${money(p.amount)}</span>` }); });
+    html += `</div>`;
+  }
+
+  if (pendingInspections.length) {
+    html += `<div class="section-header"><span class="section-title">Awaiting tenant photos</span><button class="section-action" data-tab="inspections">See all</button></div><div class="group">`;
+    pendingInspections.slice(0,3).forEach(i => { html += rowHTML({ icon:'📷', bg:'#0a84ff22', title: propName(i.property_id), sub: 'Requested ' + fmtDate(i.requested_at), trail:'<span class="badge orange">Pending</span><span class="chev">›</span>', data:`data-inspection="${i.id}"`, tappable:true }); });
+    html += `</div>`;
+  }
+
+  html += `<div class="section-header"><span class="section-title">Recent expenses</span><button class="section-action" data-tab="money">See all</button></div>`;
+  if (recentExpenses.length) {
+    html += `<div class="group">`;
+    recentExpenses.forEach(e => { html += rowHTML({ icon: CATEGORY_ICONS[e.category]||'📦', bg:'var(--surface2)', title: e.description||e.category, sub: propName(e.property_id)+' · '+fmtDate(e.spent_on), trail:`<span class="amount neg">-${money(e.amount)}</span>` }); });
+    html += `</div>`;
+  } else {
+    html += emptyHTML('🧾','Nothing logged yet','Add properties and start tracking your money.');
+  }
+  $('#dashboardContent').innerHTML = html;
+  wireDelegates($('#dashboardContent'));
+}
+
+// ════════ PROPERTIES ════════
+function renderProperties() {
+  const el = $('#propertiesContent');
+  if (!state.properties.length) { el.innerHTML = emptyHTML('🏠','No properties yet','Tap ＋ to add your first rental property.'); return; }
+  let html = '<div class="group">';
+  state.properties.forEach(p => {
+    const tCount = state.tenants.filter(t=>t.property_id===p.id).length;
+    html += rowHTML({ icon:'🏠', bg:'#0a84ff22', title: p.name, sub: p.address || `${tCount} tenant${tCount!==1?'s':''}`, trail:'<span class="chev">›</span>', data:`data-property="${p.id}"`, tappable:true });
+  });
+  html += '</div>';
+  el.innerHTML = html;
+  wireDelegates(el);
+}
+
+function renderProperty() {
+  const p = state.properties.find(x=>x.id===state.currentProperty);
+  if (!p) { setTab('properties'); return; }
+  showScreen('screen-property');
+  const tenants = state.tenants.filter(t=>t.property_id===p.id);
+  const expenses = state.expenses.filter(e=>e.property_id===p.id);
+  const bills = state.bills.filter(b=>b.property_id===p.id);
+  const inspections = state.inspections.filter(i=>i.property_id===p.id);
+  const totalExp = expenses.reduce((s,e)=>s+Number(e.amount||0),0);
+  const rent = tenants.reduce((s,t)=>s+Number(t.rent_amount||0),0);
+
+  let html = `<div class="nav-bar" style="padding-top:0"><div class="nav-left"><span class="nav-title">${esc(p.name)}</span></div></div>`;
+  if (p.address) html += `<div style="padding:0 20px 4px;color:var(--text2);font-size:15px">📍 ${esc(p.address)}</div>`;
+  html += `<div class="stat-grid">
+    <div class="stat-card"><div class="stat-label">Monthly rent</div><div class="stat-value" style="font-size:22px">${money(rent)}</div></div>
+    <div class="stat-card"><div class="stat-label">Total expenses</div><div class="stat-value" style="font-size:22px;color:var(--red)">${money(totalExp)}</div></div>
+  </div>`;
+  if (p.notes) html += `<div class="section-header"><span class="section-title">Notes</span></div><div class="group"><div class="row"><div class="row-body"><div class="row-sub" style="white-space:normal">${esc(p.notes)}</div></div></div></div>`;
+
+  html += `<div class="section-header"><span class="section-title">Tenants</span><button class="section-action" data-add="tenant" data-prop="${p.id}">Add</button></div>`;
+  if (tenants.length) { html += '<div class="group">'; tenants.forEach(t => html += rowHTML({ icon:'👤', bg:'#bf5af222', title:t.name, sub: t.rent_amount?money(t.rent_amount)+'/mo':(t.email||''), trail:'<span class="chev">›</span>', data:`data-tenant="${t.id}"`, tappable:true })); html += '</div>'; }
+  else html += `<div class="group"><div class="row"><div class="row-sub">No tenants assigned.</div></div></div>`;
+
+  html += `<div class="section-header"><span class="section-title">Inspections</span><button class="section-action" data-add="inspection" data-prop="${p.id}">Request</button></div>`;
+  if (inspections.length) { html += '<div class="group">'; inspections.slice(0,4).forEach(i => html += inspectionRow(i)); html += '</div>'; }
+  else html += `<div class="group"><div class="row"><div class="row-sub">No inspections requested.</div></div></div>`;
+
+  html += `<div class="section-header"><span class="section-title">Recent expenses</span></div>`;
+  if (expenses.length) { html += '<div class="group">'; [...expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||'')).slice(0,5).forEach(e => html += rowHTML({ icon:CATEGORY_ICONS[e.category]||'📦', bg:'var(--surface2)', title:e.description||e.category, sub:fmtDate(e.spent_on), trail:`<span class="amount neg">-${money(e.amount)}</span>` })); html += '</div>'; }
+  else html += `<div class="group"><div class="row"><div class="row-sub">No expenses logged.</div></div></div>`;
+
+  if (bills.length) {
+    html += `<div class="section-header"><span class="section-title">Recurring bills</span></div><div class="group">`;
+    bills.forEach(b => html += rowHTML({ icon:BILL_ICONS[b.name]||'📄', bg:'var(--surface2)', title:b.name, sub:`${b.frequency} · due ${fmtDay(b.due_day||1)}`, trail:`<span class="amount">${money(b.amount)}</span>` }));
+    html += '</div>';
+  }
+  $('#propertyContent').innerHTML = html;
+  wireDelegates($('#propertyContent'));
+  $('#editPropertyBtn').onclick = () => propertyForm(p);
+}
+
+// ════════ TENANTS ════════
+function renderTenants() {
+  const el = $('#tenantsContent');
+  if (!state.tenants.length) { el.innerHTML = emptyHTML('👤','No tenants yet','Add a property first, then assign tenants.'); return; }
+  let html = '<div class="group">';
+  state.tenants.forEach(t => html += rowHTML({ icon:'👤', bg:'#bf5af222', title:t.name, sub: propName(t.property_id), trail:'<span class="chev">›</span>', data:`data-tenant="${t.id}"`, tappable:true }));
+  html += '</div>';
+  el.innerHTML = html;
+  wireDelegates(el);
+}
+
+// ════════ MONEY ════════
+$$('#moneySeg button').forEach(b => b.onclick = () => {
+  state.moneyTab = b.dataset.money;
+  $$('#moneySeg button').forEach(x=>x.classList.toggle('active', x===b));
+  renderMoney();
+});
+$('#moneyAddBtn').onclick = () => {
+  if (state.moneyTab==='payments') paymentForm();
+  else if (state.moneyTab==='expenses') expenseForm();
+  else billForm();
+};
+function renderMoney() {
+  const el = $('#moneyContent'); const tab = state.moneyTab;
+  if (!state.properties.length) { el.innerHTML = emptyHTML('🏠','Add a property first','Money is tracked per property.'); return; }
+  let html = '';
+  if (tab === 'payments') {
+    const sorted = [...state.payments].sort((a,b)=>(b.due_date||'').localeCompare(a.due_date||''));
+    if (!sorted.length) html = emptyHTML('💷','No rent logged','Tap ＋ to record a rent payment.');
+    else { html = '<div class="group">'; sorted.forEach(p => {
+      const overdue = p.status!=='paid' && p.due_date && p.due_date < todayISO();
+      const badge = p.status==='paid' ? '<span class="badge green">Paid</span>' : overdue ? '<span class="badge red">Overdue</span>' : '<span class="badge orange">Due</span>';
+      html += rowHTML({ icon:'💷', bg:'#30d15822', title:tenantName(p.tenant_id), sub:`${propName(p.property_id)} · ${p.status==='paid'?'paid '+fmtDate(p.paid_on):'due '+fmtDate(p.due_date)}`, trail:`<span class="amount">${money(p.amount)}</span>${badge}<span class="chev">›</span>`, data:`data-payment="${p.id}"`, tappable:true });
+    }); html += '</div>'; }
+  } else if (tab === 'expenses') {
+    const sorted = [...state.expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||''));
+    if (!sorted.length) html = emptyHTML('🧾','No expenses','Tap ＋ to log an expense.');
+    else { const total = sorted.reduce((s,e)=>s+Number(e.amount||0),0);
+      html = `<div class="section-header"><span class="section-title">${sorted.length} expenses</span><span class="amount neg">-${money(total)}</span></div><div class="group">`;
+      sorted.forEach(e => html += rowHTML({ icon:CATEGORY_ICONS[e.category]||'📦', bg:'var(--surface2)', title:e.description||e.category, sub:`${propName(e.property_id)} · ${fmtDate(e.spent_on)}`, trail:`<span class="amount neg">-${money(e.amount)}</span><span class="chev">›</span>`, data:`data-expense="${e.id}"`, tappable:true }));
+      html += '</div>'; }
+  } else {
+    if (!state.bills.length) html = emptyHTML('📄','No bills','Tap ＋ to add a recurring bill.');
+    else { html = '<div class="group">'; state.bills.forEach(b => html += rowHTML({ icon:BILL_ICONS[b.name]||'📄', bg:'var(--surface2)', title:`${b.name}${b.provider?' · '+esc(b.provider):''}`, sub:`${propName(b.property_id)} · ${b.frequency}, due ${fmtDay(b.due_day||1)}`, trail:`<span class="amount">${money(b.amount)}</span><span class="chev">›</span>`, data:`data-bill="${b.id}"`, tappable:true })); html += '</div>'; }
+  }
+  el.innerHTML = html;
+  wireDelegates(el);
+}
+
+// ════════ INSPECTIONS ════════
+function inspectionRow(i) {
+  const badge = i.status==='submitted' ? '<span class="badge green">Submitted</span>' : '<span class="badge orange">Pending</span>';
+  return rowHTML({ icon:'📷', bg:'#0a84ff22', title:propName(i.property_id), sub: i.status==='submitted' ? 'Submitted '+fmtDate(i.submitted_at) : 'Requested '+fmtDate(i.requested_at), trail:`${badge}<span class="chev">›</span>`, data:`data-inspection="${i.id}"`, tappable:true });
+}
+function renderInspections() {
+  const el = $('#inspectionsContent');
+  if (!state.inspections.length) { el.innerHTML = emptyHTML('📷','No inspections yet','Request a bi-monthly inspection and your tenant submits photos via a private link.'); return; }
+  const sorted = [...state.inspections].sort((a,b)=>(b.requested_at||'').localeCompare(a.requested_at||''));
+  let html = '<div class="group">'; sorted.forEach(i => html += inspectionRow(i)); html += '</div>';
+  el.innerHTML = html;
+  wireDelegates(el);
+}
+
+async function renderInspection() {
+  const i = state.inspections.find(x=>x.id===state.currentInspection);
+  if (!i) { setTab('inspections'); return; }
+  showScreen('screen-inspection');
+  const el = $('#inspectionContent');
+  const link = inspectLink(i.token);
+  let html = `<div class="nav-bar" style="padding-top:0"><div class="nav-left"><span class="nav-title">Inspection</span></div></div>
+    <div class="group">
+      ${rowHTML({ icon:'🏠', bg:'#0a84ff22', title:propName(i.property_id), sub: i.tenant_id?tenantName(i.tenant_id):'No tenant assigned' })}
+      ${rowHTML({ icon:'📅', bg:'var(--surface2)', title:'Requested', trail:fmtDate(i.requested_at) })}
+      ${i.due_date?rowHTML({ icon:'⏳', bg:'var(--surface2)', title:'Due by', trail:fmtDate(i.due_date) }):''}
+      ${rowHTML({ icon: i.status==='submitted'?'✅':'⏰', bg:'var(--surface2)', title:'Status', trail: i.status==='submitted'?'<span class="badge green">Submitted</span>':'<span class="badge orange">Awaiting photos</span>' })}
+    </div>`;
+
+  if (i.notes) html += `<div class="section-header"><span class="section-title">Note to tenant</span></div><div class="group"><div class="row"><div class="row-body"><div class="row-sub" style="white-space:normal">${esc(i.notes)}</div></div></div></div>`;
+
+  if (i.status !== 'submitted') {
+    html += `<div class="section-header"><span class="section-title">Share with tenant</span></div>
+      <div style="padding:0 16px">
+        <div style="color:var(--text2);font-size:14px;line-height:1.5;margin-bottom:8px">Send this private link to your tenant. They can take photos and submit — no account needed.</div>
+        <div class="copy-link"><span class="url">${esc(link)}</span><button id="copyLinkBtn">Copy</button></div>
+        <button class="btn secondary" id="shareLinkBtn" style="margin-top:10px">Share link…</button>
+      </div>`;
+  }
+
+  html += `<div class="section-header"><span class="section-title">Photos</span></div><div id="photoArea"><div class="center-load"><div class="spinner"></div></div></div>`;
+  el.innerHTML = html;
+
+  if (i.status !== 'submitted') {
+    $('#copyLinkBtn').onclick = async () => { try { await navigator.clipboard.writeText(link); toast('Link copied'); } catch(e){ toast('Copy failed'); } };
+    const shareBtn = $('#shareLinkBtn');
+    if (navigator.share) shareBtn.onclick = async () => { try { await navigator.share({ title:'Property inspection', text:'Please submit your inspection photos:', url:link }); } catch(e){} };
+    else shareBtn.style.display = 'none';
+  }
+  $('#inspectionMenuBtn').onclick = () => inspectionMenu(i);
+
+  // Load photos
+  const { data: photos } = await sb.from('inspection_photos').select('*').eq('inspection_id', i.id).order('created_at');
+  const area = $('#photoArea');
+  if (!area) return;
+  if (!photos || !photos.length) { area.innerHTML = `<div class="empty" style="padding:32px"><span class="sub">No photos submitted yet.</span></div>`; return; }
+  const byRoom = {};
+  for (const ph of photos) { (byRoom[ph.room||'Other'] ||= []).push(ph); }
+  const paths = photos.map(p=>p.storage_path);
+  const { data: signedList } = await sb.storage.from('inspection-photos').createSignedUrls(paths, 3600);
+  const urlByPath = {}; (signedList||[]).forEach(s => { urlByPath[s.path] = s.signedUrl; });
+  let phtml = '';
+  for (const room of Object.keys(byRoom)) {
+    phtml += `<div class="room-label">${esc(room)} · ${byRoom[room].length}</div><div class="photo-grid">`;
+    for (const ph of byRoom[room]) {
+      phtml += `<a href="${urlByPath[ph.storage_path]||'#'}" target="_blank" rel="noopener"><img loading="lazy" src="${urlByPath[ph.storage_path]||''}" alt="${esc(ph.caption||room)}"></a>`;
+    }
+    phtml += `</div>`;
+  }
+  area.innerHTML = phtml;
+}
+
+function inspectionMenu(i) {
+  openSheet(`<div class="sheet-title">Inspection options</div>
+    <div class="sheet-actions">
+      ${i.status!=='submitted'?`<button class="btn secondary" id="mCopy">Copy tenant link</button>`:''}
+      ${i.status!=='submitted'?`<button class="btn green" id="mDone">Mark as submitted</button>`:''}
+      <button class="btn danger" id="mDel">Delete inspection</button>
+    </div>`);
+  if (i.status!=='submitted') {
+    $('#mCopy').onclick = async () => { try { await navigator.clipboard.writeText(inspectLink(i.token)); } catch(e){} closeSheet(); toast('Link copied'); };
+    $('#mDone').onclick = async () => { await update('inspections', i.id, { status:'submitted', submitted_at:new Date().toISOString() }); closeSheet(); renderInspection(); toast('Marked submitted'); };
+  }
+  $('#mDel').onclick = async () => { if (!confirm('Delete this inspection and its photos?')) return; await remove('inspections', i.id); closeSheet(); setTab('inspections'); toast('Deleted'); };
+}
+
+function inspectLink(token) { return location.origin + location.pathname.replace(/index\.html$/,'') + 'inspect.html?token=' + token; }
+
+// ════════ ROW + EMPTY HELPERS ════════
+function rowHTML({ icon, bg, title, sub, trail, data, tappable }) {
+  return `<div class="row ${tappable?'tappable':''}" ${data||''}>
+    ${icon!=null?`<div class="row-icon" style="background:${bg||'var(--surface2)'}">${icon}</div>`:''}
+    <div class="row-body"><div class="row-title">${esc(title)}</div>${sub?`<div class="row-sub">${esc(sub)}</div>`:''}</div>
+    ${trail?`<div class="row-trail">${trail}</div>`:''}</div>`;
+}
+function emptyHTML(emoji, title, sub) { return `<div class="empty"><span class="emoji">${emoji}</span><div class="title">${esc(title)}</div><div class="sub">${esc(sub)}</div></div>`; }
+
+function wireDelegates(root) {
+  $$('[data-property]', root).forEach(e => e.onclick = () => { state.currentProperty = e.dataset.property; renderProperty(); });
+  $$('[data-tenant]', root).forEach(e => e.onclick = () => { const t = state.tenants.find(x=>x.id===e.dataset.tenant); if (t) tenantForm(t); });
+  $$('[data-inspection]', root).forEach(e => e.onclick = () => { state.currentInspection = e.dataset.inspection; renderInspection(); });
+  $$('[data-expense]', root).forEach(e => e.onclick = () => { const x = state.expenses.find(v=>v.id===e.dataset.expense); if (x) expenseForm(x); });
+  $$('[data-bill]', root).forEach(e => e.onclick = () => { const x = state.bills.find(v=>v.id===e.dataset.bill); if (x) billForm(x); });
+  $$('[data-payment]', root).forEach(e => e.onclick = () => { const x = state.payments.find(v=>v.id===e.dataset.payment); if (x) paymentForm(x); });
+  $$('[data-tab]', root).forEach(e => e.onclick = () => setTab(e.dataset.tab));
+  $$('[data-add]', root).forEach(e => e.onclick = () => { const pre = e.dataset.prop; const kind = e.dataset.add;
+    if (kind==='property') propertyForm();
+    else if (kind==='tenant') tenantForm(null, pre);
+    else if (kind==='inspection') inspectionForm(pre); });
+}
+
+// ════════ SHEET / FORMS ════════
+const overlay = $('#sheetOverlay');
+overlay.onclick = e => { if (e.target === overlay) closeSheet(); };
+function openSheet(html) { $('#sheet').innerHTML = `<div class="sheet-grip"></div>` + html; overlay.classList.add('open'); }
+function closeSheet() { overlay.classList.remove('open'); }
+
+function propPickerOptions(selected) { return state.properties.map(p=>`<option value="${p.id}" ${p.id===selected?'selected':''}>${esc(p.name)}</option>`).join(''); }
+function tenantPickerOptions(propId, selected) { return '<option value="">— none —</option>' + state.tenants.filter(t=>!propId||t.property_id===propId).map(t=>`<option value="${t.id}" ${t.id===selected?'selected':''}>${esc(t.name)}</option>`).join(''); }
+
+// ── Property form ──
+function propertyForm(p) {
+  const ed = !!p;
+  openSheet(`<div class="sheet-title">${ed?'Edit':'New'} property</div>
+    <div class="field"><label>Name *</label><input id="f_name" placeholder="e.g. 14 Oak Street" value="${ed?esc(p.name):''}"></div>
+    <div class="field"><label>Address</label><input id="f_addr" placeholder="Full address" value="${ed?esc(p.address||''):''}"></div>
+    <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Access codes, boiler info, anything useful…">${ed?esc(p.notes||''):''}</textarea></div>
+    <div class="sheet-actions">
+      <button class="btn" id="f_save">${ed?'Save':'Add property'}</button>
+      ${ed?'<button class="btn danger" id="f_del">Delete property</button>':''}
+    </div>`);
+  $('#f_save').onclick = async () => {
+    const name = $('#f_name').value.trim(); if (!name) return toast('Name is required');
+    const row = { name, address:$('#f_addr').value.trim(), notes:$('#f_notes').value.trim() };
+    if (ed) await update('properties', p.id, row); else await insert('properties', row);
+    closeSheet(); refreshAfterEdit(); toast('Saved');
+  };
+  if (ed) $('#f_del').onclick = async () => { if (!confirm('Delete this property and all of its data?')) return; await remove('properties', p.id); closeSheet(); setTab('properties'); toast('Deleted'); };
+}
+
+// ── Tenant form ──
+function tenantForm(t, preProp) {
+  const ed = !!t;
+  if (!state.properties.length) return toast('Add a property first');
+  openSheet(`<div class="sheet-title">${ed?'Edit':'New'} tenant</div>
+    <div class="field"><label>Name *</label><input id="f_name" value="${ed?esc(t.name):''}" placeholder="Tenant name"></div>
+    <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?t.property_id:preProp)}</select></div>
+    <div class="field-row">
+      <div class="field"><label>Email</label><input id="f_email" type="email" value="${ed?esc(t.email||''):''}"></div>
+      <div class="field"><label>Phone</label><input id="f_phone" value="${ed?esc(t.phone||''):''}"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Rent / month (£)</label><input id="f_rent" type="number" inputmode="decimal" value="${ed?(t.rent_amount||''):''}"></div>
+      <div class="field"><label>Rent due day</label><input id="f_dueday" type="number" min="1" max="31" value="${ed?(t.rent_due_day||1):1}"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Lease start</label><input id="f_ls" type="date" value="${ed?(t.lease_start||''):''}"></div>
+      <div class="field"><label>Lease end</label><input id="f_le" type="date" value="${ed?(t.lease_end||''):''}"></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn" id="f_save">${ed?'Save':'Add tenant'}</button>
+      ${ed?'<button class="btn danger" id="f_del">Delete tenant</button>':''}
+    </div>`);
+  $('#f_save').onclick = async () => {
+    const name = $('#f_name').value.trim(); if (!name) return toast('Name is required');
+    const row = { name, property_id:$('#f_prop').value, email:$('#f_email').value.trim(), phone:$('#f_phone').value.trim(),
+      rent_amount: parseFloat($('#f_rent').value)||0, rent_due_day: parseInt($('#f_dueday').value)||1,
+      lease_start:$('#f_ls').value||null, lease_end:$('#f_le').value||null };
+    if (ed) await update('tenants', t.id, row); else await insert('tenants', row);
+    closeSheet(); refreshAfterEdit(); toast('Saved');
+  };
+  if (ed) $('#f_del').onclick = async () => { if (!confirm('Delete this tenant?')) return; await remove('tenants', t.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+}
+
+// ── Expense form ──
+function expenseForm(e) {
+  const ed = !!e;
+  if (!state.properties.length) return toast('Add a property first');
+  const cats = Object.keys(CATEGORY_ICONS);
+  openSheet(`<div class="sheet-title">${ed?'Edit':'New'} expense</div>
+    <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?e.property_id:null)}</select></div>
+    <div class="field"><label>Category</label><select id="f_cat">${cats.map(c=>`<option ${ed&&e.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
+    <div class="field"><label>Description</label><input id="f_desc" value="${ed?esc(e.description||''):''}" placeholder="What was it for?"></div>
+    <div class="field-row">
+      <div class="field"><label>Amount (£) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?e.amount:''}"></div>
+      <div class="field"><label>Date</label><input id="f_date" type="date" value="${ed?e.spent_on:todayISO()}"></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn" id="f_save">${ed?'Save':'Add expense'}</button>
+      ${ed?'<button class="btn danger" id="f_del">Delete</button>':''}
+    </div>`);
+  $('#f_save').onclick = async () => {
+    const amount = parseFloat($('#f_amt').value); if (!(amount>0)) return toast('Enter an amount');
+    const row = { property_id:$('#f_prop').value, category:$('#f_cat').value, description:$('#f_desc').value.trim(), amount, spent_on:$('#f_date').value||todayISO() };
+    if (ed) await update('expenses', e.id, row); else await insert('expenses', row);
+    closeSheet(); refreshAfterEdit(); toast('Saved');
+  };
+  if (ed) $('#f_del').onclick = async () => { await remove('expenses', e.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+}
+
+// ── Bill form ──
+function billForm(b) {
+  const ed = !!b;
+  if (!state.properties.length) return toast('Add a property first');
+  const names = Object.keys(BILL_ICONS);
+  openSheet(`<div class="sheet-title">${ed?'Edit':'New'} bill</div>
+    <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?b.property_id:null)}</select></div>
+    <div class="field"><label>Type</label><select id="f_name">${names.map(n=>`<option ${ed&&b.name===n?'selected':''}>${n}</option>`).join('')}</select></div>
+    <div class="field"><label>Provider</label><input id="f_prov" value="${ed?esc(b.provider||''):''}" placeholder="e.g. British Gas"></div>
+    <div class="field-row">
+      <div class="field"><label>Amount (£) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?b.amount:''}"></div>
+      <div class="field"><label>Due day</label><input id="f_day" type="number" min="1" max="31" value="${ed?(b.due_day||1):1}"></div>
+    </div>
+    <div class="field"><label>Frequency</label><select id="f_freq">${['monthly','quarterly','annual'].map(f=>`<option ${ed&&b.frequency===f?'selected':''}>${f}</option>`).join('')}</select></div>
+    <div class="sheet-actions">
+      <button class="btn" id="f_save">${ed?'Save':'Add bill'}</button>
+      ${ed?'<button class="btn danger" id="f_del">Delete</button>':''}
+    </div>`);
+  $('#f_save').onclick = async () => {
+    const amount = parseFloat($('#f_amt').value); if (!(amount>0)) return toast('Enter an amount');
+    const row = { property_id:$('#f_prop').value, name:$('#f_name').value, provider:$('#f_prov').value.trim(), amount, due_day:parseInt($('#f_day').value)||1, frequency:$('#f_freq').value };
+    if (ed) await update('bills', b.id, row); else await insert('bills', row);
+    closeSheet(); refreshAfterEdit(); toast('Saved');
+  };
+  if (ed) $('#f_del').onclick = async () => { await remove('bills', b.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+}
+
+// ── Payment form ──
+function paymentForm(p) {
+  const ed = !!p;
+  if (!state.tenants.length) return toast('Add a tenant first');
+  const firstTenant = ed ? p.tenant_id : state.tenants[0].id;
+  const tOpts = state.tenants.map(t=>`<option value="${t.id}" data-rent="${t.rent_amount||''}" ${t.id===firstTenant?'selected':''}>${esc(t.name)} — ${esc(propName(t.property_id))}</option>`).join('');
+  openSheet(`<div class="sheet-title">${ed?'Edit':'Record'} rent</div>
+    <div class="field"><label>Tenant *</label><select id="f_tenant">${tOpts}</select></div>
+    <div class="field-row">
+      <div class="field"><label>Amount (£) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?p.amount:(state.tenants.find(t=>t.id===firstTenant)?.rent_amount||'')}"></div>
+      <div class="field"><label>Due date</label><input id="f_due" type="date" value="${ed?p.due_date:todayISO()}"></div>
+    </div>
+    <div class="field"><label>Status</label><select id="f_status"><option value="due" ${ed&&p.status==='due'?'selected':''}>Due</option><option value="paid" ${ed&&p.status==='paid'?'selected':''}>Paid</option></select></div>
+    <div class="field" id="paidWrap" style="display:${ed&&p.status==='paid'?'block':'none'}"><label>Paid on</label><input id="f_paid" type="date" value="${ed&&p.paid_on?p.paid_on:todayISO()}"></div>
+    <div class="sheet-actions">
+      <button class="btn" id="f_save">${ed?'Save':'Add'}</button>
+      ${ed&&p.status!=='paid'?'<button class="btn green" id="f_markpaid">Mark as paid</button>':''}
+      ${ed?'<button class="btn danger" id="f_del">Delete</button>':''}
+    </div>`);
+  $('#f_tenant').onchange = e => { const o = e.target.selectedOptions[0]; if (o.dataset.rent) $('#f_amt').value = o.dataset.rent; };
+  $('#f_status').onchange = e => { $('#paidWrap').style.display = e.target.value==='paid'?'block':'none'; };
+  const save = async (forcePaid) => {
+    const tenantId = $('#f_tenant').value; const tenant = state.tenants.find(t=>t.id===tenantId);
+    const amount = parseFloat($('#f_amt').value); if (!(amount>0)) return toast('Enter an amount');
+    const status = forcePaid ? 'paid' : $('#f_status').value;
+    const row = { tenant_id:tenantId, property_id:tenant.property_id, amount, due_date:$('#f_due').value||todayISO(), status, paid_on: status==='paid' ? ($('#f_paid')?.value||todayISO()) : null };
+    if (ed) await update('payments', p.id, row); else await insert('payments', row);
+    closeSheet(); refreshAfterEdit(); toast('Saved');
+  };
+  $('#f_save').onclick = () => save(false);
+  if (ed && p.status!=='paid') $('#f_markpaid').onclick = () => save(true);
+  if (ed) $('#f_del').onclick = async () => { await remove('payments', p.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+}
+
+// ── Inspection request form ──
+function inspectionForm(preProp) {
+  if (!state.properties.length) return toast('Add a property first');
+  const due = new Date(); due.setDate(due.getDate()+7);
+  const startProp = preProp || state.properties[0].id;
+  openSheet(`<div class="sheet-title">Request inspection</div>
+    <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(startProp)}</select></div>
+    <div class="field"><label>Tenant</label><select id="f_tenant">${tenantPickerOptions(startProp)}</select></div>
+    <div class="field"><label>Submit by</label><input id="f_due" type="date" value="${due.toISOString().slice(0,10)}"></div>
+    <div class="field"><label>Note to tenant</label><textarea id="f_note">Please take photos of each room, the kitchen, bathroom, boiler and smoke alarms.</textarea></div>
+    <div class="sheet-actions"><button class="btn" id="f_save">Create link</button></div>`);
+  $('#f_prop').onchange = () => { $('#f_tenant').innerHTML = tenantPickerOptions($('#f_prop').value); };
+  $('#f_save').onclick = async () => {
+    const row = { property_id:$('#f_prop').value, tenant_id:$('#f_tenant').value||null, token:uid(), status:'pending', requested_at:new Date().toISOString(), due_date:$('#f_due').value||null, notes:$('#f_note').value.trim() };
+    const created = await insert('inspections', row);
+    closeSheet();
+    state.currentInspection = created.id; setTab('inspections'); renderInspection();
+    toast('Inspection created');
+  };
+}
+
+function refreshAfterEdit() {
+  if ($('#screen-property').classList.contains('active')) renderProperty();
+  else if ($('#screen-inspection').classList.contains('active')) renderInspection();
+  else renderCurrent();
+}
+
+// Wire add buttons present in the static markup
+wireDelegates(document);
 </script>
 </body>
 </html>

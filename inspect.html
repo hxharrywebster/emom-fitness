@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Property Inspection</title>
+<style>
+  :root {
+    --bg:#000; --surface:#1c1c1e; --surface2:#2c2c2e; --surface3:#3a3a3c;
+    --text:#fff; --text2:#ebebf599; --text3:#ebebf54d; --accent:#0a84ff;
+    --green:#30d158; --red:#ff453a; --orange:#ff9f0a; --border:#ffffff14; --radius:16px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,'SF Pro Text',BlinkMacSystemFont,'Segoe UI',sans-serif;
+    min-height:100vh; -webkit-font-smoothing:antialiased; padding:env(safe-area-inset-top) 0 0; }
+  .wrap { max-width:600px; margin:0 auto; padding:24px 18px calc(120px + env(safe-area-inset-bottom)); }
+  .header { text-align:center; padding:16px 0 8px; }
+  .header .icon { font-size:48px; }
+  .header h1 { font-size:26px; font-weight:800; margin-top:8px; letter-spacing:-0.5px; }
+  .header .prop { font-size:17px; color:var(--accent); font-weight:600; margin-top:4px; }
+  .header .due { font-size:14px; color:var(--text2); margin-top:6px; }
+  .note { background:var(--surface); border-radius:14px; padding:14px 16px; margin:16px 0; font-size:15px; line-height:1.5; color:var(--text2); }
+  .note b { color:var(--text); }
+  .progress { font-size:14px; color:var(--text2); text-align:center; margin:8px 0 4px; }
+
+  .room { background:var(--surface); border-radius:var(--radius); margin-bottom:14px; overflow:hidden; }
+  .room-head { display:flex; align-items:center; gap:12px; padding:14px 16px; }
+  .room-head .emoji { font-size:22px; }
+  .room-head .name { flex:1; font-size:17px; font-weight:600; }
+  .room-head .count { font-size:13px; color:var(--text2); }
+  .room-head .count.done { color:var(--green); }
+  .thumbs { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; padding:0 16px 12px; }
+  .thumb { position:relative; aspect-ratio:1; border-radius:10px; overflow:hidden; background:var(--surface2); }
+  .thumb img { width:100%; height:100%; object-fit:cover; }
+  .thumb .del { position:absolute; top:4px; right:4px; width:22px; height:22px; border-radius:50%; background:#000000bb; color:#fff; border:none; font-size:14px; display:flex; align-items:center; justify-content:center; }
+  .add-tile { aspect-ratio:1; border-radius:10px; background:var(--surface2); border:1.5px dashed var(--surface3); color:var(--accent); font-size:30px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+
+  .btn { display:block; width:100%; padding:16px; border-radius:14px; border:none; font-size:17px; font-weight:700; background:var(--accent); color:#fff; }
+  .btn:disabled { opacity:.5; }
+  .submit-bar { position:fixed; left:0; right:0; bottom:0; padding:14px 18px calc(14px + env(safe-area-inset-bottom)); background:#0a0a0aee; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:0.5px solid var(--border); }
+  .submit-bar .inner { max-width:600px; margin:0 auto; }
+
+  .state { text-align:center; padding:80px 28px; }
+  .state .big { font-size:64px; }
+  .state h2 { font-size:24px; font-weight:800; margin-top:16px; }
+  .state p { font-size:15px; color:var(--text2); margin-top:10px; line-height:1.5; }
+  .spinner { width:30px; height:30px; border:3px solid var(--surface3); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .hidden { display:none !important; }
+  .overlay { position:fixed; inset:0; background:#000000cc; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; z-index:100; }
+  .overlay p { color:var(--text2); font-size:15px; }
+</style>
+</head>
+<body>
+
+<div id="loading" class="state"><div class="spinner"></div><p style="margin-top:18px">Loading inspection…</p></div>
+
+<div id="error" class="state hidden">
+  <div class="big">🔗</div>
+  <h2 id="errTitle">Link not valid</h2>
+  <p id="errMsg">This inspection link is invalid or has expired. Please ask your landlord for a new one.</p>
+</div>
+
+<div id="done" class="state hidden">
+  <div class="big">✅</div>
+  <h2>Photos submitted!</h2>
+  <p>Thank you. Your inspection photos have been sent to your landlord. You can close this page.</p>
+</div>
+
+<div id="form" class="wrap hidden">
+  <div class="header">
+    <div class="icon">🏠</div>
+    <h1>Inspection</h1>
+    <div class="prop" id="propName"></div>
+    <div class="due" id="dueDate"></div>
+  </div>
+  <div class="note" id="note"></div>
+  <div class="progress" id="progress"></div>
+  <div id="rooms"></div>
+</div>
+
+<div id="submitBar" class="submit-bar hidden">
+  <div class="inner"><button class="btn" id="submitBtn" disabled>Submit photos</button></div>
+</div>
+
+<div id="uploading" class="overlay hidden"><div class="spinner"></div><p id="uploadMsg">Uploading photos…</p></div>
+
+<script src="config.js"></script>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const CFG = window.APP_CONFIG || {};
+const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
+const FN = CFG.SUPABASE_URL + '/functions/v1';
+const token = new URLSearchParams(location.search).get('token');
+
+const $ = s => document.querySelector(s);
+const show = (id) => { ['loading','error','done','form'].forEach(x => $('#'+x).classList.toggle('hidden', x!==id)); };
+
+const DEFAULT_ROOMS = ['Kitchen','Living room','Bathroom','Bedroom','Hallway','Exterior','Boiler','Smoke alarms','Other'];
+const ROOM_EMOJI = { 'Kitchen':'🍳','Living room':'🛋️','Bathroom':'🛁','Bedroom':'🛏️','Hallway':'🚪','Exterior':'🏡','Boiler':'🔥','Smoke alarms':'🚨','Other':'📦' };
+
+// photos: { [room]: [ { id, file, url } ] }
+const photos = {};
+let rooms = DEFAULT_ROOMS;
+
+async function callFn(name, body) {
+  const res = await fetch(`${FN}/${name}`, {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json', 'apikey': CFG.SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + CFG.SUPABASE_ANON_KEY },
+    body: JSON.stringify(body),
+  });
+  let data = {};
+  try { data = await res.json(); } catch(e) {}
+  if (!res.ok) throw new Error(data.error || ('Request failed (' + res.status + ')'));
+  return data;
+}
+
+async function init() {
+  if (!CFG.SUPABASE_URL || CFG.SUPABASE_URL.startsWith('REPLACE')) {
+    return fail('Not configured', 'This page is not connected to a backend yet.');
+  }
+  if (!token) return fail('Missing link', 'This inspection link is incomplete. Please ask your landlord to resend it.');
+  try {
+    const info = await callFn('get-inspection', { token });
+    if (info.status === 'submitted') return fail('Already submitted', 'These inspection photos have already been submitted. Thank you!', '✅');
+    $('#propName').textContent = info.property || 'Your property';
+    $('#dueDate').textContent = info.due_date ? ('Please submit by ' + new Date(info.due_date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })) : '';
+    $('#note').innerHTML = '<b>From your landlord:</b> ' + escapeHtml(info.notes || 'Please take clear photos of each room.');
+    if (Array.isArray(info.rooms) && info.rooms.length) rooms = info.rooms;
+    renderRooms();
+    show('form');
+    $('#submitBar').classList.remove('hidden');
+  } catch (e) {
+    fail('Link not valid', e.message || 'This inspection link is invalid or has expired.');
+  }
+}
+
+function fail(title, msg, icon) {
+  $('#errTitle').textContent = title; $('#errMsg').textContent = msg;
+  if (icon) document.querySelector('#error .big').textContent = icon;
+  show('error'); $('#submitBar').classList.add('hidden');
+}
+
+function escapeHtml(s){ return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderRooms() {
+  const c = $('#rooms'); c.innerHTML = '';
+  rooms.forEach(room => {
+    const list = photos[room] || [];
+    const el = document.createElement('div'); el.className = 'room';
+    el.innerHTML = `
+      <div class="room-head">
+        <span class="emoji">${ROOM_EMOJI[room]||'📷'}</span>
+        <span class="name">${escapeHtml(room)}</span>
+        <span class="count ${list.length?'done':''}">${list.length?list.length+' photo'+(list.length>1?'s':''):'none yet'}</span>
+      </div>
+      <div class="thumbs"></div>`;
+    const thumbs = el.querySelector('.thumbs');
+    list.forEach(ph => {
+      const t = document.createElement('div'); t.className = 'thumb';
+      t.innerHTML = `<img src="${ph.url}"><button class="del">✕</button>`;
+      t.querySelector('.del').onclick = () => { photos[room] = photos[room].filter(x=>x.id!==ph.id); renderRooms(); updateProgress(); };
+      thumbs.appendChild(t);
+    });
+    const add = document.createElement('label'); add.className = 'add-tile'; add.textContent = '＋';
+    const input = document.createElement('input'); input.type='file'; input.accept='image/*'; input.capture='environment'; input.multiple=true; input.style.display='none';
+    input.onchange = () => { addFiles(room, input.files); input.value=''; };
+    add.appendChild(input); thumbs.appendChild(add);
+    c.appendChild(el);
+  });
+  updateProgress();
+}
+
+function addFiles(room, fileList) {
+  photos[room] = photos[room] || [];
+  for (const file of fileList) {
+    if (!file.type.startsWith('image/')) continue;
+    photos[room].push({ id: Math.random().toString(36).slice(2), file, url: URL.createObjectURL(file) });
+  }
+  renderRooms();
+}
+
+function totalPhotos() { return Object.values(photos).reduce((s,a)=>s+a.length,0); }
+function updateProgress() {
+  const n = totalPhotos();
+  $('#progress').textContent = n ? `${n} photo${n>1?'s':''} ready to submit` : 'Tap ＋ under a room to add photos';
+  $('#submitBtn').disabled = n === 0;
+}
+
+$('#submitBtn').onclick = async () => {
+  const all = [];
+  for (const room of Object.keys(photos)) for (const ph of photos[room]) all.push({ room, ph });
+  if (!all.length) return;
+  $('#uploading').classList.remove('hidden');
+  let done = 0;
+  try {
+    for (const { room, ph } of all) {
+      $('#uploadMsg').textContent = `Uploading photo ${done+1} of ${all.length}…`;
+      const ext = (ph.file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'') || 'jpg';
+      const { path, token: uploadToken } = await callFn('create-photo-upload-url', { token, room, ext });
+      const { error: upErr } = await sb.storage.from('inspection-photos').uploadToSignedUrl(path, uploadToken, ph.file, { contentType: ph.file.type });
+      if (upErr) throw new Error('Upload failed: ' + upErr.message);
+      await callFn('record-photo', { token, storage_path: path, room });
+      done++;
+    }
+    $('#uploadMsg').textContent = 'Finishing…';
+    await callFn('complete-inspection', { token });
+    show('done'); $('#submitBar').classList.add('hidden'); $('#uploading').classList.add('hidden');
+  } catch (e) {
+    $('#uploading').classList.add('hidden');
+    alert('Something went wrong: ' + (e.message || 'please try again.') + (done?`\n\n${done} photo(s) were uploaded before the error.`:''));
+  }
+};
+
+init();
+</script>
+</body>
+</html>

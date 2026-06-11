@@ -1,7 +1,7 @@
 {
-  "name": "EMOM Fitness",
-  "short_name": "EMOM",
-  "description": "Apple Fitness-style EMOM workout timer with 10 programs",
+  "name": "Property Manager",
+  "short_name": "Properties",
+  "description": "Manage rental properties: tenants, expenses, bills, rent payments and tenant photo inspections",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
