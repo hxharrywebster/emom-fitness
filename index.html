@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Property Manager">
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Property Manager</title>
 <style>
   :root {
@@ -195,6 +196,19 @@
   .config-warn { margin: 0 0 16px; padding: 14px 16px; background: #ff9f0a1f; border: 1px solid #ff9f0a55; border-radius: 12px; color: var(--orange); font-size: 13px; line-height: 1.5; }
   .note-card { padding: 0 16px; }
   .note-card .inner { background: var(--surface); border-radius: var(--radius); padding: 15px 16px; font-size: 15px; line-height: 1.5; color: var(--text2); }
+
+  /* ─── CHARTS ─── */
+  .chart-card { margin: 8px 16px; background: var(--surface); border-radius: var(--radius); padding: 16px 16px 14px; box-shadow: 0 1px 1px #0000001a, 0 10px 24px -20px #000000cc; }
+  .chart-head { display: flex; align-items: center; justify-content: space-between; }
+  .chart-card h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+  .chart-subtle { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .chart-legend { display: flex; gap: 16px; font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .chart-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .donut-row { display: flex; align-items: center; gap: 20px; }
+  .donut-meta { display: flex; flex-direction: column; gap: 8px; }
+  .donut-stat { font-size: 14px; color: var(--text2); }
+  .donut-stat b { color: var(--text); font-size: 18px; font-weight: 700; margin-right: 4px; }
+  .gen-btn { margin: 6px 16px 2px; }
 </style>
 </head>
 <body>
@@ -288,7 +302,7 @@ let sb = null;
 if (configured) sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
 
 // ─── State ───
-const state = { properties: [], tenants: [], expenses: [], bills: [], payments: [], inspections: [], currentTab: 'dashboard', currentProperty: null, currentInspection: null, moneyTab: 'payments', loaded: false };
+const state = { properties: [], tenants: [], expenses: [], bills: [], payments: [], inspections: [], compliance: [], currentTab: 'dashboard', currentProperty: null, currentInspection: null, moneyTab: 'payments', loaded: false };
 
 // ─── Helpers ───
 const $ = (s, r=document) => r.querySelector(s);
@@ -350,6 +364,16 @@ const CAT = { Maintenance:['tool',C.orange], Repairs:['tool',C.orange], Insuranc
 const BILLMAP = { Electricity:['bolt',C.orange], Gas:['flame',C.red], Water:['droplet',C.teal], Internet:['wifi',C.blue], Council:['building',C.gray], Insurance:['shield',C.teal], Service:['tool',C.orange], Other:['receipt',C.gray] };
 const catIc = c => { const [n,col] = CAT[c]||CAT.Other; return ic(n,col); };
 const billIc = c => { const [n,col] = BILLMAP[c]||BILLMAP.Other; return ic(n,col); };
+const COMPLIANCE = { 'Gas Safety':['flame',C.red], 'EICR':['bolt',C.orange], 'EPC':['bolt',C.green], 'Deposit Protection':['shield',C.teal], 'Right to Rent':['user',C.purple], 'Insurance':['shield',C.blue], 'PAT Test':['bolt',C.orange], 'Legionella':['droplet',C.teal], 'Other':['shield',C.gray] };
+const compIc = t => { const [n,col] = COMPLIANCE[t]||COMPLIANCE.Other; return ic(n,col); };
+function complianceStatus(c) {
+  if (!c.expires_on) return { label:'No expiry', cls:'gray', rank:4 };
+  const days = Math.round((new Date(c.expires_on+'T00:00:00') - new Date(todayISO()+'T00:00:00'))/86400000);
+  if (days < 0) return { label:'Expired', cls:'red', rank:0, days };
+  if (days <= 60) return { label:`${days}d left`, cls:'orange', rank:1, days };
+  return { label:'Valid', cls:'green', rank:3, days };
+}
+const byExpiry = arr => [...arr].sort((a,b)=>complianceStatus(a).rank-complianceStatus(b).rank || (a.expires_on||'').localeCompare(b.expires_on||''));
 
 // ─── Static icon injection ───
 const TABICON = { dashboard:'grid', properties:'home', tenants:'users', money:'card', inspections:'camera' };
@@ -418,7 +442,7 @@ if (sb) {
 // ════════ DATA ════════
 async function loadAll() {
   if (!sb) return;
-  const tables = ['properties','tenants','expenses','bills','payments','inspections'];
+  const tables = ['properties','tenants','expenses','bills','payments','inspections','compliance'];
   const results = await Promise.all(tables.map(t => sb.from(t).select('*')));
   tables.forEach((t,i) => { state[t] = results[i].data || []; });
   state.loaded = true;
@@ -497,6 +521,16 @@ function renderDashboard() {
     ${statCard('receipt', C.red, 'Expenses', money(expMonth), `${expMonthItems.length} this month`, C.red, 'data-tab="money"')}
   </div>`;
 
+  if (state.payments.length || state.expenses.length) html += cashflowCard();
+  if (state.properties.length) html += occupancyCard();
+
+  const compAlerts = byExpiry(state.compliance.filter(c => complianceStatus(c).rank <= 1));
+  if (compAlerts.length) {
+    html += `<div class="section-header"><span class="section-title">Compliance attention</span></div><div class="group">`;
+    compAlerts.slice(0,4).forEach(c => { const st = complianceStatus(c); html += rowHTML({ ...compIc(c.type), title: c.type, sub: propName(c.property_id)+(c.expires_on?' · expires '+fmtDate(c.expires_on):''), trail:`<span class="badge ${st.cls}">${st.label}</span>`+chev, data:`data-property="${c.property_id}"`, tappable:true }); });
+    html += `</div>`;
+  }
+
   if (overdue.length) {
     html += `<div class="section-header"><span class="section-title">Overdue rent</span></div><div class="group">`;
     overdue.forEach(p => { html += rowHTML({ ...ic('alert', C.red), title: tenantName(p.tenant_id), sub: propName(p.property_id)+' · due '+fmtDate(p.due_date), trail: `<span class="amount neg">${money(p.amount)}</span>`, data:`data-payment="${p.id}"`, tappable:true }); });
@@ -544,6 +578,7 @@ function renderProperty() {
   const expenses = state.expenses.filter(e=>e.property_id===p.id);
   const bills = state.bills.filter(b=>b.property_id===p.id);
   const inspections = state.inspections.filter(i=>i.property_id===p.id);
+  const comp = state.compliance.filter(c=>c.property_id===p.id);
   const totalExp = expenses.reduce((s,e)=>s+Number(e.amount||0),0);
   const rent = tenants.reduce((s,t)=>s+Number(t.rent_amount||0),0);
 
@@ -562,6 +597,10 @@ function renderProperty() {
   html += `<div class="section-header"><span class="section-title">Inspections</span><button class="section-action" data-add="inspection" data-prop="${p.id}">Request</button></div>`;
   if (inspections.length) { html += '<div class="group">'; [...inspections].sort((a,b)=>(b.requested_at||'').localeCompare(a.requested_at||'')).slice(0,4).forEach(i => html += inspectionRow(i)); html += '</div>'; }
   else html += `<div class="note-card"><div class="inner">No inspections requested yet.</div></div>`;
+
+  html += `<div class="section-header"><span class="section-title">Compliance</span><button class="section-action" data-add="compliance" data-prop="${p.id}">Add</button></div>`;
+  if (comp.length) { html += '<div class="group">'; byExpiry(comp).forEach(c => { const st = complianceStatus(c); html += rowHTML({ ...compIc(c.type), title:c.type, sub: c.expires_on?('Expires '+fmtDate(c.expires_on)):(c.provider||'No expiry set'), trail:`<span class="badge ${st.cls}">${st.label}</span>`+chev, data:`data-compliance="${c.id}"`, tappable:true }); }); html += '</div>'; }
+  else html += `<div class="note-card"><div class="inner">No certificates tracked. Add gas safety, EICR, EPC, deposit protection…</div></div>`;
 
   html += `<div class="section-header"><span class="section-title">Recent expenses</span></div>`;
   if (expenses.length) { html += '<div class="group">'; [...expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||'')).slice(0,5).forEach(e => html += rowHTML({ ...catIc(e.category), title:e.description||e.category, sub:fmtDate(e.spent_on), trail:`<span class="amount neg">-${money(e.amount)}</span>` })); html += '</div>'; }
@@ -604,9 +643,12 @@ function renderMoney() {
   if (!state.properties.length) { el.innerHTML = emptyHTML('card', C.green, 'Add a property first', 'Rent, expenses and bills are tracked per property.'); return; }
   let html = '';
   if (tab === 'payments') {
+    const hasRentTenants = state.tenants.some(t=>Number(t.rent_amount)>0);
+    const monthLabel = new Date().toLocaleDateString('en-GB',{ month:'long' });
+    const gen = hasRentTenants ? `<div class="gen-btn"><button class="btn secondary" id="genRentBtn">${svg('calendar',{size:18})} Generate ${monthLabel} rent</button></div>` : '';
     const sorted = [...state.payments].sort((a,b)=>(b.due_date||'').localeCompare(a.due_date||''));
-    if (!sorted.length) html = emptyHTML('card', C.green, 'No rent logged', 'Tap + to record a rent payment.');
-    else { html = '<div class="group">'; sorted.forEach(p => {
+    if (!sorted.length) html = gen + emptyHTML('card', C.green, 'No rent logged', hasRentTenants?'Generate this month’s rent above, or tap + to add one.':'Add a tenant with rent, then generate the schedule.');
+    else { html = gen + '<div class="group">'; sorted.forEach(p => {
       const overdue = p.status!=='paid' && p.due_date && p.due_date < todayISO();
       const badge = p.status==='paid' ? '<span class="badge green">Paid</span>' : overdue ? '<span class="badge red">Overdue</span>' : '<span class="badge orange">Due</span>';
       const col = p.status==='paid' ? C.green : overdue ? C.red : C.orange;
@@ -627,6 +669,7 @@ function renderMoney() {
   }
   el.innerHTML = html;
   wireDelegates(el);
+  const gb = $('#genRentBtn'); if (gb) gb.onclick = generateRent;
 }
 
 // ════════ INSPECTIONS ════════
@@ -671,7 +714,7 @@ async function renderInspection() {
       </div>`;
   }
 
-  html += `<div class="section-header"><span class="section-title">Photos</span></div><div id="photoArea"><div class="center-load"><div class="spinner"></div></div></div>`;
+  html += `<div class="section-header"><span class="section-title">Photos</span><button class="section-action" id="pdfBtn" style="display:none;align-items:center;gap:5px">${svg('share',{size:15})} PDF report</button></div><div id="photoArea"><div class="center-load"><div class="spinner"></div></div></div>`;
   el.innerHTML = html;
 
   if (!submitted) {
@@ -692,6 +735,7 @@ async function renderInspection() {
   const paths = photos.map(p=>p.storage_path);
   const { data: signedList } = await sb.storage.from('inspection-photos').createSignedUrls(paths, 3600);
   const urlByPath = {}; (signedList||[]).forEach(s => { urlByPath[s.path] = s.signedUrl; });
+  const pdfBtn = $('#pdfBtn'); if (pdfBtn) { pdfBtn.style.display = 'inline-flex'; pdfBtn.onclick = () => exportInspectionPDF(i, photos, urlByPath); }
   let phtml = '';
   for (const room of Object.keys(byRoom)) {
     phtml += `<div class="room-label">${esc(room)} · ${byRoom[room].length}</div><div class="photo-grid">`;
@@ -739,11 +783,13 @@ function wireDelegates(root) {
   $$('[data-expense]', root).forEach(e => e.onclick = () => { const x = state.expenses.find(v=>v.id===e.dataset.expense); if (x) expenseForm(x); });
   $$('[data-bill]', root).forEach(e => e.onclick = () => { const x = state.bills.find(v=>v.id===e.dataset.bill); if (x) billForm(x); });
   $$('[data-payment]', root).forEach(e => e.onclick = () => { const x = state.payments.find(v=>v.id===e.dataset.payment); if (x) paymentForm(x); });
+  $$('[data-compliance]', root).forEach(e => e.onclick = () => { const x = state.compliance.find(v=>v.id===e.dataset.compliance); if (x) complianceForm(x); });
   $$('[data-tab]', root).forEach(e => e.onclick = () => setTab(e.dataset.tab));
   $$('[data-add]', root).forEach(e => e.onclick = () => { const pre = e.dataset.prop; const kind = e.dataset.add;
     if (kind==='property') propertyForm();
     else if (kind==='tenant') tenantForm(null, pre);
-    else if (kind==='inspection') inspectionForm(pre); });
+    else if (kind==='inspection') inspectionForm(pre);
+    else if (kind==='compliance') complianceForm(null, pre); });
 }
 
 // ════════ SHEET / FORMS ════════
@@ -922,6 +968,146 @@ function refreshAfterEdit() {
   if ($('#screen-property').classList.contains('active')) renderProperty();
   else if ($('#screen-inspection').classList.contains('active')) renderInspection();
   else renderCurrent();
+}
+
+// ════════ CHARTS ════════
+function monthSeries(n=6) {
+  const arr=[], base=new Date();
+  for (let k=n-1;k>=0;k--){ const d=new Date(base.getFullYear(), base.getMonth()-k, 1); arr.push({ ym:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label:d.toLocaleDateString('en-GB',{month:'short'}), income:0, expense:0 }); }
+  return arr;
+}
+function financeSeries() {
+  const s=monthSeries(6), idx={}; s.forEach((m,i)=>idx[m.ym]=i);
+  state.payments.filter(p=>p.status==='paid').forEach(p=>{ const ym=(p.paid_on||p.due_date||'').slice(0,7); if (ym in idx) s[idx[ym]].income+=Number(p.amount||0); });
+  state.expenses.forEach(e=>{ const ym=(e.spent_on||'').slice(0,7); if (ym in idx) s[idx[ym]].expense+=Number(e.amount||0); });
+  return s;
+}
+function cashflowCard() {
+  const s=financeSeries();
+  const max=Math.max(1,...s.map(m=>Math.max(m.income,m.expense)));
+  const net=s.reduce((a,m)=>a+m.income-m.expense,0);
+  const W=320,H=132, pad=16, bw=15, base=H-22, top=14;
+  let bars='';
+  s.forEach((m,i)=>{
+    const gx=pad+(i+0.5)*((W-2*pad)/s.length);
+    const ih=(m.income/max)*(base-top), eh=(m.expense/max)*(base-top);
+    bars+=`<rect x="${(gx-bw-1).toFixed(1)}" y="${(base-ih).toFixed(1)}" width="${bw}" height="${Math.max(ih,0).toFixed(1)}" rx="3" fill="${C.green}"/>`;
+    bars+=`<rect x="${(gx+1).toFixed(1)}" y="${(base-eh).toFixed(1)}" width="${bw}" height="${Math.max(eh,0).toFixed(1)}" rx="3" fill="${C.red}"/>`;
+    bars+=`<text x="${gx.toFixed(1)}" y="${H-5}" text-anchor="middle" font-size="11" fill="#ebebf599">${m.label}</text>`;
+  });
+  return `<div class="chart-card">
+    <div class="chart-head"><h3>Cash flow</h3><span class="amount ${net>=0?'pos':'neg'}">${net>=0?'+':'−'}${money(Math.abs(net))}</span></div>
+    <div class="chart-subtle">Income vs expenses · last 6 months</div>
+    <svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" style="margin-top:6px;overflow:visible">${bars}</svg>
+    <div class="chart-legend"><span><i style="background:${C.green}"></i>Income</span><span><i style="background:${C.red}"></i>Expenses</span></div>
+  </div>`;
+}
+function occupancyCard() {
+  const total=state.properties.length;
+  const occ=state.properties.filter(p=>state.tenants.some(t=>t.property_id===p.id)).length;
+  const pct=total?occ/total:0, r=34, circ=2*Math.PI*r;
+  const now=new Date(), ym=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const monthPays=state.payments.filter(p=>(p.due_date||'').slice(0,7)===ym);
+  const collected=monthPays.filter(p=>p.status==='paid').reduce((a,p)=>a+Number(p.amount||0),0);
+  const billed=monthPays.reduce((a,p)=>a+Number(p.amount||0),0);
+  const rate=billed?Math.round(collected/billed*100):0;
+  return `<div class="chart-card"><div class="donut-row">
+    <svg viewBox="0 0 90 90" width="90" height="90" style="flex-shrink:0">
+      <circle cx="45" cy="45" r="${r}" fill="none" stroke="var(--surface3)" stroke-width="9"/>
+      <circle cx="45" cy="45" r="${r}" fill="none" stroke="${C.blue}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(circ*pct).toFixed(1)} ${circ.toFixed(1)}" transform="rotate(-90 45 45)"/>
+      <text x="45" y="50" text-anchor="middle" font-size="19" font-weight="700" fill="#fff">${Math.round(pct*100)}%</text>
+    </svg>
+    <div class="donut-meta">
+      <div class="donut-stat"><b>${occ}/${total||0}</b>occupied</div>
+      <div class="donut-stat"><b>${rate}%</b>rent collected this month</div>
+    </div>
+  </div></div>`;
+}
+
+// ════════ RENT SCHEDULE ════════
+async function generateRent() {
+  const now=new Date(), ym=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const eligible=state.tenants.filter(t=>Number(t.rent_amount)>0);
+  if (!eligible.length) return toast('Set rent on a tenant first');
+  let created=0;
+  for (const t of eligible) {
+    if (state.payments.some(p=>p.tenant_id===t.id && (p.due_date||'').slice(0,7)===ym)) continue;
+    const day=Math.min(Math.max(parseInt(t.rent_due_day)||1,1),28);
+    const due=`${ym}-${String(day).padStart(2,'0')}`;
+    await insert('payments',{ tenant_id:t.id, property_id:t.property_id, amount:t.rent_amount, due_date:due, status:'due', paid_on:null });
+    created++;
+  }
+  renderMoney();
+  toast(created?`Added ${created} rent record${created>1?'s':''}`:'Already up to date for this month');
+}
+
+// ════════ COMPLIANCE FORM ════════
+function complianceForm(c, preProp) {
+  const ed=!!c;
+  if (!state.properties.length) return toast('Add a property first');
+  const types=Object.keys(COMPLIANCE);
+  openSheet(`<div class="sheet-title">${ed?'Edit':'New'} certificate</div>
+    <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?c.property_id:preProp)}</select></div>
+    <div class="field"><label>Type</label><select id="f_type">${types.map(t=>`<option ${ed&&c.type===t?'selected':''}>${t}</option>`).join('')}</select></div>
+    <div class="field"><label>Provider / certifier</label><input id="f_prov" value="${ed?esc(c.provider||''):''}" placeholder="e.g. Gas Safe engineer"></div>
+    <div class="field-row">
+      <div class="field"><label>Issued</label><input id="f_iss" type="date" value="${ed?(c.issued_on||''):''}"></div>
+      <div class="field"><label>Expires</label><input id="f_exp" type="date" value="${ed?(c.expires_on||''):''}"></div>
+    </div>
+    <div class="field"><label>Reference</label><input id="f_ref" value="${ed?esc(c.reference||''):''}" placeholder="Certificate number"></div>
+    <div class="sheet-actions">
+      <button class="btn" id="f_save">${ed?'Save changes':'Add certificate'}</button>
+      ${ed?`<button class="btn danger" id="f_del">${svg('trash',{size:18})} Delete</button>`:''}
+    </div>`);
+  $('#f_save').onclick = async () => {
+    const row={ property_id:$('#f_prop').value, type:$('#f_type').value, provider:$('#f_prov').value.trim(), reference:$('#f_ref').value.trim(), issued_on:$('#f_iss').value||null, expires_on:$('#f_exp').value||null };
+    if (ed) await update('compliance',c.id,row); else await insert('compliance',row);
+    closeSheet(); refreshAfterEdit(); toast('Saved');
+  };
+  if (ed) $('#f_del').onclick = async () => { await remove('compliance',c.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+}
+
+// ════════ PDF INSPECTION REPORT ════════
+async function fetchImage(url) {
+  const r=await fetch(url); const blob=await r.blob();
+  const dataURL=await new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(fr.result);fr.onerror=rej;fr.readAsDataURL(blob);});
+  const dim=await new Promise(res=>{const im=new Image();im.onload=()=>res({w:im.naturalWidth||4,h:im.naturalHeight||3});im.onerror=()=>res({w:4,h:3});im.src=dataURL;});
+  return { dataURL, w:dim.w, h:dim.h, fmt: blob.type.includes('png')?'PNG':'JPEG' };
+}
+async function exportInspectionPDF(i, photos, urlByPath) {
+  toast('Building PDF…');
+  let mod;
+  try { mod = await import('https://esm.sh/jspdf@2.5.1'); } catch(e) { return toast('Could not load PDF tool'); }
+  const doc = new mod.jsPDF({ unit:'pt', format:'a4' });
+  const W=doc.internal.pageSize.getWidth(), Hp=doc.internal.pageSize.getHeight(), M=40;
+  let y=M;
+  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.text('Inspection Report', M, y); y+=26;
+  doc.setFont('helvetica','normal'); doc.setFontSize(12); doc.setTextColor(80);
+  doc.text(propName(i.property_id), M, y); y+=16;
+  if (i.tenant_id) { doc.text('Tenant: '+tenantName(i.tenant_id), M, y); y+=16; }
+  doc.text('Submitted: '+fmtDate(i.submitted_at||i.requested_at)+'   •   '+photos.length+' photo'+(photos.length!==1?'s':''), M, y); y+=12;
+  doc.setDrawColor(210); doc.line(M,y,W-M,y); y+=20; doc.setTextColor(0);
+  const byRoom={}; photos.forEach(p=>{(byRoom[p.room||'Other']??=[]).push(p);});
+  const colW=(W-2*M-14)/2;
+  for (const room of Object.keys(byRoom)) {
+    if (y>Hp-90) { doc.addPage(); y=M; }
+    doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.text(room, M, y); y+=12;
+    let col=0, rowY=y, rowMaxH=0;
+    for (const ph of byRoom[room]) {
+      const url=urlByPath[ph.storage_path]; if (!url) continue;
+      let img; try { img=await fetchImage(url); } catch(e) { continue; }
+      const ih=Math.min(colW*(img.h/img.w), 320);
+      if (rowY+ih>Hp-M) { doc.addPage(); rowY=M; col=0; rowMaxH=0; }
+      const x=M+col*(colW+14);
+      try { doc.addImage(img.dataURL, img.fmt, x, rowY, colW, ih); } catch(e) {}
+      rowMaxH=Math.max(rowMaxH,ih);
+      if (++col===2) { col=0; rowY+=rowMaxH+10; rowMaxH=0; }
+    }
+    y = rowY + (col===1?rowMaxH+10:0) + 10;
+  }
+  const fname=propName(i.property_id).replace(/[^a-z0-9]+/gi,'-').toLowerCase();
+  doc.save(`inspection-${fname}-${(i.submitted_at||i.requested_at||todayISO()).slice(0,10)}.pdf`);
+  toast('PDF downloaded');
 }
 
 // Wire static add buttons / tabs present in the initial markup
