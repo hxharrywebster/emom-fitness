@@ -210,6 +210,13 @@
   .donut-stat b { color: var(--text); font-size: 18px; font-weight: 700; margin-right: 4px; }
   .gen-btn { margin: 6px 16px 2px; }
 
+  /* ─── AI REPORT ─── */
+  .ai-card { margin: 0 16px 8px; background: linear-gradient(160deg, #0a84ff1f, var(--surface)); border: 0.5px solid #0a84ff44; border-radius: var(--radius); padding: 16px; }
+  .ai-head { display: flex; align-items: center; gap: 9px; color: var(--accent); }
+  .ai-head b { color: var(--text); font-size: 16px; }
+  .ai-score { margin-left: auto; font-size: 22px; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
+  .ai-sub { font-size: 14px; line-height: 1.55; color: var(--text2); margin-top: 10px; }
+
   /* ─── HERO / IMAGES ─── */
   .hero { margin: 4px 16px 8px; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16/9; background: var(--surface2); box-shadow: 0 1px 1px #0000001a, 0 12px 28px -20px #000; }
   .hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -283,7 +290,7 @@
 
   <!-- MONEY -->
   <div id="screen-money" class="screen">
-    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Money</span></div><button class="nav-icon-btn" id="moneyAddBtn"></button></div>
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Money</span></div><div class="nav-actions"><button class="nav-icon-btn" id="taxExportBtn" aria-label="Export for tax"></button><button class="nav-icon-btn" id="moneyAddBtn" aria-label="Add"></button></div></div>
     <div class="segmented" id="moneySeg">
       <button data-money="payments" class="active">Rent</button>
       <button data-money="expenses">Expenses</button>
@@ -382,6 +389,7 @@ const ICON = {
   clip: '<path d="M21.4 11.05 12.25 20.2a5.5 5.5 0 0 1-7.78-7.78l9.2-9.2a3.5 3.5 0 1 1 4.95 4.95l-9.2 9.2a1.5 1.5 0 0 1-2.12-2.12l8.49-8.49"/>',
   image: '<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="m21 15-5-5L5 21"/>',
   download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+  sparkle: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.7 1.8L21.5 18l-1.8.7L19 20.5l-.7-1.8L16.5 18l1.8-.5z"/>',
 };
 function svg(name, opts={}) {
   const s = opts.size||24, sw = opts.sw!=null?opts.sw:2, fill = opts.fill||'none';
@@ -425,6 +433,8 @@ $('#alertsBtn').onclick = () => openAlerts();
 $('#editPropertyBtn').setAttribute('aria-label','Property options');
 $('#inspectionMenuBtn').setAttribute('aria-label','Inspection options');
 $('#moneyAddBtn').setAttribute('aria-label','Add');
+$('#taxExportBtn').innerHTML = svg('download', { size: 20 });
+$('#taxExportBtn').onclick = () => taxSheet();
 
 // ════════ AUTH ════════
 let authMode = 'signin';
@@ -756,6 +766,8 @@ async function renderInspection() {
 
   if (i.notes) html += `<div class="section-header"><span class="section-title">Note to tenant</span></div><div class="note-card"><div class="inner">${esc(i.notes)}</div></div>`;
 
+  if (submitted || i.ai_analysis) html += `<div id="aiArea"></div>`;
+
   if (!submitted) {
     html += `<div class="section-header"><span class="section-title">Share with tenant</span></div>
       <div style="padding:0 16px">
@@ -775,6 +787,7 @@ async function renderInspection() {
     else shareBtn.style.display = 'none';
   }
   $('#inspectionMenuBtn').onclick = () => inspectionMenu(i);
+  renderAISection(i);
 
   // Load photos
   const { data: photos } = await sb.from('inspection_photos').select('*').eq('inspection_id', i.id).order('created_at');
@@ -1242,6 +1255,157 @@ function openAlerts() {
   else { body += '<div class="group" style="margin:0 0 8px">'; items.forEach((it,idx)=> body += rowHTML({ icon:it.icon, color:it.color, bg:it.bg, title:it.title, sub:it.sub, trail:it.badge, data:`data-alert="${idx}"`, tappable:true })); body += '</div>'; }
   openSheet(body);
   if (items.length) $$('[data-alert]').forEach(e => e.onclick = () => { const it = items[+e.dataset.alert]; closeSheet(); it.go(); });
+}
+
+// ════════ AI INSPECTION ANALYSIS ════════
+const sevBadge = s => `<span class="badge ${s==='High'?'red':s==='Medium'?'orange':'gray'}">${esc(s||'')}</span>`;
+const condBadge = c => { const m={Excellent:'green',Good:'green',Fair:'orange',Poor:'red',Unknown:'gray'}; return `<span class="badge ${m[c]||'gray'}">${esc(c||'?')}</span>`; };
+const sevColor = s => s==='High'?C.red : s==='Medium'?C.orange : C.gray;
+
+function renderAnalysis(a) {
+  let h = `<div class="ai-card"><div class="ai-head">${svg('sparkle',{size:18})}<b>Overall: ${esc(a.overall_condition||'—')}</b><span class="ai-score">${a.overall_score!=null?a.overall_score+'/10':''}</span></div><div class="ai-sub">${esc(a.summary||'')}</div></div>`;
+  if (Array.isArray(a.issues) && a.issues.length) {
+    h += `<div class="section-header"><span class="section-title">Issues found · ${a.issues.length}</span></div><div class="group">`;
+    a.issues.forEach(is => h += rowHTML({ ...ic('alert', sevColor(is.severity)), title:`${is.category||'Issue'}${is.room?' · '+is.room:''}`, sub:is.description, trail:sevBadge(is.severity) }));
+    h += `</div>`;
+  } else {
+    h += `<div class="note-card"><div class="inner">✅ No issues flagged by the AI.</div></div>`;
+  }
+  if (Array.isArray(a.rooms) && a.rooms.length) {
+    h += `<div class="section-header"><span class="section-title">By room</span></div><div class="group">`;
+    a.rooms.forEach(r => h += rowHTML({ ...ic('home', C.blue), title:r.room, sub:r.observations, trail:condBadge(r.condition) }));
+    h += `</div>`;
+  }
+  if (Array.isArray(a.recommendations) && a.recommendations.length) {
+    h += `<div class="section-header"><span class="section-title">Recommendations</span></div><div class="group">`;
+    a.recommendations.forEach(r => h += rowHTML({ ...ic('check', C.green), title:r }));
+    h += `</div>`;
+  }
+  h += `<div style="padding:8px 22px 0;color:var(--text3);font-size:12px;line-height:1.5">Generated by ${esc(a.model||'Claude')}${a.photos_analyzed?' · '+a.photos_analyzed+' photos':''}. AI guidance — not a substitute for a professional inspection.</div>`;
+  return h;
+}
+function renderAISection(i) {
+  const el = $('#aiArea'); if (!el) return;
+  if (i.ai_analysis) {
+    el.innerHTML = `<div class="section-header"><span class="section-title">AI condition report</span><button class="section-action" id="reAnalyzeBtn">Re-analyse</button></div>` + renderAnalysis(i.ai_analysis);
+    $('#reAnalyzeBtn').onclick = () => analyzeInspection(i);
+  } else {
+    el.innerHTML = `<div class="section-header"><span class="section-title">AI condition report</span></div><div style="padding:0 16px"><div class="hint">Let Claude review the submitted photos and flag damage, damp, wear and safety issues.</div><button class="btn" id="aiBtn">${svg('sparkle',{size:18})} Analyse with AI</button></div>`;
+    $('#aiBtn').onclick = () => analyzeInspection(i);
+  }
+}
+async function analyzeInspection(i) {
+  const el = $('#aiArea'); if (el) el.innerHTML = `<div class="center-load"><div class="spinner"></div>Analysing photos with Claude…</div>`;
+  try {
+    const { data, error } = await sb.functions.invoke('analyze-inspection', { body: { inspection_id: i.id } });
+    if (error) {
+      let msg = error.message || 'Analysis failed';
+      try { const ctx = await error.context.json(); if (ctx?.error) msg = ctx.error; } catch (_e) {}
+      toast(msg); return renderAISection(i);
+    }
+    if (data?.error) { toast(data.error); return renderAISection(i); }
+    i.ai_analysis = data.analysis; i.ai_analyzed_at = new Date().toISOString();
+    const idx = state.inspections.findIndex(x => x.id === i.id);
+    if (idx >= 0) { state.inspections[idx].ai_analysis = data.analysis; state.inspections[idx].ai_analyzed_at = i.ai_analyzed_at; }
+    renderAISection(i); toast('Analysis complete');
+  } catch (e) { toast('Analysis failed'); renderAISection(i); }
+}
+
+// ════════ TAX EXPORT ════════
+function downloadFile(content, filename, mime) {
+  const blob = new Blob([content], { type: mime + ';charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+const inRange = (d, from, to) => d && d >= from && d <= to;
+function taxYearOptions() {
+  const now = new Date(), m = now.getMonth(), d = now.getDate();
+  const sy = (m > 3 || (m === 3 && d >= 6)) ? now.getFullYear() : now.getFullYear() - 1;
+  const opts = [];
+  for (let y = sy; y >= sy - 2; y--) opts.push({ from: `${y}-04-06`, to: `${y + 1}-04-05`, label: `Tax year ${y}/${String(y + 1).slice(2)} (6 Apr ${y} – 5 Apr ${y + 1})` });
+  opts.push({ from: '1900-01-01', to: '2999-12-31', label: 'All time' });
+  return opts;
+}
+function csvEsc(s) { s = String(s == null ? '' : s); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+function taxCSV(from, to) {
+  const rows = [['Date','Type','Property','Category','Description','Amount (£)']];
+  state.expenses.filter(e => inRange(e.spent_on, from, to)).sort((a,b)=>(a.spent_on||'').localeCompare(b.spent_on||'')).forEach(e => rows.push([e.spent_on,'Expense',propName(e.property_id),e.category||'',e.description||'',(-Number(e.amount||0)).toFixed(2)]));
+  state.payments.filter(p => p.status==='paid' && inRange(p.paid_on||p.due_date, from, to)).sort((a,b)=>((a.paid_on||a.due_date)||'').localeCompare((b.paid_on||b.due_date)||'')).forEach(p => rows.push([p.paid_on||p.due_date,'Income',propName(p.property_id),'Rent',tenantName(p.tenant_id),Number(p.amount||0).toFixed(2)]));
+  return rows.map(r => r.map(csvEsc).join(',')).join('\n');
+}
+function taxMarkdown(from, to) {
+  const exps = state.expenses.filter(e => inRange(e.spent_on, from, to));
+  const pays = state.payments.filter(p => p.status==='paid' && inRange(p.paid_on||p.due_date, from, to));
+  const totalExp = exps.reduce((s,e)=>s+Number(e.amount||0),0);
+  const totalInc = pays.reduce((s,p)=>s+Number(p.amount||0),0);
+  const byCat = {}; exps.forEach(e => { const k=e.category||'Other'; byCat[k]=(byCat[k]||0)+Number(e.amount||0); });
+  const byProp = {}; exps.forEach(e => { const k=propName(e.property_id); byProp[k]=(byProp[k]||0)+Number(e.amount||0); });
+  const clean = s => String(s||'').replace(/\|/g,'/');
+  let md = `# Property income & expenses\n\n**Period:** ${from} to ${to}\n\n- **Total rent received:** ${money(totalInc)}\n- **Total expenses:** ${money(totalExp)}\n- **Net profit:** ${money(totalInc-totalExp)}\n\n`;
+  md += `## Expenses by category\n\n| Category | Total |\n|---|---|\n`;
+  Object.entries(byCat).sort((a,b)=>b[1]-a[1]).forEach(([k,v]) => md += `| ${clean(k)} | ${money(v)} |\n`);
+  md += `\n## Expenses by property\n\n| Property | Total |\n|---|---|\n`;
+  Object.entries(byProp).forEach(([k,v]) => md += `| ${clean(k)} | ${money(v)} |\n`);
+  md += `\n## All expenses\n\n| Date | Property | Category | Description | Amount |\n|---|---|---|---|---|\n`;
+  exps.sort((a,b)=>(a.spent_on||'').localeCompare(b.spent_on||'')).forEach(e => md += `| ${e.spent_on} | ${clean(propName(e.property_id))} | ${clean(e.category)} | ${clean(e.description)} | ${money(e.amount)} |\n`);
+  md += `\n## Rent received\n\n| Date | Property | Tenant | Amount |\n|---|---|---|---|\n`;
+  pays.sort((a,b)=>((a.paid_on||a.due_date)||'').localeCompare((b.paid_on||b.due_date)||'')).forEach(p => md += `| ${p.paid_on||p.due_date} | ${clean(propName(p.property_id))} | ${clean(tenantName(p.tenant_id))} | ${money(p.amount)} |\n`);
+  md += `\n_Generated by Property Manager. Figures may be incomplete and this is not tax advice._\n`;
+  return md;
+}
+function taxSheet() {
+  if (!state.properties.length) return toast('Add a property first');
+  const years = taxYearOptions();
+  openSheet(`<div class="sheet-title">Tax & Claude</div>
+    <div class="hint">Export your income & expenses for a period, then upload the files into a <b>Claude Project</b> and ask Claude to total and categorise them for tax. Or set up a live connector so Claude can query your data directly.</div>
+    <div class="field"><label>Period</label><select id="f_year">${years.map(y=>`<option value="${y.from}|${y.to}">${esc(y.label)}</option>`).join('')}</select></div>
+    <div class="sheet-actions">
+      <button class="btn" id="dlCsv">${svg('download',{size:18})} Download CSV (spreadsheet)</button>
+      <button class="btn secondary" id="dlMd">${svg('file',{size:18})} Download report for Claude (.md)</button>
+      <button class="btn secondary" id="connBtn">${svg('link',{size:18})} Set up live Claude connector</button>
+    </div>`);
+  const range = () => { const [from,to] = $('#f_year').value.split('|'); return { from, to }; };
+  $('#dlCsv').onclick = () => { const { from, to } = range(); downloadFile(taxCSV(from,to), `property-finances-${from}_to_${to}.csv`, 'text/csv'); toast('CSV downloaded'); };
+  $('#dlMd').onclick = () => { const { from, to } = range(); downloadFile(taxMarkdown(from,to), `tax-report-${from}_to_${to}.md`, 'text/markdown'); toast('Report downloaded'); };
+  $('#connBtn').onclick = () => connectorSheet();
+}
+
+// ════════ LIVE CLAUDE CONNECTOR (MCP) ════════
+async function connectorSheet() {
+  openSheet(`<div class="sheet-title">Live Claude connector</div><div class="center-load"><div class="spinner"></div></div>`);
+  const base = (CFG.SUPABASE_URL || '') + '/functions/v1/mcp';
+  const { data: tokens } = await sb.from('mcp_tokens').select('*').order('created_at', { ascending: false });
+  let html = `<div class="sheet-title">Live Claude connector</div>
+    <div class="hint">Add this as a <b>custom connector</b> in Claude (Settings → Connectors → Add custom connector) using the link below. Claude can then query your properties, expenses, income and tax summary in real time. Keep the link private — it grants read access to your financial data.</div>`;
+  if (tokens && tokens.length) {
+    html += '<div class="group">';
+    tokens.forEach(t => html += rowHTML({ ...ic('link', C.purple), title: t.label || 'Connector', sub: base + '?key=' + t.token, trail: chev, data: `data-tok="${t.token}"`, tappable: true }));
+    html += '</div>';
+  }
+  html += `<div class="sheet-actions"><button class="btn" id="newTok">${svg('plus',{size:18})} Generate connector link</button></div>
+    <div class="hint" style="margin-top:10px"><b>Tools Claude can call:</b> list_properties, list_expenses, list_income, tax_summary.</div>`;
+  openSheet(html);
+  $('#newTok').onclick = async () => {
+    const { data: { user } } = await sb.auth.getUser();
+    const { error } = await sb.from('mcp_tokens').insert({ owner_id: user.id, label: 'Claude connector' });
+    if (error) return toast(error.message);
+    toast('Link created'); connectorSheet();
+  };
+  $$('[data-tok]').forEach(e => e.onclick = () => tokenMenu(e.dataset.tok, base));
+}
+function tokenMenu(token, base) {
+  const url = base + '?key=' + token;
+  openSheet(`<div class="sheet-title">Connector link</div>
+    <div class="hint">Paste this into Claude as a custom connector URL.</div>
+    <div class="copy-link"><span class="url">${esc(url)}</span><button id="cpTok">${svg('copy',{size:15})} Copy</button></div>
+    <div class="sheet-actions" style="margin-top:14px">
+      <button class="btn secondary" id="backTok">Back</button>
+      <button class="btn danger" id="revTok">${svg('trash',{size:18})} Revoke this link</button>
+    </div>`);
+  $('#cpTok').onclick = async () => { try { await navigator.clipboard.writeText(url); } catch (e) {} toast('Copied'); };
+  $('#backTok').onclick = () => connectorSheet();
+  $('#revTok').onclick = async () => { if (!confirm('Revoke this connector link? Claude will lose access.')) return; await sb.from('mcp_tokens').delete().eq('token', token); toast('Revoked'); connectorSheet(); };
 }
 
 // Wire static add buttons / tabs present in the initial markup
