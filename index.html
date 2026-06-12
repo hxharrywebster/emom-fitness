@@ -341,8 +341,8 @@ const state = { properties: [], tenants: [], expenses: [], bills: [], payments: 
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 const esc = s => (s==null?'':String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const money = n => '£' + (Number(n)||0).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const fmtDate = d => d ? new Date(d).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '—';
+const money = n => '$' + (Number(n)||0).toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtDate = d => d ? new Date(d).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }) : '—';
 const fmtDay = n => { const s=['th','st','nd','rd']; const v=n%100; return n + (s[(v-20)%10]||s[v]||s[0]); };
 const todayISO = () => new Date().toISOString().slice(0,10);
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&0x3|0x8)).toString(16);}));
@@ -705,7 +705,7 @@ function renderMoney() {
   let html = '';
   if (tab === 'payments') {
     const hasRentTenants = state.tenants.some(t=>Number(t.rent_amount)>0);
-    const monthLabel = new Date().toLocaleDateString('en-GB',{ month:'long' });
+    const monthLabel = new Date().toLocaleDateString('en-AU',{ month:'long' });
     const gen = hasRentTenants ? `<div class="gen-btn"><button class="btn secondary" id="genRentBtn">${svg('calendar',{size:18})} Generate ${monthLabel} rent</button></div>` : '';
     const sorted = [...state.payments].sort((a,b)=>(b.due_date||'').localeCompare(a.due_date||''));
     if (!sorted.length) html = gen + emptyHTML('card', C.green, 'No rent logged', hasRentTenants?'Generate this month’s rent above, or tap + to add one.':'Add a tenant with rent, then generate the schedule.');
@@ -908,7 +908,7 @@ function tenantForm(t, preProp) {
       <div class="field"><label>Phone</label><input id="f_phone" type="tel" value="${ed?esc(t.phone||''):''}"></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>Rent / month (£)</label><input id="f_rent" type="number" inputmode="decimal" value="${ed?(t.rent_amount||''):''}"></div>
+      <div class="field"><label>Rent / month (A$)</label><input id="f_rent" type="number" inputmode="decimal" value="${ed?(t.rent_amount||''):''}"></div>
       <div class="field"><label>Rent due day</label><input id="f_dueday" type="number" min="1" max="31" value="${ed?(t.rent_due_day||1):1}"></div>
     </div>
     <div class="field-row">
@@ -941,7 +941,7 @@ function expenseForm(e) {
     <div class="field"><label>Category</label><select id="f_cat">${cats.map(c=>`<option ${ed&&e.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
     <div class="field"><label>Description</label><input id="f_desc" value="${ed?esc(e.description||''):''}" placeholder="What was it for?"></div>
     <div class="field-row">
-      <div class="field"><label>Amount (£) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?e.amount:''}"></div>
+      <div class="field"><label>Amount (A$) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?e.amount:''}"></div>
       <div class="field"><label>Date</label><input id="f_date" type="date" value="${ed?e.spent_on:todayISO()}"></div>
     </div>
     <div class="field"><label>Receipt</label><label class="img-pick"><input id="f_rc" type="file" accept="image/*,application/pdf" style="display:none"><span id="rcText">${receipt?'Replace receipt':'Attach receipt'}</span></label>${receipt?`<button type="button" class="btn secondary" id="rcOpen" style="margin-top:8px">${svg('download',{size:18})} View receipt</button>`:''}</div>
@@ -976,7 +976,7 @@ function billForm(b) {
     <div class="field"><label>Type</label><select id="f_name">${names.map(n=>`<option ${ed&&b.name===n?'selected':''}>${n}</option>`).join('')}</select></div>
     <div class="field"><label>Provider</label><input id="f_prov" value="${ed?esc(b.provider||''):''}" placeholder="e.g. British Gas"></div>
     <div class="field-row">
-      <div class="field"><label>Amount (£) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?b.amount:''}"></div>
+      <div class="field"><label>Amount (A$) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?b.amount:''}"></div>
       <div class="field"><label>Due day</label><input id="f_day" type="number" min="1" max="31" value="${ed?(b.due_day||1):1}"></div>
     </div>
     <div class="field"><label>Frequency</label><select id="f_freq">${['monthly','quarterly','annual'].map(f=>`<option ${ed&&b.frequency===f?'selected':''}>${f}</option>`).join('')}</select></div>
@@ -1002,7 +1002,7 @@ function paymentForm(p) {
   openSheet(`<div class="sheet-title">${ed?'Edit':'Record'} rent</div>
     <div class="field"><label>Tenant *</label><select id="f_tenant">${tOpts}</select></div>
     <div class="field-row">
-      <div class="field"><label>Amount (£) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?p.amount:(state.tenants.find(t=>t.id===firstTenant)?.rent_amount||'')}"></div>
+      <div class="field"><label>Amount (A$) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?p.amount:(state.tenants.find(t=>t.id===firstTenant)?.rent_amount||'')}"></div>
       <div class="field"><label>Due date</label><input id="f_due" type="date" value="${ed?p.due_date:todayISO()}"></div>
     </div>
     <div class="field"><label>Status</label><select id="f_status"><option value="due" ${ed&&p.status==='due'?'selected':''}>Due</option><option value="paid" ${ed&&p.status==='paid'?'selected':''}>Paid</option></select></div>
@@ -1058,7 +1058,7 @@ function refreshAfterEdit() {
 // ════════ CHARTS ════════
 function monthSeries(n=6) {
   const arr=[], base=new Date();
-  for (let k=n-1;k>=0;k--){ const d=new Date(base.getFullYear(), base.getMonth()-k, 1); arr.push({ ym:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label:d.toLocaleDateString('en-GB',{month:'short'}), income:0, expense:0 }); }
+  for (let k=n-1;k>=0;k--){ const d=new Date(base.getFullYear(), base.getMonth()-k, 1); arr.push({ ym:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`, label:d.toLocaleDateString('en-AU',{month:'short'}), income:0, expense:0 }); }
   return arr;
 }
 function financeSeries() {
@@ -1320,16 +1320,16 @@ function downloadFile(content, filename, mime) {
 }
 const inRange = (d, from, to) => d && d >= from && d <= to;
 function taxYearOptions() {
-  const now = new Date(), m = now.getMonth(), d = now.getDate();
-  const sy = (m > 3 || (m === 3 && d >= 6)) ? now.getFullYear() : now.getFullYear() - 1;
+  const now = new Date(), m = now.getMonth();
+  const sy = m >= 6 ? now.getFullYear() : now.getFullYear() - 1; // AU financial year starts 1 July
   const opts = [];
-  for (let y = sy; y >= sy - 2; y--) opts.push({ from: `${y}-04-06`, to: `${y + 1}-04-05`, label: `Tax year ${y}/${String(y + 1).slice(2)} (6 Apr ${y} – 5 Apr ${y + 1})` });
+  for (let y = sy; y >= sy - 2; y--) opts.push({ from: `${y}-07-01`, to: `${y + 1}-06-30`, label: `FY ${y}/${String(y + 1).slice(2)} (1 Jul ${y} – 30 Jun ${y + 1})` });
   opts.push({ from: '1900-01-01', to: '2999-12-31', label: 'All time' });
   return opts;
 }
 function csvEsc(s) { s = String(s == null ? '' : s); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
 function taxCSV(from, to) {
-  const rows = [['Date','Type','Property','Category','Description','Amount (£)']];
+  const rows = [['Date','Type','Property','Category','Description','Amount (AUD)']];
   state.expenses.filter(e => inRange(e.spent_on, from, to)).sort((a,b)=>(a.spent_on||'').localeCompare(b.spent_on||'')).forEach(e => rows.push([e.spent_on,'Expense',propName(e.property_id),e.category||'',e.description||'',(-Number(e.amount||0)).toFixed(2)]));
   state.payments.filter(p => p.status==='paid' && inRange(p.paid_on||p.due_date, from, to)).sort((a,b)=>((a.paid_on||a.due_date)||'').localeCompare((b.paid_on||b.due_date)||'')).forEach(p => rows.push([p.paid_on||p.due_date,'Income',propName(p.property_id),'Rent',tenantName(p.tenant_id),Number(p.amount||0).toFixed(2)]));
   return rows.map(r => r.map(csvEsc).join(',')).join('\n');

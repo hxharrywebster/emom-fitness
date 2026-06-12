@@ -153,7 +153,7 @@ async function init() {
     const info = await callFn('get-inspection', { token });
     if (info.status === 'submitted') return fail('Already submitted', 'These inspection photos have already been submitted. Thank you!', true);
     $('#propName').textContent = info.property || 'Your property';
-    $('#dueDate').textContent = info.due_date ? ('Please submit by ' + new Date(info.due_date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })) : '';
+    $('#dueDate').textContent = info.due_date ? ('Please submit by ' + new Date(info.due_date).toLocaleDateString('en-AU', { day:'numeric', month:'long', year:'numeric' })) : '';
     $('#note').innerHTML = '<b>From your landlord:</b> ' + escapeHtml(info.notes || 'Please take clear photos of each room.');
     if (Array.isArray(info.rooms) && info.rooms.length) rooms = info.rooms;
     renderRooms();
