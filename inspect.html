@@ -8,70 +8,79 @@
 <style>
   :root {
     --bg:#000; --surface:#1c1c1e; --surface2:#2c2c2e; --surface3:#3a3a3c;
-    --text:#fff; --text2:#ebebf599; --text3:#ebebf54d; --accent:#0a84ff;
-    --green:#30d158; --red:#ff453a; --orange:#ff9f0a; --border:#ffffff14; --radius:16px;
+    --text:#fff; --text2:#ebebf599; --text3:#ebebf54d; --accent:#0a84ff; --accent2:#409cff;
+    --green:#30d158; --red:#ff453a; --orange:#ff9f0a; --border:#ffffff14; --radius:18px;
+    --ease:cubic-bezier(.22,.61,.36,1);
   }
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
   body { background:var(--bg); color:var(--text); font-family:-apple-system,'SF Pro Text',BlinkMacSystemFont,'Segoe UI',sans-serif;
     min-height:100vh; -webkit-font-smoothing:antialiased; padding:env(safe-area-inset-top) 0 0; }
-  .wrap { max-width:600px; margin:0 auto; padding:24px 18px calc(120px + env(safe-area-inset-bottom)); }
-  .header { text-align:center; padding:16px 0 8px; }
-  .header .icon { font-size:48px; }
-  .header h1 { font-size:26px; font-weight:800; margin-top:8px; letter-spacing:-0.5px; }
-  .header .prop { font-size:17px; color:var(--accent); font-weight:600; margin-top:4px; }
+  svg { display:block; }
+  .wrap { max-width:620px; margin:0 auto; padding:20px 18px calc(120px + env(safe-area-inset-bottom)); animation:fade .4s var(--ease); }
+  @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+  .header { text-align:center; padding:14px 0 6px; }
+  .header .logo { width:72px; height:72px; border-radius:20px; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(160deg,var(--accent2),var(--accent)); box-shadow:0 16px 36px -12px var(--accent); }
+  .header h1 { font-size:26px; font-weight:800; letter-spacing:-0.5px; }
+  .header .prop { font-size:17px; color:var(--accent); font-weight:600; margin-top:5px; }
   .header .due { font-size:14px; color:var(--text2); margin-top:6px; }
-  .note { background:var(--surface); border-radius:14px; padding:14px 16px; margin:16px 0; font-size:15px; line-height:1.5; color:var(--text2); }
+  .note { background:var(--surface); border-radius:14px; padding:14px 16px; margin:18px 0; font-size:15px; line-height:1.5; color:var(--text2); }
   .note b { color:var(--text); }
-  .progress { font-size:14px; color:var(--text2); text-align:center; margin:8px 0 4px; }
+  .progress { font-size:14px; color:var(--text2); text-align:center; margin:6px 0 10px; font-weight:500; }
 
-  .room { background:var(--surface); border-radius:var(--radius); margin-bottom:14px; overflow:hidden; }
+  .room { background:var(--surface); border-radius:var(--radius); margin-bottom:13px; overflow:hidden; box-shadow:0 1px 1px #0000001a, 0 10px 24px -20px #000000cc; }
   .room-head { display:flex; align-items:center; gap:12px; padding:14px 16px; }
-  .room-head .emoji { font-size:22px; }
-  .room-head .name { flex:1; font-size:17px; font-weight:600; }
-  .room-head .count { font-size:13px; color:var(--text2); }
+  .room-head .emoji { font-size:22px; width:24px; text-align:center; }
+  .room-head .name { flex:1; font-size:17px; font-weight:600; letter-spacing:-0.2px; }
+  .room-head .count { font-size:13px; color:var(--text2); display:flex; align-items:center; gap:5px; }
   .room-head .count.done { color:var(--green); }
-  .thumbs { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; padding:0 16px 12px; }
-  .thumb { position:relative; aspect-ratio:1; border-radius:10px; overflow:hidden; background:var(--surface2); }
+  .thumbs { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; padding:0 16px 14px; }
+  .thumb { position:relative; aspect-ratio:1; border-radius:11px; overflow:hidden; background:var(--surface2); animation:pop .25s var(--ease); }
+  @keyframes pop { from { transform:scale(.8); opacity:0; } to { transform:scale(1); opacity:1; } }
   .thumb img { width:100%; height:100%; object-fit:cover; }
-  .thumb .del { position:absolute; top:4px; right:4px; width:22px; height:22px; border-radius:50%; background:#000000bb; color:#fff; border:none; font-size:14px; display:flex; align-items:center; justify-content:center; }
-  .add-tile { aspect-ratio:1; border-radius:10px; background:var(--surface2); border:1.5px dashed var(--surface3); color:var(--accent); font-size:30px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+  .thumb .del { position:absolute; top:5px; right:5px; width:24px; height:24px; border-radius:50%; background:#000000c0; color:#fff; border:none; display:flex; align-items:center; justify-content:center; }
+  .add-tile { aspect-ratio:1; border-radius:11px; background:var(--surface2); border:1.5px dashed var(--surface3); color:var(--accent); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; transition:transform .12s var(--ease), border-color .15s; }
+  .add-tile:active { transform:scale(.95); border-color:var(--accent); }
+  .add-tile .lbl { font-size:11px; font-weight:600; }
 
-  .btn { display:block; width:100%; padding:16px; border-radius:14px; border:none; font-size:17px; font-weight:700; background:var(--accent); color:#fff; }
-  .btn:disabled { opacity:.5; }
-  .submit-bar { position:fixed; left:0; right:0; bottom:0; padding:14px 18px calc(14px + env(safe-area-inset-bottom)); background:#0a0a0aee; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-top:0.5px solid var(--border); }
-  .submit-bar .inner { max-width:600px; margin:0 auto; }
+  .btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:16px; border-radius:14px; border:none; font-size:17px; font-weight:700; letter-spacing:-0.2px; background:linear-gradient(180deg,var(--accent2),var(--accent)); color:#fff; box-shadow:0 8px 22px -10px var(--accent); transition:transform .12s var(--ease), opacity .15s; }
+  .btn:active { transform:scale(.98); }
+  .btn:disabled { opacity:.45; box-shadow:none; }
+  .submit-bar { position:fixed; left:0; right:0; bottom:0; padding:14px 18px calc(14px + env(safe-area-inset-bottom)); background:#0c0c0ccc; backdrop-filter:saturate(180%) blur(24px); -webkit-backdrop-filter:saturate(180%) blur(24px); border-top:0.5px solid var(--border); }
+  .submit-bar .inner { max-width:620px; margin:0 auto; }
 
-  .state { text-align:center; padding:80px 28px; }
-  .state .big { font-size:64px; }
-  .state h2 { font-size:24px; font-weight:800; margin-top:16px; }
-  .state p { font-size:15px; color:var(--text2); margin-top:10px; line-height:1.5; }
-  .spinner { width:30px; height:30px; border:3px solid var(--surface3); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto; }
+  .state { text-align:center; padding:90px 28px; animation:fade .4s var(--ease); max-width:480px; margin:0 auto; }
+  .state .big { width:88px; height:88px; border-radius:26px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; }
+  .state .big.ok { background:linear-gradient(160deg,#34d65c,#28c052); color:#fff; box-shadow:0 16px 40px -12px var(--green); }
+  .state .big.err { background:var(--surface); color:var(--orange); }
+  .state h2 { font-size:24px; font-weight:800; letter-spacing:-0.4px; }
+  .state p { font-size:15px; color:var(--text2); margin-top:11px; line-height:1.55; }
+  .spinner { width:34px; height:34px; border:3px solid var(--surface3); border-top-color:var(--accent); border-radius:50%; animation:spin .7s linear infinite; margin:0 auto; }
   @keyframes spin { to { transform:rotate(360deg); } }
   .hidden { display:none !important; }
-  .overlay { position:fixed; inset:0; background:#000000cc; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; z-index:100; }
-  .overlay p { color:var(--text2); font-size:15px; }
+  .overlay { position:fixed; inset:0; background:#000000d9; backdrop-filter:blur(4px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; z-index:100; }
+  .overlay p { color:var(--text2); font-size:15px; font-weight:500; }
 </style>
 </head>
 <body>
 
-<div id="loading" class="state"><div class="spinner"></div><p style="margin-top:18px">Loading inspection…</p></div>
+<div id="loading" class="state"><div class="spinner"></div><p style="margin-top:20px">Loading inspection…</p></div>
 
 <div id="error" class="state hidden">
-  <div class="big">🔗</div>
+  <div class="big err" id="errIcon"></div>
   <h2 id="errTitle">Link not valid</h2>
   <p id="errMsg">This inspection link is invalid or has expired. Please ask your landlord for a new one.</p>
 </div>
 
 <div id="done" class="state hidden">
-  <div class="big">✅</div>
-  <h2>Photos submitted!</h2>
-  <p>Thank you. Your inspection photos have been sent to your landlord. You can close this page.</p>
+  <div class="big ok" id="doneIcon"></div>
+  <h2>Photos submitted</h2>
+  <p>Thank you. Your inspection photos have been sent to your landlord — you can close this page now.</p>
 </div>
 
 <div id="form" class="wrap hidden">
   <div class="header">
-    <div class="icon">🏠</div>
-    <h1>Inspection</h1>
+    <div class="logo" id="formLogo"></div>
+    <h1>Property Inspection</h1>
     <div class="prop" id="propName"></div>
     <div class="due" id="dueDate"></div>
   </div>
@@ -97,12 +106,25 @@ const token = new URLSearchParams(location.search).get('token');
 
 const $ = s => document.querySelector(s);
 const show = (id) => { ['loading','error','done','form'].forEach(x => $('#'+x).classList.toggle('hidden', x!==id)); };
+const escapeHtml = s => (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const ICONS = {
+  home:'<path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
+  check:'<polyline points="20 6 9 17 4 12"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
+  camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.5l1.7-2.5h7.6L17.5 6H21a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/>',
+  x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+};
+const svg = (name, size=24, sw=2) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]||''}</svg>`;
+
+$('#formLogo').innerHTML = svg('home', 38);
+$('#doneIcon').innerHTML = svg('check', 44, 3);
+$('#errIcon').innerHTML = svg('link', 40);
 
 const DEFAULT_ROOMS = ['Kitchen','Living room','Bathroom','Bedroom','Hallway','Exterior','Boiler','Smoke alarms','Other'];
 const ROOM_EMOJI = { 'Kitchen':'🍳','Living room':'🛋️','Bathroom':'🛁','Bedroom':'🛏️','Hallway':'🚪','Exterior':'🏡','Boiler':'🔥','Smoke alarms':'🚨','Other':'📦' };
 
-// photos: { [room]: [ { id, file, url } ] }
-const photos = {};
+const photos = {}; // { [room]: [ { id, file, url } ] }
 let rooms = DEFAULT_ROOMS;
 
 async function callFn(name, body) {
@@ -118,13 +140,11 @@ async function callFn(name, body) {
 }
 
 async function init() {
-  if (!CFG.SUPABASE_URL || CFG.SUPABASE_URL.startsWith('REPLACE')) {
-    return fail('Not configured', 'This page is not connected to a backend yet.');
-  }
+  if (!CFG.SUPABASE_URL || CFG.SUPABASE_URL.startsWith('REPLACE')) return fail('Not configured', 'This page is not connected to a backend yet.');
   if (!token) return fail('Missing link', 'This inspection link is incomplete. Please ask your landlord to resend it.');
   try {
     const info = await callFn('get-inspection', { token });
-    if (info.status === 'submitted') return fail('Already submitted', 'These inspection photos have already been submitted. Thank you!', '✅');
+    if (info.status === 'submitted') return fail('Already submitted', 'These inspection photos have already been submitted. Thank you!', true);
     $('#propName').textContent = info.property || 'Your property';
     $('#dueDate').textContent = info.due_date ? ('Please submit by ' + new Date(info.due_date).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })) : '';
     $('#note').innerHTML = '<b>From your landlord:</b> ' + escapeHtml(info.notes || 'Please take clear photos of each room.');
@@ -137,13 +157,11 @@ async function init() {
   }
 }
 
-function fail(title, msg, icon) {
+function fail(title, msg, ok) {
   $('#errTitle').textContent = title; $('#errMsg').textContent = msg;
-  if (icon) document.querySelector('#error .big').textContent = icon;
+  const icon = $('#errIcon'); icon.className = 'big ' + (ok ? 'ok' : 'err'); icon.innerHTML = ok ? svg('check',44,3) : svg('link',40);
   show('error'); $('#submitBar').classList.add('hidden');
 }
-
-function escapeHtml(s){ return (s==null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 function renderRooms() {
   const c = $('#rooms'); c.innerHTML = '';
@@ -154,18 +172,19 @@ function renderRooms() {
       <div class="room-head">
         <span class="emoji">${ROOM_EMOJI[room]||'📷'}</span>
         <span class="name">${escapeHtml(room)}</span>
-        <span class="count ${list.length?'done':''}">${list.length?list.length+' photo'+(list.length>1?'s':''):'none yet'}</span>
+        <span class="count ${list.length?'done':''}">${list.length?svg('check',15,2.5)+list.length:''}</span>
       </div>
       <div class="thumbs"></div>`;
     const thumbs = el.querySelector('.thumbs');
     list.forEach(ph => {
       const t = document.createElement('div'); t.className = 'thumb';
-      t.innerHTML = `<img src="${ph.url}"><button class="del">✕</button>`;
-      t.querySelector('.del').onclick = () => { photos[room] = photos[room].filter(x=>x.id!==ph.id); renderRooms(); updateProgress(); };
+      t.innerHTML = `<img src="${ph.url}"><button class="del" aria-label="Remove">${svg('x',14,2.5)}</button>`;
+      t.querySelector('.del').onclick = () => { photos[room] = photos[room].filter(x=>x.id!==ph.id); renderRooms(); };
       thumbs.appendChild(t);
     });
-    const add = document.createElement('label'); add.className = 'add-tile'; add.textContent = '＋';
-    const input = document.createElement('input'); input.type='file'; input.accept='image/*'; input.capture='environment'; input.multiple=true; input.style.display='none';
+    const add = document.createElement('label'); add.className = 'add-tile';
+    add.innerHTML = svg('camera',24) + '<span class="lbl">Add</span>';
+    const input = document.createElement('input'); input.type='file'; input.accept='image/*'; input.multiple=true; input.style.display='none';
     input.onchange = () => { addFiles(room, input.files); input.value=''; };
     add.appendChild(input); thumbs.appendChild(add);
     c.appendChild(el);
@@ -185,8 +204,9 @@ function addFiles(room, fileList) {
 function totalPhotos() { return Object.values(photos).reduce((s,a)=>s+a.length,0); }
 function updateProgress() {
   const n = totalPhotos();
-  $('#progress').textContent = n ? `${n} photo${n>1?'s':''} ready to submit` : 'Tap ＋ under a room to add photos';
+  $('#progress').textContent = n ? `${n} photo${n>1?'s':''} ready to submit` : 'Tap “Add” under a room to take or choose photos';
   $('#submitBtn').disabled = n === 0;
+  $('#submitBtn').textContent = n ? `Submit ${n} photo${n>1?'s':''}` : 'Submit photos';
 }
 
 $('#submitBtn').onclick = async () => {

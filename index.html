@@ -19,69 +19,80 @@
     --text2: #ebebf599;
     --text3: #ebebf54d;
     --accent: #0a84ff;
+    --accent2: #409cff;
     --green: #30d158;
     --red: #ff453a;
     --orange: #ff9f0a;
     --purple: #bf5af2;
     --teal: #40c8e0;
-    --radius: 16px;
-    --radius-sm: 10px;
+    --radius: 18px;
+    --radius-sm: 12px;
     --border: #ffffff14;
+    --ease: cubic-bezier(.22,.61,.36,1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body {
     background: var(--bg); color: var(--text);
     font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont, 'Segoe UI', sans-serif;
     min-height: 100vh; min-height: -webkit-fill-available;
-    overflow-x: hidden; overscroll-behavior: none; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; overscroll-behavior: none; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     padding-top: env(safe-area-inset-top);
   }
   html { height: -webkit-fill-available; }
-  button { font-family: inherit; cursor: pointer; }
+  button { font-family: inherit; cursor: pointer; color: inherit; }
   input, select, textarea { font-family: inherit; }
+  svg { display: block; }
 
   /* ─── SCREENS ─── */
   .screen { display: none; min-height: 100vh; flex-direction: column; }
   .screen.active { display: flex; }
+  #app.active > .screen.active { animation: screenIn .34s var(--ease); }
+  @keyframes screenIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
   /* ─── NAV BAR ─── */
   .nav-bar {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 20px 4px; position: sticky; top: 0; z-index: 10; background: var(--bg);
-    gap: 12px;
+    padding: 12px 18px 6px; position: sticky; top: 0; z-index: 10;
+    background: linear-gradient(180deg, var(--bg) 70%, transparent); gap: 12px; min-height: 52px;
   }
-  .nav-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
-  .nav-title { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .nav-back { background: none; border: none; color: var(--accent); font-size: 17px; display: flex; align-items: center; gap: 2px; padding: 4px 0; }
+  .nav-left { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .nav-title { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nav-back { background: none; border: none; color: var(--accent); font-size: 17px; display: flex; align-items: center; gap: 1px; padding: 6px 8px 6px 0; margin-left: -4px; transition: opacity .15s; }
+  .nav-back:active { opacity: .5; }
+  .nav-back span { font-weight: 400; }
   .nav-icon-btn {
-    width: 36px; height: 36px; border-radius: 50%; background: var(--surface2); border: none;
-    display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 22px; flex-shrink: 0;
+    width: 38px; height: 38px; border-radius: 50%; background: var(--surface2); border: none;
+    display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0;
+    transition: transform .12s var(--ease), background .15s;
   }
+  .nav-icon-btn:active { transform: scale(.9); background: var(--surface3); }
 
   /* ─── SCROLL CONTENT ─── */
-  .scroll-content { flex: 1; overflow-y: auto; padding: 8px 0 110px; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
+  .scroll-content { flex: 1; overflow-y: auto; padding: 6px 0 112px; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
   .scroll-content::-webkit-scrollbar { display: none; }
 
   /* ─── SECTIONS / CARDS ─── */
-  .section-header { display: flex; align-items: baseline; justify-content: space-between; padding: 18px 20px 8px; }
-  .section-title { font-size: 15px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.4px; }
-  .section-action { font-size: 15px; color: var(--accent); background: none; border: none; }
-  .group { margin: 0 16px 8px; background: var(--surface); border-radius: var(--radius); overflow: hidden; }
-  .row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 0.5px solid var(--border); position: relative; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px 9px; }
+  .section-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.6px; }
+  .section-action { font-size: 15px; color: var(--accent); background: none; border: none; font-weight: 500; padding: 2px 0; transition: opacity .15s; }
+  .section-action:active { opacity: .5; }
+  .group { margin: 0 16px 10px; background: var(--surface); border-radius: var(--radius); overflow: hidden; box-shadow: 0 1px 1px #0000001a, 0 10px 24px -20px #000000cc; }
+  .row { display: flex; align-items: center; gap: 13px; padding: 13px 15px; border-bottom: 0.5px solid var(--border); position: relative; transition: background .12s; }
   .row:last-child { border-bottom: none; }
+  .row.tappable { cursor: pointer; }
   .row.tappable:active { background: var(--surface2); }
-  .row-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .row-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .row-body { flex: 1; min-width: 0; }
-  .row-title { font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row-title { font-size: 16px; font-weight: 500; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .row-sub { font-size: 13px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .row-trail { font-size: 16px; color: var(--text2); display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .row-trail .chev { color: var(--text3); font-size: 18px; }
-  .amount { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .row-trail { font-size: 16px; color: var(--text2); display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+  .row-trail .chev { color: var(--text3); display: flex; margin-right: -2px; }
+  .amount { font-variant-numeric: tabular-nums; font-weight: 600; letter-spacing: -0.2px; }
   .amount.pos { color: var(--green); }
   .amount.neg { color: var(--red); }
 
   /* ─── BADGES ─── */
-  .badge { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; letter-spacing: -0.1px; }
   .badge.green { background: #30d15822; color: var(--green); }
   .badge.red { background: #ff453a22; color: var(--red); }
   .badge.orange { background: #ff9f0a22; color: var(--orange); }
@@ -89,90 +100,101 @@
   .badge.blue { background: #0a84ff22; color: var(--accent); }
 
   /* ─── DASHBOARD STAT CARDS ─── */
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 8px 16px; }
-  .stat-card { background: var(--surface); border-radius: var(--radius); padding: 16px; }
-  .stat-label { font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 6px; }
-  .stat-value { font-size: 26px; font-weight: 700; margin-top: 8px; font-variant-numeric: tabular-nums; }
-  .stat-foot { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 16px; }
+  .stat-card { background: var(--surface); border-radius: var(--radius); padding: 15px 16px 16px; box-shadow: 0 1px 1px #0000001a, 0 10px 24px -20px #000000cc; transition: transform .12s var(--ease); }
+  .stat-card.tappable:active { transform: scale(.97); }
+  .stat-top { display: flex; align-items: center; gap: 8px; }
+  .stat-ic { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .stat-label { font-size: 13px; color: var(--text2); font-weight: 500; }
+  .stat-value { font-size: 27px; font-weight: 700; margin-top: 11px; font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
+  .stat-foot { font-size: 12px; color: var(--text3); margin-top: 3px; }
 
   /* ─── EMPTY STATE ─── */
-  .empty { text-align: center; padding: 48px 32px; color: var(--text2); }
-  .empty .emoji { font-size: 44px; display: block; margin-bottom: 12px; }
-  .empty .title { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-  .empty .sub { font-size: 14px; line-height: 1.4; }
+  .empty { text-align: center; padding: 56px 36px; color: var(--text2); }
+  .empty .ic-wrap { width: 76px; height: 76px; border-radius: 22px; background: var(--surface); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; box-shadow: 0 10px 30px -16px #000; }
+  .empty .title { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 7px; letter-spacing: -0.3px; }
+  .empty .sub { font-size: 14px; line-height: 1.5; max-width: 260px; margin: 0 auto; }
 
   /* ─── BUTTONS ─── */
-  .btn { display: block; width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 17px; font-weight: 600; background: var(--accent); color: #fff; }
-  .btn:active { opacity: .85; }
-  .btn.secondary { background: var(--surface2); color: var(--accent); }
-  .btn.danger { background: #ff453a1f; color: var(--red); }
-  .btn.green { background: var(--green); color: #fff; }
-  .btn:disabled { opacity: .45; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; background: linear-gradient(180deg, var(--accent2), var(--accent)); color: #fff; transition: transform .12s var(--ease), opacity .15s; box-shadow: 0 8px 20px -10px var(--accent); }
+  .btn:active { transform: scale(.98); opacity: .9; }
+  .btn.secondary { background: var(--surface2); color: var(--accent); box-shadow: none; }
+  .btn.danger { background: #ff453a1f; color: var(--red); box-shadow: none; }
+  .btn.green { background: linear-gradient(180deg, #34d65c, #28c052); color: #fff; box-shadow: 0 8px 20px -10px var(--green); }
+  .btn:disabled { opacity: .45; box-shadow: none; }
 
   /* ─── SEGMENTED CONTROL ─── */
-  .segmented { display: flex; background: var(--surface2); border-radius: 10px; padding: 2px; margin: 8px 16px; }
-  .segmented button { flex: 1; border: none; background: none; color: var(--text2); font-size: 14px; font-weight: 600; padding: 8px; border-radius: 8px; }
-  .segmented button.active { background: var(--surface3); color: var(--text); }
+  .segmented { display: flex; background: var(--surface2); border-radius: 11px; padding: 3px; margin: 6px 16px 4px; }
+  .segmented button { flex: 1; border: none; background: none; color: var(--text2); font-size: 14px; font-weight: 600; padding: 8px; border-radius: 8px; transition: color .15s; }
+  .segmented button.active { background: var(--surface3); color: var(--text); box-shadow: 0 1px 3px #0000004d; }
 
   /* ─── TAB BAR ─── */
   .tab-bar {
     position: fixed; bottom: 0; left: 0; right: 0; display: flex; z-index: 50;
-    background: #0a0a0aee; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    background: #0c0c0ccc; backdrop-filter: saturate(180%) blur(24px); -webkit-backdrop-filter: saturate(180%) blur(24px);
     border-top: 0.5px solid var(--border); padding-bottom: env(safe-area-inset-bottom);
   }
-  .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 9px 0 7px; background: none; border: none; color: var(--text3); }
+  .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 9px 0 6px; background: none; border: none; color: var(--text3); transition: color .15s, transform .12s var(--ease); }
   .tab-item.active { color: var(--accent); }
-  .tab-item .ico { font-size: 22px; line-height: 1; }
-  .tab-item .lbl { font-size: 10px; font-weight: 500; }
+  .tab-item:active { transform: scale(.9); }
+  .tab-item .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.1px; }
 
   /* ─── MODAL / SHEET ─── */
-  .sheet-overlay { position: fixed; inset: 0; background: #000000aa; z-index: 100; display: none; align-items: flex-end; }
-  .sheet-overlay.open { display: flex; }
+  .sheet-overlay { position: fixed; inset: 0; background: #000000b3; z-index: 100; display: none; align-items: flex-end; opacity: 0; transition: opacity .25s; }
+  .sheet-overlay.open { display: flex; opacity: 1; }
   .sheet {
-    background: #1c1c1e; width: 100%; max-height: 92vh; border-radius: 20px 20px 0 0; overflow-y: auto;
-    padding: 8px 20px calc(28px + env(safe-area-inset-bottom)); animation: slideUp .28s cubic-bezier(.2,.8,.2,1);
+    background: #1c1c1e; width: 100%; max-height: 92vh; border-radius: 22px 22px 0 0; overflow-y: auto;
+    padding: 8px 20px calc(28px + env(safe-area-inset-bottom)); animation: slideUp .34s var(--ease);
   }
+  .sheet::-webkit-scrollbar { display: none; }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  .sheet-grip { width: 38px; height: 5px; background: var(--surface3); border-radius: 3px; margin: 8px auto 12px; }
-  .sheet-title { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+  .sheet-grip { width: 38px; height: 5px; background: var(--surface3); border-radius: 3px; margin: 8px auto 14px; }
+  .sheet-title { font-size: 22px; font-weight: 800; margin-bottom: 18px; letter-spacing: -0.4px; }
   .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; font-weight: 500; }
+  .field label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 7px; font-weight: 500; }
   .field input, .field select, .field textarea {
-    width: 100%; background: var(--surface2); border: 0.5px solid var(--border); color: var(--text);
-    font-size: 16px; padding: 13px 14px; border-radius: 12px; outline: none;
+    width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    font-size: 16px; padding: 13px 14px; border-radius: 12px; outline: none; transition: border-color .15s; -webkit-appearance: none; appearance: none;
   }
+  .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ebebf599' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
   .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
-  .field textarea { min-height: 80px; resize: vertical; }
+  .field textarea { min-height: 84px; resize: vertical; line-height: 1.45; }
   .field-row { display: flex; gap: 12px; }
   .field-row .field { flex: 1; }
-  .sheet-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .sheet-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
 
   /* ─── AUTH ─── */
-  .auth-wrap { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 32px 28px calc(32px + env(safe-area-inset-bottom)); }
-  .auth-logo { font-size: 56px; text-align: center; margin-bottom: 12px; }
-  .auth-title { font-size: 30px; font-weight: 800; text-align: center; letter-spacing: -0.5px; }
-  .auth-sub { font-size: 15px; color: var(--text2); text-align: center; margin: 8px 0 28px; line-height: 1.4; }
-  .auth-toggle { text-align: center; margin-top: 18px; color: var(--text2); font-size: 14px; }
+  .auth-wrap { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 32px 26px calc(32px + env(safe-area-inset-bottom)); max-width: 460px; margin: 0 auto; width: 100%; animation: screenIn .4s var(--ease); }
+  .auth-logo { width: 76px; height: 76px; border-radius: 22px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; color: #fff; background: linear-gradient(160deg, var(--accent2), var(--accent)); box-shadow: 0 16px 36px -12px var(--accent); }
+  .auth-title { font-size: 29px; font-weight: 800; text-align: center; letter-spacing: -0.6px; }
+  .auth-sub { font-size: 15px; color: var(--text2); text-align: center; margin: 9px 0 30px; line-height: 1.45; }
+  .auth-toggle { text-align: center; margin-top: 20px; color: var(--text2); font-size: 14px; }
   .auth-toggle button { background: none; border: none; color: var(--accent); font-size: 14px; font-weight: 600; }
-  .auth-msg { text-align: center; font-size: 14px; margin-top: 16px; min-height: 20px; }
+  .auth-msg { text-align: center; font-size: 14px; margin-top: 16px; min-height: 20px; line-height: 1.4; }
   .auth-msg.err { color: var(--red); }
   .auth-msg.ok { color: var(--green); }
 
   /* ─── PHOTO GRID ─── */
-  .photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; padding: 4px 16px; }
-  .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: var(--surface2); }
-  .room-label { font-size: 14px; font-weight: 600; color: var(--text2); padding: 14px 20px 2px; }
+  .photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; padding: 4px 16px; }
+  .photo-grid a { display: block; aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--surface2); transition: transform .12s var(--ease); }
+  .photo-grid a:active { transform: scale(.96); }
+  .photo-grid img { width: 100%; height: 100%; object-fit: cover; }
+  .room-label { font-size: 13px; font-weight: 600; color: var(--text2); padding: 16px 22px 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
   /* ─── MISC ─── */
-  .spinner { width: 22px; height: 22px; border: 2.5px solid var(--surface3); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
+  .spinner { width: 26px; height: 26px; border: 2.5px solid var(--surface3); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .center-load { display: flex; justify-content: center; padding: 48px; }
-  .toast { position: fixed; bottom: calc(80px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); background: var(--surface3); color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 14px; font-weight: 500; z-index: 200; opacity: 0; transition: opacity .2s; pointer-events: none; box-shadow: 0 8px 30px #00000080; }
-  .toast.show { opacity: 1; }
-  .copy-link { display: flex; gap: 8px; align-items: center; background: var(--surface2); border-radius: 12px; padding: 12px 14px; margin-top: 4px; }
-  .copy-link .url { flex: 1; font-size: 13px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .copy-link button { background: var(--accent); color: #fff; border: none; padding: 8px 14px; border-radius: 9px; font-size: 14px; font-weight: 600; }
-  .config-warn { margin: 16px; padding: 14px 16px; background: #ff9f0a1f; border: 0.5px solid #ff9f0a55; border-radius: 12px; color: var(--orange); font-size: 13px; line-height: 1.5; }
+  .center-load { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 70px 0; color: var(--text2); font-size: 14px; }
+  .toast { position: fixed; bottom: calc(86px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(8px); background: #2c2c2eee; backdrop-filter: blur(12px); color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 14px; font-weight: 500; z-index: 200; opacity: 0; transition: opacity .22s, transform .22s var(--ease); pointer-events: none; box-shadow: 0 10px 34px #000000a6; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .copy-link { display: flex; gap: 8px; align-items: center; background: var(--surface2); border-radius: 12px; padding: 8px 8px 8px 14px; margin-top: 4px; }
+  .copy-link .url { flex: 1; font-size: 13px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .copy-link button { background: var(--accent); color: #fff; border: none; padding: 9px 15px; border-radius: 9px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: transform .12s; }
+  .copy-link button:active { transform: scale(.94); }
+  .hint { color: var(--text2); font-size: 14px; line-height: 1.5; margin-bottom: 10px; padding: 0 2px; }
+  .config-warn { margin: 0 0 16px; padding: 14px 16px; background: #ff9f0a1f; border: 1px solid #ff9f0a55; border-radius: 12px; color: var(--orange); font-size: 13px; line-height: 1.5; }
+  .note-card { padding: 0 16px; }
+  .note-card .inner { background: var(--surface); border-radius: var(--radius); padding: 15px 16px; font-size: 15px; line-height: 1.5; color: var(--text2); }
 </style>
 </head>
 <body>
@@ -180,7 +202,7 @@
 <!-- ══════════ AUTH ══════════ -->
 <div id="auth" class="screen active">
   <div class="auth-wrap">
-    <div class="auth-logo">🏠</div>
+    <div class="auth-logo" id="authLogo"></div>
     <div class="auth-title">Property Manager</div>
     <div class="auth-sub">Track tenants, money & inspections — all in one place.</div>
     <div id="configWarn"></div>
@@ -197,31 +219,31 @@
 
   <!-- DASHBOARD -->
   <div id="screen-dashboard" class="screen active">
-    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Overview</span></div><button class="nav-icon-btn" id="signOutBtn" title="Sign out">⏻</button></div>
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Overview</span></div><button class="nav-icon-btn" id="signOutBtn" title="Sign out"></button></div>
     <div class="scroll-content" id="dashboardContent"></div>
   </div>
 
   <!-- PROPERTIES -->
   <div id="screen-properties" class="screen">
-    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Properties</span></div><button class="nav-icon-btn" data-add="property">＋</button></div>
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Properties</span></div><button class="nav-icon-btn" data-add="property"></button></div>
     <div class="scroll-content" id="propertiesContent"></div>
   </div>
 
   <!-- PROPERTY DETAIL -->
   <div id="screen-property" class="screen">
-    <div class="nav-bar"><div class="nav-left"><button class="nav-back" data-tab="properties">‹ Properties</button></div><button class="nav-icon-btn" id="editPropertyBtn">⋯</button></div>
+    <div class="nav-bar"><div class="nav-left"><button class="nav-back" data-tab="properties" data-label="Properties"></button></div><button class="nav-icon-btn" id="editPropertyBtn"></button></div>
     <div class="scroll-content" id="propertyContent"></div>
   </div>
 
   <!-- TENANTS -->
   <div id="screen-tenants" class="screen">
-    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Tenants</span></div><button class="nav-icon-btn" data-add="tenant">＋</button></div>
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Tenants</span></div><button class="nav-icon-btn" data-add="tenant"></button></div>
     <div class="scroll-content" id="tenantsContent"></div>
   </div>
 
   <!-- MONEY -->
   <div id="screen-money" class="screen">
-    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Money</span></div><button class="nav-icon-btn" id="moneyAddBtn">＋</button></div>
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Money</span></div><button class="nav-icon-btn" id="moneyAddBtn"></button></div>
     <div class="segmented" id="moneySeg">
       <button data-money="payments" class="active">Rent</button>
       <button data-money="expenses">Expenses</button>
@@ -232,23 +254,23 @@
 
   <!-- INSPECTIONS -->
   <div id="screen-inspections" class="screen">
-    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Inspections</span></div><button class="nav-icon-btn" data-add="inspection">＋</button></div>
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Inspections</span></div><button class="nav-icon-btn" data-add="inspection"></button></div>
     <div class="scroll-content" id="inspectionsContent"></div>
   </div>
 
   <!-- INSPECTION DETAIL -->
   <div id="screen-inspection" class="screen">
-    <div class="nav-bar"><div class="nav-left"><button class="nav-back" data-tab="inspections">‹ Inspections</button></div><button class="nav-icon-btn" id="inspectionMenuBtn">⋯</button></div>
+    <div class="nav-bar"><div class="nav-left"><button class="nav-back" data-tab="inspections" data-label="Inspections"></button></div><button class="nav-icon-btn" id="inspectionMenuBtn"></button></div>
     <div class="scroll-content" id="inspectionContent"></div>
   </div>
 
   <!-- TAB BAR -->
   <nav class="tab-bar">
-    <button class="tab-item active" data-tab="dashboard"><span class="ico">⌂</span><span class="lbl">Overview</span></button>
-    <button class="tab-item" data-tab="properties"><span class="ico">🏠</span><span class="lbl">Properties</span></button>
-    <button class="tab-item" data-tab="tenants"><span class="ico">👤</span><span class="lbl">Tenants</span></button>
-    <button class="tab-item" data-tab="money"><span class="ico">£</span><span class="lbl">Money</span></button>
-    <button class="tab-item" data-tab="inspections"><span class="ico">📷</span><span class="lbl">Inspect</span></button>
+    <button class="tab-item active" data-tab="dashboard"><span class="ico"></span><span class="lbl">Overview</span></button>
+    <button class="tab-item" data-tab="properties"><span class="ico"></span><span class="lbl">Properties</span></button>
+    <button class="tab-item" data-tab="tenants"><span class="ico"></span><span class="lbl">Tenants</span></button>
+    <button class="tab-item" data-tab="money"><span class="ico"></span><span class="lbl">Money</span></button>
+    <button class="tab-item" data-tab="inspections"><span class="ico"></span><span class="lbl">Inspect</span></button>
   </nav>
 </div>
 
@@ -266,7 +288,7 @@ let sb = null;
 if (configured) sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
 
 // ─── State ───
-const state = { properties: [], tenants: [], expenses: [], bills: [], payments: [], inspections: [], currentTab: 'dashboard', currentProperty: null, currentInspection: null, moneyTab: 'payments' };
+const state = { properties: [], tenants: [], expenses: [], bills: [], payments: [], inspections: [], currentTab: 'dashboard', currentProperty: null, currentInspection: null, moneyTab: 'payments', loaded: false };
 
 // ─── Helpers ───
 const $ = (s, r=document) => r.querySelector(s);
@@ -278,36 +300,94 @@ const fmtDay = n => { const s=['th','st','nd','rd']; const v=n%100; return n + (
 const todayISO = () => new Date().toISOString().slice(0,10);
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&0x3|0x8)).toString(16);}));
 const propName = id => (state.properties.find(p=>p.id===id)||{}).name || 'Unknown property';
-const tenantName = id => (state.tenants.find(t=>t.id===id)||{}).name || '—';
+const tenantName = id => (state.tenants.find(t=>t.id===id)||{}).name || 'No tenant';
 
 let toastTimer;
 function toast(msg) { const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1900); }
 
-const CATEGORY_ICONS = { Maintenance:'🔧', Repairs:'🛠️', Insurance:'🛡️', Tax:'🏛️', Management:'📋', Cleaning:'🧹', Utilities:'💡', Mortgage:'🏦', Other:'📦' };
-const BILL_ICONS = { Electricity:'⚡', Gas:'🔥', Water:'💧', Internet:'🌐', Council:'🏛️', Insurance:'🛡️', Service:'🧰', Other:'📄' };
+// ─── Icon system (Feather-style inline SVG) ───
+const ICON = {
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/>',
+  home: '<path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
+  user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  users: '<path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  card: '<rect x="2" y="5" width="20" height="14" rx="2.5"/><line x1="2" y1="10" x2="22" y2="10"/>',
+  camera: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.5l1.7-2.5h7.6L17.5 6H21a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/>',
+  plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  more: '<circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/>',
+  power: '<path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/>',
+  chevR: '<polyline points="9 18 15 12 9 6"/>',
+  chevL: '<polyline points="15 18 9 12 15 6"/>',
+  calendar: '<rect x="3" y="4.5" width="18" height="16" rx="2.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="3" y1="9.5" x2="21" y2="9.5"/>',
+  clock: '<circle cx="12" cy="12" r="9.5"/><polyline points="12 7 12 12 15.5 14"/>',
+  check: '<path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><polyline points="22 4.5 12 14.5 9 11.5"/>',
+  alert: '<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h16.9a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13.5"/><line x1="12" y1="17.2" x2="12.01" y2="17.2"/>',
+  bolt: '<polygon points="13 2 4 14 11 14 10 22 20 10 13 10 13 2"/>',
+  flame: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  droplet: '<path d="M12 2.7l5.7 5.6a8 8 0 1 1-11.4 0z"/>',
+  wifi: '<path d="M5 12.6a11 11 0 0 1 14 0"/><path d="M1.4 9a16 16 0 0 1 21.2 0"/><path d="M8.5 16.1a6 6 0 0 1 7 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>',
+  shield: '<path d="M12 22s8-4 8-10V5.5l-8-3-8 3V12c0 6 8 10 8 10z"/>',
+  tool: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+  receipt: '<path d="M5 3h14v18l-2.5-1.5L14 21l-2-1.5L10 21l-2.5-1.5L5 21z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/>',
+  building: '<line x1="3" y1="21" x2="21" y2="21"/><path d="M5 21V7l7-4 7 4v14"/><line x1="9.5" y1="21" x2="9.5" y2="11"/><line x1="14.5" y1="21" x2="14.5" y2="11"/>',
+  package: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.3 7 12 12 20.7 7"/><line x1="12" y1="22" x2="12" y2="12"/>',
+  share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/>',
+  copy: '<rect x="9" y="9" width="13" height="13" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  trash: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  link: '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
+  pin: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+  key: '<circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 21 2"/><path d="m16.5 6.5 2.5 2.5"/><path d="m14 9 2.5 2.5"/>',
+};
+function svg(name, opts={}) {
+  const s = opts.size||24, sw = opts.sw!=null?opts.sw:2, fill = opts.fill||'none';
+  return `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="${fill}" stroke="${fill==='currentColor'?'none':'currentColor'}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICON[name]||''}</svg>`;
+}
+const C = { blue:'#0a84ff', purple:'#bf5af2', green:'#30d158', red:'#ff453a', orange:'#ff9f0a', teal:'#40c8e0', gray:'#8e8e93', pink:'#ff375f' };
+function ic(name, color) { return { icon: svg(name, { size: 20 }), color, bg: color+'22' }; }
+const chev = `<span class="chev">${svg('chevR', { size: 18 })}</span>`;
+
+const CAT = { Maintenance:['tool',C.orange], Repairs:['tool',C.orange], Insurance:['shield',C.teal], Tax:['building',C.gray], Management:['receipt',C.blue], Cleaning:['droplet',C.teal], Utilities:['bolt',C.orange], Mortgage:['building',C.purple], Other:['package',C.gray] };
+const BILLMAP = { Electricity:['bolt',C.orange], Gas:['flame',C.red], Water:['droplet',C.teal], Internet:['wifi',C.blue], Council:['building',C.gray], Insurance:['shield',C.teal], Service:['tool',C.orange], Other:['receipt',C.gray] };
+const catIc = c => { const [n,col] = CAT[c]||CAT.Other; return ic(n,col); };
+const billIc = c => { const [n,col] = BILLMAP[c]||BILLMAP.Other; return ic(n,col); };
+
+// ─── Static icon injection ───
+const TABICON = { dashboard:'grid', properties:'home', tenants:'users', money:'card', inspections:'camera' };
+$$('.tab-item').forEach(b => b.querySelector('.ico').innerHTML = svg(TABICON[b.dataset.tab], { size: 24 }));
+$('#authLogo').innerHTML = svg('home', { size: 38 });
+$('#signOutBtn').innerHTML = svg('power', { size: 19 });
+$('#editPropertyBtn').innerHTML = svg('more', { size: 22, fill: 'currentColor', sw: 0 });
+$('#inspectionMenuBtn').innerHTML = svg('more', { size: 22, fill: 'currentColor', sw: 0 });
+$('#moneyAddBtn').innerHTML = svg('plus', { size: 22 });
+$$('[data-add]').forEach(b => b.innerHTML = svg('plus', { size: 22 }));
+$$('.nav-back').forEach(b => b.innerHTML = svg('chevL', { size: 21 }) + `<span>${esc(b.dataset.label)}</span>`);
 
 // ════════ AUTH ════════
 let authMode = 'signin';
 if (!configured) {
   $('#configWarn').innerHTML = '<div class="config-warn">⚠️ Backend not configured yet. Add your Supabase URL and key to <b>config.js</b> to enable sign-in and saving.</div>';
 }
-$('#authToggle').onclick = () => {
-  authMode = authMode === 'signin' ? 'signup' : 'signin';
+function updateAuthModeUI() {
   $('#authSubmit').textContent = authMode === 'signin' ? 'Sign in' : 'Create account';
   $('#authToggleText').textContent = authMode === 'signin' ? 'No account yet?' : 'Already have an account?';
   $('#authToggle').textContent = authMode === 'signin' ? 'Create one' : 'Sign in';
   $('#authMsg').textContent = '';
-};
+}
+$('#authToggle').onclick = () => { authMode = authMode === 'signin' ? 'signup' : 'signin'; updateAuthModeUI(); };
 $('#authSubmit').onclick = async () => {
   if (!sb) { authMsg('Backend not configured.', 'err'); return; }
   const email = $('#authEmail').value.trim(), password = $('#authPassword').value;
   if (!email || !password) { authMsg('Enter your email and password.', 'err'); return; }
+  if (authMode === 'signup' && password.length < 6) { authMsg('Password must be at least 6 characters.', 'err'); return; }
   $('#authSubmit').disabled = true;
   try {
     if (authMode === 'signup') {
-      const { error } = await sb.auth.signUp({ email, password });
+      const { data, error } = await sb.auth.signUp({ email, password });
       if (error) throw error;
-      authMsg('Account created! Check your email if confirmation is required, then sign in.', 'ok');
+      if (!data.session) {
+        const { error: e2 } = await sb.auth.signInWithPassword({ email, password });
+        if (e2) { authMsg('Account created — please sign in.', 'ok'); authMode = 'signin'; updateAuthModeUI(); return; }
+      }
     } else {
       const { error } = await sb.auth.signInWithPassword({ email, password });
       if (error) throw error;
@@ -321,9 +401,11 @@ $('#signOutBtn').onclick = async () => { if (sb) await sb.auth.signOut(); };
 async function onAuthed() {
   $('#auth').classList.remove('active');
   $('#app').classList.add('active');
+  if (!state.loaded) $('#dashboardContent').innerHTML = `<div class="center-load"><div class="spinner"></div>Loading your portfolio…</div>`;
   await loadAll();
 }
 function onSignedOut() {
+  state.loaded = false;
   $('#app').classList.remove('active');
   $('#auth').classList.add('active');
   $('#authPassword').value = '';
@@ -339,18 +421,30 @@ async function loadAll() {
   const tables = ['properties','tenants','expenses','bills','payments','inspections'];
   const results = await Promise.all(tables.map(t => sb.from(t).select('*')));
   tables.forEach((t,i) => { state[t] = results[i].data || []; });
+  state.loaded = true;
   renderCurrent();
 }
+// Guard against double-submits: ignore re-entrant writes while one is in flight
+// (e.g. a tenant tapping "Save" twice on a slow connection).
+let mutating = false;
 async function insert(table, row) {
-  const { data: { user } } = await sb.auth.getUser();
-  const { data, error } = await sb.from(table).insert({ ...row, owner_id: user.id }).select().single();
-  if (error) { toast(error.message); throw error; }
-  state[table].push(data); return data;
+  if (mutating) return null;
+  mutating = true;
+  try {
+    const { data: { user } } = await sb.auth.getUser();
+    const { data, error } = await sb.from(table).insert({ ...row, owner_id: user.id }).select().single();
+    if (error) { toast(error.message); throw error; }
+    state[table].push(data); return data;
+  } finally { mutating = false; }
 }
 async function update(table, id, patch) {
-  const { data, error } = await sb.from(table).update(patch).eq('id', id).select().single();
-  if (error) { toast(error.message); throw error; }
-  const arr = state[table]; const i = arr.findIndex(r=>r.id===id); if (i>=0) arr[i]=data; return data;
+  if (mutating) return null;
+  mutating = true;
+  try {
+    const { data, error } = await sb.from(table).update(patch).eq('id', id).select().single();
+    if (error) { toast(error.message); throw error; }
+    const arr = state[table]; const i = arr.findIndex(r=>r.id===id); if (i>=0) arr[i]=data; return data;
+  } finally { mutating = false; }
 }
 async function remove(table, id) {
   const { error } = await sb.from(table).delete().eq('id', id);
@@ -359,16 +453,9 @@ async function remove(table, id) {
 }
 
 // ════════ NAVIGATION ════════
-function showScreen(id) {
-  $$('#app > .screen').forEach(s => s.classList.toggle('active', s.id === id));
-}
-function setTab(tab) {
-  state.currentTab = tab;
-  $$('.tab-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  showScreen('screen-' + tab);
-  renderCurrent();
-}
-$$('.tab-item, .nav-back').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+function showScreen(id) { $$('#app > .screen').forEach(s => s.classList.toggle('active', s.id === id)); }
+function markTab(tab) { state.currentTab = tab; $$('.tab-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab)); }
+function setTab(tab) { markTab(tab); showScreen('screen-' + tab); renderCurrent(); }
 
 function renderCurrent() {
   const t = state.currentTab;
@@ -380,42 +467,55 @@ function renderCurrent() {
 }
 
 // ════════ DASHBOARD ════════
+function statCard(iconName, color, label, value, foot, valueColor, tap) {
+  return `<div class="stat-card ${tap?'tappable':''}" ${tap||''}>
+    <div class="stat-top"><span class="stat-ic" style="background:${color}22;color:${color}">${svg(iconName,{size:16})}</span><span class="stat-label">${label}</span></div>
+    <div class="stat-value" ${valueColor?`style="color:${valueColor}"`:''}>${value}</div>
+    ${foot?`<div class="stat-foot">${foot}</div>`:''}</div>`;
+}
 function renderDashboard() {
+  if (!state.loaded) return;
   const now = new Date(), m = now.getMonth(), y = now.getFullYear();
-  const inMonth = d => { const x = new Date(d); return x.getMonth()===m && x.getFullYear()===y; };
-  const rentDue = state.payments.filter(p => p.status !== 'paid');
-  const overdue = rentDue.filter(p => p.due_date && p.due_date < todayISO());
+  const inMonth = d => { if (!d) return false; const x = new Date(d); return x.getMonth()===m && x.getFullYear()===y; };
+  const overdue = state.payments.filter(p => p.status !== 'paid' && p.due_date && p.due_date < todayISO());
   const collected = state.payments.filter(p => p.status==='paid' && inMonth(p.paid_on||p.due_date)).reduce((s,p)=>s+Number(p.amount||0),0);
-  const expMonth = state.expenses.filter(e=>inMonth(e.spent_on)).reduce((s,e)=>s+Number(e.amount||0),0);
-  const pendingInspections = state.inspections.filter(i => i.status === 'pending');
+  const expMonthItems = state.expenses.filter(e=>inMonth(e.spent_on));
+  const expMonth = expMonthItems.reduce((s,e)=>s+Number(e.amount||0),0);
+  const pending = state.inspections.filter(i => i.status === 'pending');
   const recentExpenses = [...state.expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||'')).slice(0,4);
 
+  if (!state.properties.length && !state.tenants.length && !state.expenses.length && !state.inspections.length) {
+    $('#dashboardContent').innerHTML = emptyHTML('home', C.blue, 'Welcome', 'Start by adding a property — then track its tenants, money and inspections.') +
+      `<div style="padding:4px 16px"><button class="btn" data-add="property">${svg('plus',{size:20})} Add your first property</button></div>`;
+    wireDelegates($('#dashboardContent')); return;
+  }
+
   let html = `<div class="stat-grid">
-    <div class="stat-card"><div class="stat-label">🏠 Properties</div><div class="stat-value">${state.properties.length}</div><div class="stat-foot">${state.tenants.length} tenant${state.tenants.length!==1?'s':''}</div></div>
-    <div class="stat-card"><div class="stat-label">📷 Pending inspections</div><div class="stat-value">${pendingInspections.length}</div><div class="stat-foot">${state.inspections.filter(i=>i.status==='submitted').length} submitted</div></div>
-    <div class="stat-card"><div class="stat-label">✅ Rent this month</div><div class="stat-value" style="color:var(--green)">${money(collected)}</div><div class="stat-foot">collected</div></div>
-    <div class="stat-card"><div class="stat-label">💸 Expenses this month</div><div class="stat-value" style="color:var(--red)">${money(expMonth)}</div><div class="stat-foot">${state.expenses.filter(e=>inMonth(e.spent_on)).length} item${state.expenses.filter(e=>inMonth(e.spent_on)).length!==1?'s':''}</div></div>
+    ${statCard('home', C.blue, 'Properties', state.properties.length, `${state.tenants.length} tenant${state.tenants.length!==1?'s':''}`, null, 'data-tab="properties"')}
+    ${statCard('camera', C.purple, 'Inspections', pending.length+' pending', `${state.inspections.filter(i=>i.status==='submitted').length} submitted`, null, 'data-tab="inspections"')}
+    ${statCard('check', C.green, 'Rent this month', money(collected), 'collected', C.green, 'data-tab="money"')}
+    ${statCard('receipt', C.red, 'Expenses', money(expMonth), `${expMonthItems.length} this month`, C.red, 'data-tab="money"')}
   </div>`;
 
   if (overdue.length) {
-    html += `<div class="section-header"><span class="section-title">⚠️ Overdue rent</span></div><div class="group">`;
-    overdue.forEach(p => { html += rowHTML({ icon:'⏰', bg:'#ff453a22', title: tenantName(p.tenant_id), sub: 'Due ' + fmtDate(p.due_date), trail: `<span class="amount neg">${money(p.amount)}</span>` }); });
+    html += `<div class="section-header"><span class="section-title">Overdue rent</span></div><div class="group">`;
+    overdue.forEach(p => { html += rowHTML({ ...ic('alert', C.red), title: tenantName(p.tenant_id), sub: propName(p.property_id)+' · due '+fmtDate(p.due_date), trail: `<span class="amount neg">${money(p.amount)}</span>`, data:`data-payment="${p.id}"`, tappable:true }); });
     html += `</div>`;
   }
 
-  if (pendingInspections.length) {
+  if (pending.length) {
     html += `<div class="section-header"><span class="section-title">Awaiting tenant photos</span><button class="section-action" data-tab="inspections">See all</button></div><div class="group">`;
-    pendingInspections.slice(0,3).forEach(i => { html += rowHTML({ icon:'📷', bg:'#0a84ff22', title: propName(i.property_id), sub: 'Requested ' + fmtDate(i.requested_at), trail:'<span class="badge orange">Pending</span><span class="chev">›</span>', data:`data-inspection="${i.id}"`, tappable:true }); });
+    pending.slice(0,3).forEach(i => { html += rowHTML({ ...ic('camera', C.blue), title: propName(i.property_id), sub: 'Requested ' + fmtDate(i.requested_at), trail:'<span class="badge orange">Pending</span>'+chev, data:`data-inspection="${i.id}"`, tappable:true }); });
     html += `</div>`;
   }
 
   html += `<div class="section-header"><span class="section-title">Recent expenses</span><button class="section-action" data-tab="money">See all</button></div>`;
   if (recentExpenses.length) {
     html += `<div class="group">`;
-    recentExpenses.forEach(e => { html += rowHTML({ icon: CATEGORY_ICONS[e.category]||'📦', bg:'var(--surface2)', title: e.description||e.category, sub: propName(e.property_id)+' · '+fmtDate(e.spent_on), trail:`<span class="amount neg">-${money(e.amount)}</span>` }); });
+    recentExpenses.forEach(e => { html += rowHTML({ ...catIc(e.category), title: e.description||e.category, sub: propName(e.property_id)+' · '+fmtDate(e.spent_on), trail:`<span class="amount neg">-${money(e.amount)}</span>` }); });
     html += `</div>`;
   } else {
-    html += emptyHTML('🧾','Nothing logged yet','Add properties and start tracking your money.');
+    html += `<div class="note-card"><div class="inner">No expenses logged yet.</div></div>`;
   }
   $('#dashboardContent').innerHTML = html;
   wireDelegates($('#dashboardContent'));
@@ -424,11 +524,11 @@ function renderDashboard() {
 // ════════ PROPERTIES ════════
 function renderProperties() {
   const el = $('#propertiesContent');
-  if (!state.properties.length) { el.innerHTML = emptyHTML('🏠','No properties yet','Tap ＋ to add your first rental property.'); return; }
+  if (!state.properties.length) { el.innerHTML = emptyHTML('home', C.blue, 'No properties yet', 'Tap + to add your first rental property.'); return; }
   let html = '<div class="group">';
   state.properties.forEach(p => {
     const tCount = state.tenants.filter(t=>t.property_id===p.id).length;
-    html += rowHTML({ icon:'🏠', bg:'#0a84ff22', title: p.name, sub: p.address || `${tCount} tenant${tCount!==1?'s':''}`, trail:'<span class="chev">›</span>', data:`data-property="${p.id}"`, tappable:true });
+    html += rowHTML({ ...ic('home', C.blue), title: p.name, sub: p.address || `${tCount} tenant${tCount!==1?'s':''}`, trail: chev, data:`data-property="${p.id}"`, tappable:true });
   });
   html += '</div>';
   el.innerHTML = html;
@@ -438,6 +538,7 @@ function renderProperties() {
 function renderProperty() {
   const p = state.properties.find(x=>x.id===state.currentProperty);
   if (!p) { setTab('properties'); return; }
+  markTab('properties');
   showScreen('screen-property');
   const tenants = state.tenants.filter(t=>t.property_id===p.id);
   const expenses = state.expenses.filter(e=>e.property_id===p.id);
@@ -446,29 +547,29 @@ function renderProperty() {
   const totalExp = expenses.reduce((s,e)=>s+Number(e.amount||0),0);
   const rent = tenants.reduce((s,t)=>s+Number(t.rent_amount||0),0);
 
-  let html = `<div class="nav-bar" style="padding-top:0"><div class="nav-left"><span class="nav-title">${esc(p.name)}</span></div></div>`;
-  if (p.address) html += `<div style="padding:0 20px 4px;color:var(--text2);font-size:15px">📍 ${esc(p.address)}</div>`;
+  let html = `<div style="padding:0 22px 2px"><div class="nav-title" style="white-space:normal">${esc(p.name)}</div></div>`;
+  if (p.address) html += `<div style="padding:4px 22px 2px;color:var(--text2);font-size:15px;display:flex;align-items:center;gap:6px">${svg('pin',{size:15})} ${esc(p.address)}</div>`;
   html += `<div class="stat-grid">
-    <div class="stat-card"><div class="stat-label">Monthly rent</div><div class="stat-value" style="font-size:22px">${money(rent)}</div></div>
-    <div class="stat-card"><div class="stat-label">Total expenses</div><div class="stat-value" style="font-size:22px;color:var(--red)">${money(totalExp)}</div></div>
+    ${statCard('card', C.green, 'Monthly rent', money(rent))}
+    ${statCard('receipt', C.red, 'Total expenses', money(totalExp), null, C.red)}
   </div>`;
-  if (p.notes) html += `<div class="section-header"><span class="section-title">Notes</span></div><div class="group"><div class="row"><div class="row-body"><div class="row-sub" style="white-space:normal">${esc(p.notes)}</div></div></div></div>`;
+  if (p.notes) html += `<div class="section-header"><span class="section-title">Notes</span></div><div class="note-card"><div class="inner">${esc(p.notes)}</div></div>`;
 
   html += `<div class="section-header"><span class="section-title">Tenants</span><button class="section-action" data-add="tenant" data-prop="${p.id}">Add</button></div>`;
-  if (tenants.length) { html += '<div class="group">'; tenants.forEach(t => html += rowHTML({ icon:'👤', bg:'#bf5af222', title:t.name, sub: t.rent_amount?money(t.rent_amount)+'/mo':(t.email||''), trail:'<span class="chev">›</span>', data:`data-tenant="${t.id}"`, tappable:true })); html += '</div>'; }
-  else html += `<div class="group"><div class="row"><div class="row-sub">No tenants assigned.</div></div></div>`;
+  if (tenants.length) { html += '<div class="group">'; tenants.forEach(t => html += rowHTML({ ...ic('user', C.purple), title:t.name, sub: t.rent_amount?money(t.rent_amount)+' / mo':(t.email||'Tenant'), trail: chev, data:`data-tenant="${t.id}"`, tappable:true })); html += '</div>'; }
+  else html += `<div class="note-card"><div class="inner">No tenants assigned yet.</div></div>`;
 
   html += `<div class="section-header"><span class="section-title">Inspections</span><button class="section-action" data-add="inspection" data-prop="${p.id}">Request</button></div>`;
-  if (inspections.length) { html += '<div class="group">'; inspections.slice(0,4).forEach(i => html += inspectionRow(i)); html += '</div>'; }
-  else html += `<div class="group"><div class="row"><div class="row-sub">No inspections requested.</div></div></div>`;
+  if (inspections.length) { html += '<div class="group">'; [...inspections].sort((a,b)=>(b.requested_at||'').localeCompare(a.requested_at||'')).slice(0,4).forEach(i => html += inspectionRow(i)); html += '</div>'; }
+  else html += `<div class="note-card"><div class="inner">No inspections requested yet.</div></div>`;
 
   html += `<div class="section-header"><span class="section-title">Recent expenses</span></div>`;
-  if (expenses.length) { html += '<div class="group">'; [...expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||'')).slice(0,5).forEach(e => html += rowHTML({ icon:CATEGORY_ICONS[e.category]||'📦', bg:'var(--surface2)', title:e.description||e.category, sub:fmtDate(e.spent_on), trail:`<span class="amount neg">-${money(e.amount)}</span>` })); html += '</div>'; }
-  else html += `<div class="group"><div class="row"><div class="row-sub">No expenses logged.</div></div></div>`;
+  if (expenses.length) { html += '<div class="group">'; [...expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||'')).slice(0,5).forEach(e => html += rowHTML({ ...catIc(e.category), title:e.description||e.category, sub:fmtDate(e.spent_on), trail:`<span class="amount neg">-${money(e.amount)}</span>` })); html += '</div>'; }
+  else html += `<div class="note-card"><div class="inner">No expenses logged yet.</div></div>`;
 
   if (bills.length) {
     html += `<div class="section-header"><span class="section-title">Recurring bills</span></div><div class="group">`;
-    bills.forEach(b => html += rowHTML({ icon:BILL_ICONS[b.name]||'📄', bg:'var(--surface2)', title:b.name, sub:`${b.frequency} · due ${fmtDay(b.due_day||1)}`, trail:`<span class="amount">${money(b.amount)}</span>` }));
+    bills.forEach(b => html += rowHTML({ ...billIc(b.name), title:b.name, sub:`${b.frequency} · due ${fmtDay(b.due_day||1)}`, trail:`<span class="amount">${money(b.amount)}</span>` }));
     html += '</div>';
   }
   $('#propertyContent').innerHTML = html;
@@ -479,9 +580,9 @@ function renderProperty() {
 // ════════ TENANTS ════════
 function renderTenants() {
   const el = $('#tenantsContent');
-  if (!state.tenants.length) { el.innerHTML = emptyHTML('👤','No tenants yet','Add a property first, then assign tenants.'); return; }
+  if (!state.tenants.length) { el.innerHTML = emptyHTML('users', C.purple, 'No tenants yet', 'Add a property first, then assign tenants to it.'); return; }
   let html = '<div class="group">';
-  state.tenants.forEach(t => html += rowHTML({ icon:'👤', bg:'#bf5af222', title:t.name, sub: propName(t.property_id), trail:'<span class="chev">›</span>', data:`data-tenant="${t.id}"`, tappable:true }));
+  [...state.tenants].sort((a,b)=>(a.name||'').localeCompare(b.name||'')).forEach(t => html += rowHTML({ ...ic('user', C.purple), title:t.name, sub: propName(t.property_id), trail: (t.rent_amount?`<span class="amount">${money(t.rent_amount)}</span>`:'')+chev, data:`data-tenant="${t.id}"`, tappable:true }));
   html += '</div>';
   el.innerHTML = html;
   wireDelegates(el);
@@ -500,26 +601,29 @@ $('#moneyAddBtn').onclick = () => {
 };
 function renderMoney() {
   const el = $('#moneyContent'); const tab = state.moneyTab;
-  if (!state.properties.length) { el.innerHTML = emptyHTML('🏠','Add a property first','Money is tracked per property.'); return; }
+  if (!state.properties.length) { el.innerHTML = emptyHTML('card', C.green, 'Add a property first', 'Rent, expenses and bills are tracked per property.'); return; }
   let html = '';
   if (tab === 'payments') {
     const sorted = [...state.payments].sort((a,b)=>(b.due_date||'').localeCompare(a.due_date||''));
-    if (!sorted.length) html = emptyHTML('💷','No rent logged','Tap ＋ to record a rent payment.');
+    if (!sorted.length) html = emptyHTML('card', C.green, 'No rent logged', 'Tap + to record a rent payment.');
     else { html = '<div class="group">'; sorted.forEach(p => {
       const overdue = p.status!=='paid' && p.due_date && p.due_date < todayISO();
       const badge = p.status==='paid' ? '<span class="badge green">Paid</span>' : overdue ? '<span class="badge red">Overdue</span>' : '<span class="badge orange">Due</span>';
-      html += rowHTML({ icon:'💷', bg:'#30d15822', title:tenantName(p.tenant_id), sub:`${propName(p.property_id)} · ${p.status==='paid'?'paid '+fmtDate(p.paid_on):'due '+fmtDate(p.due_date)}`, trail:`<span class="amount">${money(p.amount)}</span>${badge}<span class="chev">›</span>`, data:`data-payment="${p.id}"`, tappable:true });
+      const col = p.status==='paid' ? C.green : overdue ? C.red : C.orange;
+      html += rowHTML({ ...ic('card', col), title:tenantName(p.tenant_id), sub:`${propName(p.property_id)} · ${p.status==='paid'?'paid '+fmtDate(p.paid_on):'due '+fmtDate(p.due_date)}`, trail:`<span class="amount">${money(p.amount)}</span>${badge}`, data:`data-payment="${p.id}"`, tappable:true });
     }); html += '</div>'; }
   } else if (tab === 'expenses') {
     const sorted = [...state.expenses].sort((a,b)=>(b.spent_on||'').localeCompare(a.spent_on||''));
-    if (!sorted.length) html = emptyHTML('🧾','No expenses','Tap ＋ to log an expense.');
+    if (!sorted.length) html = emptyHTML('receipt', C.red, 'No expenses', 'Tap + to log a property expense.');
     else { const total = sorted.reduce((s,e)=>s+Number(e.amount||0),0);
-      html = `<div class="section-header"><span class="section-title">${sorted.length} expenses</span><span class="amount neg">-${money(total)}</span></div><div class="group">`;
-      sorted.forEach(e => html += rowHTML({ icon:CATEGORY_ICONS[e.category]||'📦', bg:'var(--surface2)', title:e.description||e.category, sub:`${propName(e.property_id)} · ${fmtDate(e.spent_on)}`, trail:`<span class="amount neg">-${money(e.amount)}</span><span class="chev">›</span>`, data:`data-expense="${e.id}"`, tappable:true }));
+      html = `<div class="section-header"><span class="section-title">${sorted.length} expense${sorted.length!==1?'s':''}</span><span class="amount neg">-${money(total)}</span></div><div class="group">`;
+      sorted.forEach(e => html += rowHTML({ ...catIc(e.category), title:e.description||e.category, sub:`${propName(e.property_id)} · ${fmtDate(e.spent_on)}`, trail:`<span class="amount neg">-${money(e.amount)}</span>`, data:`data-expense="${e.id}"`, tappable:true }));
       html += '</div>'; }
   } else {
-    if (!state.bills.length) html = emptyHTML('📄','No bills','Tap ＋ to add a recurring bill.');
-    else { html = '<div class="group">'; state.bills.forEach(b => html += rowHTML({ icon:BILL_ICONS[b.name]||'📄', bg:'var(--surface2)', title:`${b.name}${b.provider?' · '+esc(b.provider):''}`, sub:`${propName(b.property_id)} · ${b.frequency}, due ${fmtDay(b.due_day||1)}`, trail:`<span class="amount">${money(b.amount)}</span><span class="chev">›</span>`, data:`data-bill="${b.id}"`, tappable:true })); html += '</div>'; }
+    if (!state.bills.length) html = emptyHTML('receipt', C.orange, 'No bills', 'Tap + to add a recurring bill.');
+    else { const total = state.bills.reduce((s,b)=>s+Number(b.amount||0),0);
+      html = `<div class="section-header"><span class="section-title">${state.bills.length} recurring</span><span class="amount">${money(total)}</span></div><div class="group">`;
+      state.bills.forEach(b => html += rowHTML({ ...billIc(b.name), title:`${b.name}${b.provider?' · '+esc(b.provider):''}`, sub:`${propName(b.property_id)} · ${b.frequency}, due ${fmtDay(b.due_day||1)}`, trail:`<span class="amount">${money(b.amount)}</span>`, data:`data-bill="${b.id}"`, tappable:true })); html += '</div>'; }
   }
   el.innerHTML = html;
   wireDelegates(el);
@@ -527,12 +631,13 @@ function renderMoney() {
 
 // ════════ INSPECTIONS ════════
 function inspectionRow(i) {
-  const badge = i.status==='submitted' ? '<span class="badge green">Submitted</span>' : '<span class="badge orange">Pending</span>';
-  return rowHTML({ icon:'📷', bg:'#0a84ff22', title:propName(i.property_id), sub: i.status==='submitted' ? 'Submitted '+fmtDate(i.submitted_at) : 'Requested '+fmtDate(i.requested_at), trail:`${badge}<span class="chev">›</span>`, data:`data-inspection="${i.id}"`, tappable:true });
+  const submitted = i.status==='submitted';
+  const badge = submitted ? '<span class="badge green">Submitted</span>' : '<span class="badge orange">Pending</span>';
+  return rowHTML({ ...ic('camera', submitted?C.green:C.blue), title:propName(i.property_id), sub: submitted ? 'Submitted '+fmtDate(i.submitted_at) : 'Requested '+fmtDate(i.requested_at), trail:`${badge}${chev}`, data:`data-inspection="${i.id}"`, tappable:true });
 }
 function renderInspections() {
   const el = $('#inspectionsContent');
-  if (!state.inspections.length) { el.innerHTML = emptyHTML('📷','No inspections yet','Request a bi-monthly inspection and your tenant submits photos via a private link.'); return; }
+  if (!state.inspections.length) { el.innerHTML = emptyHTML('camera', C.blue, 'No inspections yet', 'Request a bi-monthly inspection — your tenant submits photos through a private link.'); return; }
   const sorted = [...state.inspections].sort((a,b)=>(b.requested_at||'').localeCompare(a.requested_at||''));
   let html = '<div class="group">'; sorted.forEach(i => html += inspectionRow(i)); html += '</div>';
   el.innerHTML = html;
@@ -542,32 +647,34 @@ function renderInspections() {
 async function renderInspection() {
   const i = state.inspections.find(x=>x.id===state.currentInspection);
   if (!i) { setTab('inspections'); return; }
+  markTab('inspections');
   showScreen('screen-inspection');
   const el = $('#inspectionContent');
   const link = inspectLink(i.token);
-  let html = `<div class="nav-bar" style="padding-top:0"><div class="nav-left"><span class="nav-title">Inspection</span></div></div>
+  const submitted = i.status==='submitted';
+  let html = `<div style="padding:0 22px 4px"><div class="nav-title">Inspection</div></div>
     <div class="group">
-      ${rowHTML({ icon:'🏠', bg:'#0a84ff22', title:propName(i.property_id), sub: i.tenant_id?tenantName(i.tenant_id):'No tenant assigned' })}
-      ${rowHTML({ icon:'📅', bg:'var(--surface2)', title:'Requested', trail:fmtDate(i.requested_at) })}
-      ${i.due_date?rowHTML({ icon:'⏳', bg:'var(--surface2)', title:'Due by', trail:fmtDate(i.due_date) }):''}
-      ${rowHTML({ icon: i.status==='submitted'?'✅':'⏰', bg:'var(--surface2)', title:'Status', trail: i.status==='submitted'?'<span class="badge green">Submitted</span>':'<span class="badge orange">Awaiting photos</span>' })}
+      ${rowHTML({ ...ic('home', C.blue), title:propName(i.property_id), sub: i.tenant_id?tenantName(i.tenant_id):'No tenant assigned' })}
+      ${rowHTML({ ...ic('calendar', C.gray), title:'Requested', trail:fmtDate(i.requested_at) })}
+      ${i.due_date?rowHTML({ ...ic('clock', C.orange), title:'Submit by', trail:fmtDate(i.due_date) }):''}
+      ${rowHTML({ ...ic(submitted?'check':'clock', submitted?C.green:C.orange), title:'Status', trail: submitted?'<span class="badge green">Submitted</span>':'<span class="badge orange">Awaiting photos</span>' })}
     </div>`;
 
-  if (i.notes) html += `<div class="section-header"><span class="section-title">Note to tenant</span></div><div class="group"><div class="row"><div class="row-body"><div class="row-sub" style="white-space:normal">${esc(i.notes)}</div></div></div></div>`;
+  if (i.notes) html += `<div class="section-header"><span class="section-title">Note to tenant</span></div><div class="note-card"><div class="inner">${esc(i.notes)}</div></div>`;
 
-  if (i.status !== 'submitted') {
+  if (!submitted) {
     html += `<div class="section-header"><span class="section-title">Share with tenant</span></div>
       <div style="padding:0 16px">
-        <div style="color:var(--text2);font-size:14px;line-height:1.5;margin-bottom:8px">Send this private link to your tenant. They can take photos and submit — no account needed.</div>
-        <div class="copy-link"><span class="url">${esc(link)}</span><button id="copyLinkBtn">Copy</button></div>
-        <button class="btn secondary" id="shareLinkBtn" style="margin-top:10px">Share link…</button>
+        <div class="hint">Send this private link to your tenant. They can take photos and submit — no account needed.</div>
+        <div class="copy-link"><span class="url">${esc(link)}</span><button id="copyLinkBtn">${svg('copy',{size:15})} Copy</button></div>
+        <button class="btn secondary" id="shareLinkBtn" style="margin-top:10px">${svg('share',{size:18})} Share link</button>
       </div>`;
   }
 
   html += `<div class="section-header"><span class="section-title">Photos</span></div><div id="photoArea"><div class="center-load"><div class="spinner"></div></div></div>`;
   el.innerHTML = html;
 
-  if (i.status !== 'submitted') {
+  if (!submitted) {
     $('#copyLinkBtn').onclick = async () => { try { await navigator.clipboard.writeText(link); toast('Link copied'); } catch(e){ toast('Copy failed'); } };
     const shareBtn = $('#shareLinkBtn');
     if (navigator.share) shareBtn.onclick = async () => { try { await navigator.share({ title:'Property inspection', text:'Please submit your inspection photos:', url:link }); } catch(e){} };
@@ -579,7 +686,7 @@ async function renderInspection() {
   const { data: photos } = await sb.from('inspection_photos').select('*').eq('inspection_id', i.id).order('created_at');
   const area = $('#photoArea');
   if (!area) return;
-  if (!photos || !photos.length) { area.innerHTML = `<div class="empty" style="padding:32px"><span class="sub">No photos submitted yet.</span></div>`; return; }
+  if (!photos || !photos.length) { area.innerHTML = `<div class="note-card"><div class="inner">No photos submitted yet.</div></div>`; return; }
   const byRoom = {};
   for (const ph of photos) { (byRoom[ph.room||'Other'] ||= []).push(ph); }
   const paths = photos.map(p=>p.storage_path);
@@ -589,7 +696,8 @@ async function renderInspection() {
   for (const room of Object.keys(byRoom)) {
     phtml += `<div class="room-label">${esc(room)} · ${byRoom[room].length}</div><div class="photo-grid">`;
     for (const ph of byRoom[room]) {
-      phtml += `<a href="${urlByPath[ph.storage_path]||'#'}" target="_blank" rel="noopener"><img loading="lazy" src="${urlByPath[ph.storage_path]||''}" alt="${esc(ph.caption||room)}"></a>`;
+      const u = urlByPath[ph.storage_path]||'';
+      phtml += `<a href="${u}" target="_blank" rel="noopener"><img loading="lazy" src="${u}" alt="${esc(ph.caption||room)}"></a>`;
     }
     phtml += `</div>`;
   }
@@ -597,29 +705,32 @@ async function renderInspection() {
 }
 
 function inspectionMenu(i) {
+  const submitted = i.status==='submitted';
   openSheet(`<div class="sheet-title">Inspection options</div>
     <div class="sheet-actions">
-      ${i.status!=='submitted'?`<button class="btn secondary" id="mCopy">Copy tenant link</button>`:''}
-      ${i.status!=='submitted'?`<button class="btn green" id="mDone">Mark as submitted</button>`:''}
-      <button class="btn danger" id="mDel">Delete inspection</button>
+      ${!submitted?`<button class="btn secondary" id="mCopy">${svg('copy',{size:18})} Copy tenant link</button>`:''}
+      ${!submitted?`<button class="btn green" id="mDone">${svg('check',{size:18})} Mark as submitted</button>`:''}
+      <button class="btn danger" id="mDel">${svg('trash',{size:18})} Delete inspection</button>
     </div>`);
-  if (i.status!=='submitted') {
+  if (!submitted) {
     $('#mCopy').onclick = async () => { try { await navigator.clipboard.writeText(inspectLink(i.token)); } catch(e){} closeSheet(); toast('Link copied'); };
     $('#mDone').onclick = async () => { await update('inspections', i.id, { status:'submitted', submitted_at:new Date().toISOString() }); closeSheet(); renderInspection(); toast('Marked submitted'); };
   }
   $('#mDel').onclick = async () => { if (!confirm('Delete this inspection and its photos?')) return; await remove('inspections', i.id); closeSheet(); setTab('inspections'); toast('Deleted'); };
 }
 
-function inspectLink(token) { return location.origin + location.pathname.replace(/index\.html$/,'') + 'inspect.html?token=' + token; }
+function inspectLink(token) { return location.origin + location.pathname.replace(/[^/]*$/, '') + 'inspect.html?token=' + token; }
 
 // ════════ ROW + EMPTY HELPERS ════════
-function rowHTML({ icon, bg, title, sub, trail, data, tappable }) {
+function rowHTML({ icon, color, bg, title, sub, trail, data, tappable }) {
   return `<div class="row ${tappable?'tappable':''}" ${data||''}>
-    ${icon!=null?`<div class="row-icon" style="background:${bg||'var(--surface2)'}">${icon}</div>`:''}
+    ${icon!=null?`<div class="row-icon" style="background:${bg||'var(--surface2)'};color:${color||'#fff'}">${icon}</div>`:''}
     <div class="row-body"><div class="row-title">${esc(title)}</div>${sub?`<div class="row-sub">${esc(sub)}</div>`:''}</div>
     ${trail?`<div class="row-trail">${trail}</div>`:''}</div>`;
 }
-function emptyHTML(emoji, title, sub) { return `<div class="empty"><span class="emoji">${emoji}</span><div class="title">${esc(title)}</div><div class="sub">${esc(sub)}</div></div>`; }
+function emptyHTML(iconName, color, title, sub) {
+  return `<div class="empty"><div class="ic-wrap" style="color:${color}">${svg(iconName,{size:34})}</div><div class="title">${esc(title)}</div><div class="sub">${esc(sub)}</div></div>`;
+}
 
 function wireDelegates(root) {
   $$('[data-property]', root).forEach(e => e.onclick = () => { state.currentProperty = e.dataset.property; renderProperty(); });
@@ -652,8 +763,8 @@ function propertyForm(p) {
     <div class="field"><label>Address</label><input id="f_addr" placeholder="Full address" value="${ed?esc(p.address||''):''}"></div>
     <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Access codes, boiler info, anything useful…">${ed?esc(p.notes||''):''}</textarea></div>
     <div class="sheet-actions">
-      <button class="btn" id="f_save">${ed?'Save':'Add property'}</button>
-      ${ed?'<button class="btn danger" id="f_del">Delete property</button>':''}
+      <button class="btn" id="f_save">${ed?'Save changes':'Add property'}</button>
+      ${ed?`<button class="btn danger" id="f_del">${svg('trash',{size:18})} Delete property</button>`:''}
     </div>`);
   $('#f_save').onclick = async () => {
     const name = $('#f_name').value.trim(); if (!name) return toast('Name is required');
@@ -661,7 +772,7 @@ function propertyForm(p) {
     if (ed) await update('properties', p.id, row); else await insert('properties', row);
     closeSheet(); refreshAfterEdit(); toast('Saved');
   };
-  if (ed) $('#f_del').onclick = async () => { if (!confirm('Delete this property and all of its data?')) return; await remove('properties', p.id); closeSheet(); setTab('properties'); toast('Deleted'); };
+  if (ed) $('#f_del').onclick = async () => { if (!confirm('Delete this property and all of its data?')) return; await remove('properties', p.id); await loadAll(); closeSheet(); setTab('properties'); toast('Deleted'); };
 }
 
 // ── Tenant form ──
@@ -673,7 +784,7 @@ function tenantForm(t, preProp) {
     <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?t.property_id:preProp)}</select></div>
     <div class="field-row">
       <div class="field"><label>Email</label><input id="f_email" type="email" value="${ed?esc(t.email||''):''}"></div>
-      <div class="field"><label>Phone</label><input id="f_phone" value="${ed?esc(t.phone||''):''}"></div>
+      <div class="field"><label>Phone</label><input id="f_phone" type="tel" value="${ed?esc(t.phone||''):''}"></div>
     </div>
     <div class="field-row">
       <div class="field"><label>Rent / month (£)</label><input id="f_rent" type="number" inputmode="decimal" value="${ed?(t.rent_amount||''):''}"></div>
@@ -684,8 +795,8 @@ function tenantForm(t, preProp) {
       <div class="field"><label>Lease end</label><input id="f_le" type="date" value="${ed?(t.lease_end||''):''}"></div>
     </div>
     <div class="sheet-actions">
-      <button class="btn" id="f_save">${ed?'Save':'Add tenant'}</button>
-      ${ed?'<button class="btn danger" id="f_del">Delete tenant</button>':''}
+      <button class="btn" id="f_save">${ed?'Save changes':'Add tenant'}</button>
+      ${ed?`<button class="btn danger" id="f_del">${svg('trash',{size:18})} Delete tenant</button>`:''}
     </div>`);
   $('#f_save').onclick = async () => {
     const name = $('#f_name').value.trim(); if (!name) return toast('Name is required');
@@ -702,7 +813,7 @@ function tenantForm(t, preProp) {
 function expenseForm(e) {
   const ed = !!e;
   if (!state.properties.length) return toast('Add a property first');
-  const cats = Object.keys(CATEGORY_ICONS);
+  const cats = Object.keys(CAT);
   openSheet(`<div class="sheet-title">${ed?'Edit':'New'} expense</div>
     <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?e.property_id:null)}</select></div>
     <div class="field"><label>Category</label><select id="f_cat">${cats.map(c=>`<option ${ed&&e.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
@@ -712,8 +823,8 @@ function expenseForm(e) {
       <div class="field"><label>Date</label><input id="f_date" type="date" value="${ed?e.spent_on:todayISO()}"></div>
     </div>
     <div class="sheet-actions">
-      <button class="btn" id="f_save">${ed?'Save':'Add expense'}</button>
-      ${ed?'<button class="btn danger" id="f_del">Delete</button>':''}
+      <button class="btn" id="f_save">${ed?'Save changes':'Add expense'}</button>
+      ${ed?`<button class="btn danger" id="f_del">${svg('trash',{size:18})} Delete</button>`:''}
     </div>`);
   $('#f_save').onclick = async () => {
     const amount = parseFloat($('#f_amt').value); if (!(amount>0)) return toast('Enter an amount');
@@ -728,7 +839,7 @@ function expenseForm(e) {
 function billForm(b) {
   const ed = !!b;
   if (!state.properties.length) return toast('Add a property first');
-  const names = Object.keys(BILL_ICONS);
+  const names = Object.keys(BILLMAP);
   openSheet(`<div class="sheet-title">${ed?'Edit':'New'} bill</div>
     <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?b.property_id:null)}</select></div>
     <div class="field"><label>Type</label><select id="f_name">${names.map(n=>`<option ${ed&&b.name===n?'selected':''}>${n}</option>`).join('')}</select></div>
@@ -739,8 +850,8 @@ function billForm(b) {
     </div>
     <div class="field"><label>Frequency</label><select id="f_freq">${['monthly','quarterly','annual'].map(f=>`<option ${ed&&b.frequency===f?'selected':''}>${f}</option>`).join('')}</select></div>
     <div class="sheet-actions">
-      <button class="btn" id="f_save">${ed?'Save':'Add bill'}</button>
-      ${ed?'<button class="btn danger" id="f_del">Delete</button>':''}
+      <button class="btn" id="f_save">${ed?'Save changes':'Add bill'}</button>
+      ${ed?`<button class="btn danger" id="f_del">${svg('trash',{size:18})} Delete</button>`:''}
     </div>`);
   $('#f_save').onclick = async () => {
     const amount = parseFloat($('#f_amt').value); if (!(amount>0)) return toast('Enter an amount');
@@ -766,9 +877,9 @@ function paymentForm(p) {
     <div class="field"><label>Status</label><select id="f_status"><option value="due" ${ed&&p.status==='due'?'selected':''}>Due</option><option value="paid" ${ed&&p.status==='paid'?'selected':''}>Paid</option></select></div>
     <div class="field" id="paidWrap" style="display:${ed&&p.status==='paid'?'block':'none'}"><label>Paid on</label><input id="f_paid" type="date" value="${ed&&p.paid_on?p.paid_on:todayISO()}"></div>
     <div class="sheet-actions">
-      <button class="btn" id="f_save">${ed?'Save':'Add'}</button>
-      ${ed&&p.status!=='paid'?'<button class="btn green" id="f_markpaid">Mark as paid</button>':''}
-      ${ed?'<button class="btn danger" id="f_del">Delete</button>':''}
+      <button class="btn" id="f_save">${ed?'Save changes':'Add'}</button>
+      ${ed&&p.status!=='paid'?`<button class="btn green" id="f_markpaid">${svg('check',{size:18})} Mark as paid</button>`:''}
+      ${ed?`<button class="btn danger" id="f_del">${svg('trash',{size:18})} Delete</button>`:''}
     </div>`);
   $('#f_tenant').onchange = e => { const o = e.target.selectedOptions[0]; if (o.dataset.rent) $('#f_amt').value = o.dataset.rent; };
   $('#f_status').onchange = e => { $('#paidWrap').style.display = e.target.value==='paid'?'block':'none'; };
@@ -795,13 +906,14 @@ function inspectionForm(preProp) {
     <div class="field"><label>Tenant</label><select id="f_tenant">${tenantPickerOptions(startProp)}</select></div>
     <div class="field"><label>Submit by</label><input id="f_due" type="date" value="${due.toISOString().slice(0,10)}"></div>
     <div class="field"><label>Note to tenant</label><textarea id="f_note">Please take photos of each room, the kitchen, bathroom, boiler and smoke alarms.</textarea></div>
-    <div class="sheet-actions"><button class="btn" id="f_save">Create link</button></div>`);
+    <div class="sheet-actions"><button class="btn" id="f_save">${svg('link',{size:18})} Create link</button></div>`);
   $('#f_prop').onchange = () => { $('#f_tenant').innerHTML = tenantPickerOptions($('#f_prop').value); };
   $('#f_save').onclick = async () => {
     const row = { property_id:$('#f_prop').value, tenant_id:$('#f_tenant').value||null, token:uid(), status:'pending', requested_at:new Date().toISOString(), due_date:$('#f_due').value||null, notes:$('#f_note').value.trim() };
     const created = await insert('inspections', row);
+    if (!created) return;
     closeSheet();
-    state.currentInspection = created.id; setTab('inspections'); renderInspection();
+    state.currentInspection = created.id; renderInspection();
     toast('Inspection created');
   };
 }
@@ -812,7 +924,7 @@ function refreshAfterEdit() {
   else renderCurrent();
 }
 
-// Wire add buttons present in the static markup
+// Wire static add buttons / tabs present in the initial markup
 wireDelegates(document);
 </script>
 </body>
