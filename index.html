@@ -403,7 +403,7 @@ const CAT = { Maintenance:['tool',C.orange], Repairs:['tool',C.orange], Insuranc
 const BILLMAP = { Electricity:['bolt',C.orange], Gas:['flame',C.red], Water:['droplet',C.teal], Internet:['wifi',C.blue], Council:['building',C.gray], Insurance:['shield',C.teal], Service:['tool',C.orange], Other:['receipt',C.gray] };
 const catIc = c => { const [n,col] = CAT[c]||CAT.Other; return ic(n,col); };
 const billIc = c => { const [n,col] = BILLMAP[c]||BILLMAP.Other; return ic(n,col); };
-const COMPLIANCE = { 'Gas Safety':['flame',C.red], 'EICR':['bolt',C.orange], 'EPC':['bolt',C.green], 'Deposit Protection':['shield',C.teal], 'Right to Rent':['user',C.purple], 'Insurance':['shield',C.blue], 'PAT Test':['bolt',C.orange], 'Legionella':['droplet',C.teal], 'Other':['shield',C.gray] };
+const COMPLIANCE = { 'Smoke Alarm':['alert',C.red], 'Gas Safety':['flame',C.orange], 'Electrical Safety':['bolt',C.purple], 'Pool/Spa Safety':['droplet',C.teal], 'Landlord Insurance':['shield',C.blue], 'Pest Control':['shield',C.green], 'Other':['shield',C.gray] };
 const compIc = t => { const [n,col] = COMPLIANCE[t]||COMPLIANCE.Other; return ic(n,col); };
 function complianceStatus(c) {
   if (!c.expires_on) return { label:'No expiry', cls:'gray', rank:4 };
@@ -656,7 +656,7 @@ function renderProperty() {
 
   html += `<div class="section-header"><span class="section-title">Compliance</span><button class="section-action" data-add="compliance" data-prop="${p.id}">Add</button></div>`;
   if (comp.length) { html += '<div class="group">'; byExpiry(comp).forEach(c => { const st = complianceStatus(c); html += rowHTML({ ...compIc(c.type), title:c.type, sub: c.expires_on?('Expires '+fmtDate(c.expires_on)):(c.provider||'No expiry set'), trail:`<span class="badge ${st.cls}">${st.label}</span>`+chev, data:`data-compliance="${c.id}"`, tappable:true }); }); html += '</div>'; }
-  else html += `<div class="note-card"><div class="inner">No certificates tracked. Add gas safety, EICR, EPC, deposit protection…</div></div>`;
+  else html += `<div class="note-card"><div class="inner">No certificates tracked. Add smoke alarm, gas, electrical or pool-safety certificates…</div></div>`;
 
   const docs = state.documents.filter(d=>d.property_id===p.id && !d.expense_id);
   html += `<div class="section-header"><span class="section-title">Documents</span><button class="section-action" data-add="document" data-prop="${p.id}">Add</button></div>`;
@@ -875,7 +875,7 @@ function propertyForm(p) {
     <div class="field"><label>Name *</label><input id="f_name" placeholder="e.g. 14 Oak Street" value="${ed?esc(p.name):''}"></div>
     <div class="field"><label>Address</label><input id="f_addr" placeholder="Full address" value="${ed?esc(p.address||''):''}"></div>
     <div class="field"><label>Photo</label><label class="img-pick"><input id="f_img" type="file" accept="image/*" style="display:none">${cover?`<img class="thumb" id="imgThumb" src="${cover}" alt="">`:`<span class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--text3)">${svg('image',{size:20})}</span>`}<span id="imgPickText">${cover?'Change photo':'Add a photo'}</span></label></div>
-    <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Access codes, boiler info, anything useful…">${ed?esc(p.notes||''):''}</textarea></div>
+    <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Access codes, hot water/aircon, anything useful…">${ed?esc(p.notes||''):''}</textarea></div>
     <div class="sheet-actions">
       <button class="btn" id="f_save">${ed?'Save changes':'Add property'}</button>
       ${ed?`<button class="btn danger" id="f_del">${svg('trash',{size:18})} Delete property</button>`:''}
@@ -974,7 +974,7 @@ function billForm(b) {
   openSheet(`<div class="sheet-title">${ed?'Edit':'New'} bill</div>
     <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?b.property_id:null)}</select></div>
     <div class="field"><label>Type</label><select id="f_name">${names.map(n=>`<option ${ed&&b.name===n?'selected':''}>${n}</option>`).join('')}</select></div>
-    <div class="field"><label>Provider</label><input id="f_prov" value="${ed?esc(b.provider||''):''}" placeholder="e.g. British Gas"></div>
+    <div class="field"><label>Provider</label><input id="f_prov" value="${ed?esc(b.provider||''):''}" placeholder="e.g. Origin Energy"></div>
     <div class="field-row">
       <div class="field"><label>Amount (A$) *</label><input id="f_amt" type="number" inputmode="decimal" value="${ed?b.amount:''}"></div>
       <div class="field"><label>Due day</label><input id="f_day" type="number" min="1" max="31" value="${ed?(b.due_day||1):1}"></div>
@@ -1134,7 +1134,7 @@ function complianceForm(c, preProp) {
   openSheet(`<div class="sheet-title">${ed?'Edit':'New'} certificate</div>
     <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(ed?c.property_id:preProp)}</select></div>
     <div class="field"><label>Type</label><select id="f_type">${types.map(t=>`<option ${ed&&c.type===t?'selected':''}>${t}</option>`).join('')}</select></div>
-    <div class="field"><label>Provider / certifier</label><input id="f_prov" value="${ed?esc(c.provider||''):''}" placeholder="e.g. Gas Safe engineer"></div>
+    <div class="field"><label>Provider / certifier</label><input id="f_prov" value="${ed?esc(c.provider||''):''}" placeholder="e.g. licensed electrician"></div>
     <div class="field-row">
       <div class="field"><label>Issued</label><input id="f_iss" type="date" value="${ed?(c.issued_on||''):''}"></div>
       <div class="field"><label>Expires</label><input id="f_exp" type="date" value="${ed?(c.expires_on||''):''}"></div>
