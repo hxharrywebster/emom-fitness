@@ -311,6 +311,18 @@
     <div class="scroll-content" id="inspectionContent"></div>
   </div>
 
+  <!-- MARKET -->
+  <div id="screen-market" class="screen">
+    <div class="nav-bar"><div class="nav-left"><span class="nav-title">Market</span></div></div>
+    <div class="scroll-content" id="marketContent"></div>
+  </div>
+
+  <!-- SUBURB DETAIL -->
+  <div id="screen-suburb" class="screen">
+    <div class="nav-bar"><div class="nav-left"><button class="nav-back" data-tab="market" data-label="Market"></button></div><button class="nav-icon-btn" id="suburbRefreshBtn" aria-label="Refresh"></button></div>
+    <div class="scroll-content" id="suburbContent"></div>
+  </div>
+
   <!-- TAB BAR -->
   <nav class="tab-bar">
     <button class="tab-item active" data-tab="dashboard"><span class="ico"></span><span class="lbl">Overview</span></button>
@@ -318,6 +330,7 @@
     <button class="tab-item" data-tab="tenants"><span class="ico"></span><span class="lbl">Tenants</span></button>
     <button class="tab-item" data-tab="money"><span class="ico"></span><span class="lbl">Money</span></button>
     <button class="tab-item" data-tab="inspections"><span class="ico"></span><span class="lbl">Inspect</span></button>
+    <button class="tab-item" data-tab="market"><span class="ico"></span><span class="lbl">Market</span></button>
   </nav>
 </div>
 
@@ -335,7 +348,7 @@ let sb = null;
 if (configured) sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
 
 // ─── State ───
-const state = { properties: [], tenants: [], expenses: [], bills: [], payments: [], inspections: [], compliance: [], documents: [], coverUrls: {}, currentTab: 'dashboard', currentProperty: null, currentInspection: null, moneyTab: 'payments', loaded: false };
+const state = { properties: [], tenants: [], expenses: [], bills: [], payments: [], inspections: [], compliance: [], documents: [], suburb_insights: [], coverUrls: {}, currentTab: 'dashboard', currentProperty: null, currentInspection: null, currentSuburb: null, moneyTab: 'payments', loaded: false };
 
 // ─── Helpers ───
 const $ = (s, r=document) => r.querySelector(s);
@@ -392,6 +405,11 @@ const ICON = {
   sparkle: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.7 1.8L21.5 18l-1.8.7L19 20.5l-.7-1.8L16.5 18l1.8-.5z"/>',
   search: '<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
   door: '<path d="M4 21V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v17"/><line x1="2" y1="21" x2="22" y2="21"/><circle cx="15.5" cy="12" r="1" fill="currentColor"/>',
+  trending: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  news: '<path d="M4 5h12a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M17 8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2"/><line x1="7" y1="9" x2="13" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/><line x1="7" y1="17" x2="11" y2="17"/>',
+  tag: '<path d="M20.6 13.4 13 21a2 2 0 0 1-2.8 0l-7.2-7.2A2 2 0 0 1 2.4 12.4V4.4A2 2 0 0 1 4.4 2.4h8a2 2 0 0 1 1.4.6l6.8 6.8a2 2 0 0 1 0 2.6z"/><circle cx="7" cy="7" r="1.4" fill="currentColor"/>',
+  refresh: '<polyline points="23 4 23 10 17 10"/><path d="M20.5 14a8.5 8.5 0 1 1-2-8.6L23 10"/>',
+  external: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
 };
 function svg(name, opts={}) {
   const s = opts.size||24, sw = opts.sw!=null?opts.sw:2, fill = opts.fill||'none';
@@ -421,7 +439,7 @@ function propTile(p) {
 }
 
 // ─── Static icon injection ───
-const TABICON = { dashboard:'grid', properties:'home', tenants:'users', money:'card', inspections:'camera' };
+const TABICON = { dashboard:'grid', properties:'home', tenants:'users', money:'card', inspections:'camera', market:'trending' };
 $$('.tab-item').forEach(b => b.querySelector('.ico').innerHTML = svg(TABICON[b.dataset.tab], { size: 24 }));
 $('#authLogo').innerHTML = svg('home', { size: 38 });
 $('#signOutBtn').innerHTML = svg('power', { size: 19 });
@@ -435,6 +453,7 @@ $('#alertsBtn').onclick = () => openAlerts();
 $('#editPropertyBtn').setAttribute('aria-label','Property options');
 $('#inspectionMenuBtn').setAttribute('aria-label','Inspection options');
 $('#moneyAddBtn').setAttribute('aria-label','Add');
+$('#suburbRefreshBtn').innerHTML = svg('refresh', { size: 20 });
 $('#taxExportBtn').innerHTML = svg('download', { size: 20 });
 $('#taxExportBtn').onclick = () => taxSheet();
 
@@ -494,7 +513,7 @@ if (sb) {
 // ════════ DATA ════════
 async function loadAll() {
   if (!sb) return;
-  const tables = ['properties','tenants','expenses','bills','payments','inspections','compliance','documents'];
+  const tables = ['properties','tenants','expenses','bills','payments','inspections','compliance','documents','suburb_insights'];
   const results = await Promise.all(tables.map(t => sb.from(t).select('*')));
   tables.forEach((t,i) => { state[t] = results[i].data || []; });
   const covers = state.properties.filter(p=>p.image_path).map(p=>p.image_path);
@@ -543,6 +562,7 @@ function renderCurrent() {
   else if (t === 'tenants') renderTenants();
   else if (t === 'money') renderMoney();
   else if (t === 'inspections') renderInspections();
+  else if (t === 'market') renderMarket();
 }
 
 // ════════ DASHBOARD ════════
@@ -857,6 +877,7 @@ function wireDelegates(root) {
   $$('[data-compliance]', root).forEach(e => e.onclick = () => { const x = state.compliance.find(v=>v.id===e.dataset.compliance); if (x) complianceForm(x); });
   $$('[data-document]', root).forEach(e => e.onclick = () => { const x = state.documents.find(v=>v.id===e.dataset.document); if (x) docMenu(x); });
   $$('[data-rooms]', root).forEach(e => e.onclick = () => { const x = state.properties.find(v=>v.id===e.dataset.rooms); if (x) roomsForm(x); });
+  $$('[data-suburb]', root).forEach(e => e.onclick = () => { state.currentSuburb = e.dataset.suburb; renderSuburb(); });
   $$('[data-tab]', root).forEach(e => e.onclick = () => setTab(e.dataset.tab));
   $$('[data-add]', root).forEach(e => e.onclick = () => { const pre = e.dataset.prop; const kind = e.dataset.add;
     if (kind==='property') propertyForm();
@@ -1474,6 +1495,89 @@ function tokenMenu(token, base) {
   $('#cpTok').onclick = async () => { try { await navigator.clipboard.writeText(url); } catch (e) {} toast('Copied'); };
   $('#backTok').onclick = () => connectorSheet();
   $('#revTok').onclick = async () => { if (!confirm('Revoke this connector link? Claude will lose access.')) return; await sb.from('mcp_tokens').delete().eq('token', token); toast('Revoked'); connectorSheet(); };
+}
+
+// ════════ SUBURB MARKET ════════
+function parseAddr(addr) {
+  if (!addr) return { suburb:null, state:null };
+  const m = addr.match(/([A-Za-z'’.\- ]+?)\s+(QLD|NSW|VIC|SA|WA|TAS|NT|ACT)\b/i);
+  if (m) return { suburb: m[1].trim().replace(/^.*,\s*/,'').trim(), state: m[2].toUpperCase() };
+  const parts = addr.split(',').map(s=>s.trim()).filter(Boolean);
+  if (parts.length > 1) return { suburb: parts[parts.length-1], state: null };
+  const w = addr.trim().split(/\s+/); return { suburb: w[w.length-1] || null, state: null };
+}
+function suburbGroups() {
+  const map = {};
+  state.properties.forEach(p => { const a = parseAddr(p.address); if (!a.suburb) return; const k = a.suburb.toLowerCase();
+    if (!map[k]) map[k] = { suburb:a.suburb, state:a.state, props:[], address:p.address };
+    map[k].props.push(p); if (a.state && !map[k].state) map[k].state = a.state; });
+  return Object.values(map).sort((a,b)=>a.suburb.localeCompare(b.suburb));
+}
+const cachedInsight = sub => state.suburb_insights.find(s => (s.suburb||'').toLowerCase() === sub.toLowerCase());
+
+function renderMarket() {
+  const el = $('#marketContent');
+  const groups = suburbGroups();
+  if (!groups.length) { el.innerHTML = emptyHTML('trending', C.teal, 'No suburbs yet', 'Add a property with an address to see local sales results and property news for its suburb.'); return; }
+  let html = `<div class="hint" style="padding:8px 22px 2px">Local sales results & property news for your suburbs, researched live on demand.</div><div class="group">`;
+  groups.forEach(g => { const ci = cachedInsight(g.suburb); const d = ci?.data;
+    const sub = d ? `${d.median_house_price?d.median_house_price+' median house · ':''}updated ${fmtDate(ci.fetched_at)}` : `${g.props.length} propert${g.props.length>1?'ies':'y'} · tap for sales & news`;
+    html += rowHTML({ ...ic('trending', C.teal), title:`${g.suburb}${g.state?', '+g.state:''}`, sub, trail: chev, data:`data-suburb="${esc(g.suburb)}"`, tappable:true });
+  });
+  html += '</div>';
+  el.innerHTML = html; wireDelegates(el);
+}
+
+async function fetchSuburb(g) {
+  const el = $('#suburbContent');
+  el.innerHTML = `<div class="center-load"><div class="spinner"></div>Researching ${esc(g.suburb)}…<div style="color:var(--text3);font-size:13px;margin-top:4px">live web search — this can take up to a minute</div></div>`;
+  $('#suburbRefreshBtn').style.display = 'none';
+  try {
+    const { data, error } = await sb.functions.invoke('suburb-insights', { body: { suburb:g.suburb, state:g.state, address:g.address } });
+    let payload = data;
+    if (error) { try { payload = await error.context.json(); } catch(e){} }
+    if (payload?.error) { toast(payload.error); return renderSuburb(); }
+    if (payload?.data) {
+      const rec = { suburb:g.suburb, state:g.state, data:payload.data, fetched_at: payload.fetched_at || new Date().toISOString() };
+      const i = state.suburb_insights.findIndex(s => (s.suburb||'').toLowerCase() === g.suburb.toLowerCase());
+      if (i>=0) state.suburb_insights[i] = rec; else state.suburb_insights.push(rec);
+      renderSuburb(); toast('Market updated');
+    } else renderSuburb();
+  } catch (e) { toast('Lookup failed'); renderSuburb(); }
+}
+
+function renderSuburb() {
+  const sub = state.currentSuburb; if (!sub) { setTab('market'); return; }
+  markTab('market'); showScreen('screen-suburb');
+  const g = suburbGroups().find(x=>x.suburb.toLowerCase()===sub.toLowerCase()) || { suburb:sub, state:null, address:null };
+  const ci = cachedInsight(sub); const d = ci?.data;
+  const el = $('#suburbContent');
+  let html = `<div style="padding:0 22px 2px"><div class="nav-title">${esc(g.suburb)}${g.state?', '+esc(g.state):''}</div></div>`;
+  if (!d) {
+    html += `<div style="padding:8px 16px"><div class="hint">Get the latest sales results and local property news for ${esc(g.suburb)}. This runs a live web search and can take up to a minute.</div><button class="btn" id="getMarket">${svg('search',{size:18})} Get market update</button></div>`;
+    el.innerHTML = html; $('#getMarket').onclick = () => fetchSuburb(g);
+    $('#suburbRefreshBtn').style.display = 'none';
+    return;
+  }
+  $('#suburbRefreshBtn').style.display = 'flex'; $('#suburbRefreshBtn').onclick = () => fetchSuburb(g);
+  html += `<div class="stat-grid">
+    ${statCard('home', C.blue, 'Median house', d.median_house_price||'—', d.trend_12m||'')}
+    ${statCard('card', C.purple, 'Median unit', d.median_unit_price||'—', d.clearance_rate?('Clearance '+d.clearance_rate):'')}
+  </div>`;
+  if (d.summary) html += `<div class="note-card"><div class="inner">${esc(d.summary)}</div></div>`;
+  if (Array.isArray(d.recent_sales) && d.recent_sales.length) {
+    html += `<div class="section-header"><span class="section-title">Recent sales</span></div><div class="group">`;
+    d.recent_sales.forEach(s => html += rowHTML({ ...ic('tag', C.green), title:`${s.price||''}  ${s.address||''}`.trim(), sub:[s.beds!=null?s.beds+' bd':'', s.baths!=null?s.baths+' ba':'', s.type||'', s.sold_on||'', s.source||''].filter(Boolean).join(' · ') }));
+    html += '</div>';
+  }
+  if (Array.isArray(d.news) && d.news.length) {
+    html += `<div class="section-header"><span class="section-title">Local property news</span></div><div class="group">`;
+    d.news.forEach((n,idx) => html += rowHTML({ ...ic('news', C.orange), title:n.title, sub:`${n.source||''}${n.date?' · '+n.date:''}`, trail: n.url?`<span class="chev">${svg('external',{size:16})}</span>`:'', data:`data-news="${idx}"`, tappable:!!n.url }));
+    html += '</div>';
+  }
+  html += `<div style="padding:8px 22px 0;color:var(--text3);font-size:12px;line-height:1.5">Researched ${fmtDate(ci.fetched_at)} via live web search — figures are indicative; verify before relying on them.</div>`;
+  el.innerHTML = html;
+  $$('[data-news]', el).forEach(e => e.onclick = () => { const n = d.news[+e.dataset.news]; if (n?.url) window.open(n.url, '_blank', 'noopener'); });
 }
 
 // Wire static add buttons / tabs present in the initial markup
