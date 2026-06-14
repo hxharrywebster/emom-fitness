@@ -128,8 +128,22 @@ $('#formLogo').innerHTML = svg('home', 38);
 $('#doneIcon').innerHTML = svg('check', 44, 3);
 $('#errIcon').innerHTML = svg('link', 40);
 
-const DEFAULT_ROOMS = ['Kitchen','Living room','Bathroom','Bedroom','Hallway','Exterior','Boiler','Smoke alarms','Other'];
-const ROOM_EMOJI = { 'Kitchen':'🍳','Living room':'🛋️','Bathroom':'🛁','Bedroom':'🛏️','Hallway':'🚪','Exterior':'🏡','Boiler':'🔥','Smoke alarms':'🚨','Other':'📦' };
+const DEFAULT_ROOMS = ['Front of property','Living room','Kitchen','Bathroom','Bedroom','Laundry','Rear of property'];
+function emojiFor(room) {
+  const r = String(room).toLowerCase();
+  if (r.includes('front')) return '🏠';
+  if (r.includes('rear') || r.includes('back')) return '🌳';
+  if (r.includes('bedroom')) return '🛏️';
+  if (r.includes('bath') || r.includes('ensuite')) return '🛁';
+  if (r.includes('kitchen')) return '🍳';
+  if (r.includes('living') || r.includes('lounge')) return '🛋️';
+  if (r.includes('dining')) return '🍽️';
+  if (r.includes('laundry')) return '🧺';
+  if (r.includes('garage')) return '🚗';
+  if (r.includes('hall')) return '🚪';
+  if (r.includes('yard') || r.includes('garden') || r.includes('balcony') || r.includes('exterior') || r.includes('patio')) return '🏡';
+  return '📷';
+}
 
 const photos = {}; // { [room]: [ { id, file, url } ] }
 let rooms = DEFAULT_ROOMS;
@@ -177,9 +191,9 @@ function renderRooms() {
     const el = document.createElement('div'); el.className = 'room';
     el.innerHTML = `
       <div class="room-head">
-        <span class="emoji">${ROOM_EMOJI[room]||'📷'}</span>
+        <span class="emoji">${emojiFor(room)}</span>
         <span class="name">${escapeHtml(room)}</span>
-        <span class="count ${list.length?'done':''}">${list.length?svg('check',15,2.5)+list.length:''}</span>
+        <span class="count ${list.length?'done':''}" ${list.length?'':'style="color:var(--orange)"'}>${list.length?svg('check',15,2.5)+list.length:'Required'}</span>
       </div>
       <div class="thumbs"></div>`;
     const thumbs = el.querySelector('.thumbs');
@@ -211,9 +225,13 @@ function addFiles(room, fileList) {
 function totalPhotos() { return Object.values(photos).reduce((s,a)=>s+a.length,0); }
 function updateProgress() {
   const n = totalPhotos();
-  $('#progress').textContent = n ? `${n} photo${n>1?'s':''} ready to submit` : 'Tap “Add” under a room to take or choose photos';
-  $('#submitBtn').disabled = n === 0;
-  $('#submitBtn').textContent = n ? `Submit ${n} photo${n>1?'s':''}` : 'Submit photos';
+  const missing = rooms.filter(r => !(photos[r] && photos[r].length));
+  const captured = rooms.length - missing.length;
+  $('#progress').textContent = missing.length
+    ? `${captured}/${rooms.length} rooms done — still need: ${missing.join(', ')}`
+    : `All ${rooms.length} rooms captured — ${n} photo${n>1?'s':''} ready`;
+  $('#submitBtn').disabled = missing.length > 0 || n === 0;
+  $('#submitBtn').textContent = missing.length ? `${missing.length} room${missing.length>1?'s':''} still needed` : `Submit ${n} photo${n>1?'s':''}`;
 }
 
 $('#submitBtn').onclick = async () => {

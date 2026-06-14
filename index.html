@@ -390,6 +390,8 @@ const ICON = {
   image: '<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="m21 15-5-5L5 21"/>',
   download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
   sparkle: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.7 1.8L21.5 18l-1.8.7L19 20.5l-.7-1.8L16.5 18l1.8-.5z"/>',
+  search: '<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  door: '<path d="M4 21V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v17"/><line x1="2" y1="21" x2="22" y2="21"/><circle cx="15.5" cy="12" r="1" fill="currentColor"/>',
 };
 function svg(name, opts={}) {
   const s = opts.size||24, sw = opts.sw!=null?opts.sw:2, fill = opts.fill||'none';
@@ -654,6 +656,11 @@ function renderProperty() {
   if (inspections.length) { html += '<div class="group">'; [...inspections].sort((a,b)=>(b.requested_at||'').localeCompare(a.requested_at||'')).slice(0,4).forEach(i => html += inspectionRow(i)); html += '</div>'; }
   else html += `<div class="note-card"><div class="inner">No inspections requested yet.</div></div>`;
 
+  const roomList = Array.isArray(p.rooms) ? p.rooms : null;
+  html += `<div class="section-header"><span class="section-title">Inspection rooms</span><button class="section-action" data-rooms="${p.id}">${roomList&&roomList.length?'Edit':'Set up'}</button></div>`;
+  if (roomList && roomList.length) html += `<div class="note-card"><div class="inner">${roomList.map(r=>esc(r)).join(' · ')}</div></div>`;
+  else html += `<div class="note-card"><div class="inner">No room schedule yet. Set one up (look it up from the address, or by bedrooms/bathrooms) so inspections capture every room plus front & rear.</div></div>`;
+
   html += `<div class="section-header"><span class="section-title">Compliance</span><button class="section-action" data-add="compliance" data-prop="${p.id}">Add</button></div>`;
   if (comp.length) { html += '<div class="group">'; byExpiry(comp).forEach(c => { const st = complianceStatus(c); html += rowHTML({ ...compIc(c.type), title:c.type, sub: c.expires_on?('Expires '+fmtDate(c.expires_on)):(c.provider||'No expiry set'), trail:`<span class="badge ${st.cls}">${st.label}</span>`+chev, data:`data-compliance="${c.id}"`, tappable:true }); }); html += '</div>'; }
   else html += `<div class="note-card"><div class="inner">No certificates tracked. Add smoke alarm, gas, electrical or pool-safety certificates…</div></div>`;
@@ -849,6 +856,7 @@ function wireDelegates(root) {
   $$('[data-payment]', root).forEach(e => e.onclick = () => { const x = state.payments.find(v=>v.id===e.dataset.payment); if (x) paymentForm(x); });
   $$('[data-compliance]', root).forEach(e => e.onclick = () => { const x = state.compliance.find(v=>v.id===e.dataset.compliance); if (x) complianceForm(x); });
   $$('[data-document]', root).forEach(e => e.onclick = () => { const x = state.documents.find(v=>v.id===e.dataset.document); if (x) docMenu(x); });
+  $$('[data-rooms]', root).forEach(e => e.onclick = () => { const x = state.properties.find(v=>v.id===e.dataset.rooms); if (x) roomsForm(x); });
   $$('[data-tab]', root).forEach(e => e.onclick = () => setTab(e.dataset.tab));
   $$('[data-add]', root).forEach(e => e.onclick = () => { const pre = e.dataset.prop; const kind = e.dataset.add;
     if (kind==='property') propertyForm();
@@ -1032,15 +1040,18 @@ function inspectionForm(preProp) {
   if (!state.properties.length) return toast('Add a property first');
   const due = new Date(); due.setDate(due.getDate()+7);
   const startProp = preProp || state.properties[0].id;
+  const roomsHint = pid => { const r = defaultRoomsFor(state.properties.find(x=>x.id===pid)); return `${r.length} rooms required — ${r.join(', ')}`; };
   openSheet(`<div class="sheet-title">Request inspection</div>
     <div class="field"><label>Property *</label><select id="f_prop">${propPickerOptions(startProp)}</select></div>
     <div class="field"><label>Tenant</label><select id="f_tenant">${tenantPickerOptions(startProp)}</select></div>
+    <div class="hint" id="f_roomshint">${esc(roomsHint(startProp))}</div>
     <div class="field"><label>Submit by</label><input id="f_due" type="date" value="${due.toISOString().slice(0,10)}"></div>
-    <div class="field"><label>Note to tenant</label><textarea id="f_note">Please take photos of each room, the kitchen, bathroom, boiler and smoke alarms.</textarea></div>
+    <div class="field"><label>Note to tenant</label><textarea id="f_note">Please photograph every room in the checklist, plus the front and rear of the property and any smoke alarms.</textarea></div>
     <div class="sheet-actions"><button class="btn" id="f_save">${svg('link',{size:18})} Create link</button></div>`);
-  $('#f_prop').onchange = () => { $('#f_tenant').innerHTML = tenantPickerOptions($('#f_prop').value); };
+  $('#f_prop').onchange = () => { $('#f_tenant').innerHTML = tenantPickerOptions($('#f_prop').value); $('#f_roomshint').textContent = roomsHint($('#f_prop').value); };
   $('#f_save').onclick = async () => {
-    const row = { property_id:$('#f_prop').value, tenant_id:$('#f_tenant').value||null, token:uid(), status:'pending', requested_at:new Date().toISOString(), due_date:$('#f_due').value||null, notes:$('#f_note').value.trim() };
+    const prop = state.properties.find(x=>x.id===$('#f_prop').value);
+    const row = { property_id:$('#f_prop').value, tenant_id:$('#f_tenant').value||null, token:uid(), status:'pending', requested_at:new Date().toISOString(), due_date:$('#f_due').value||null, notes:$('#f_note').value.trim(), rooms: defaultRoomsFor(prop) };
     const created = await insert('inspections', row);
     if (!created) return;
     closeSheet();
@@ -1255,6 +1266,63 @@ function openAlerts() {
   else { body += '<div class="group" style="margin:0 0 8px">'; items.forEach((it,idx)=> body += rowHTML({ icon:it.icon, color:it.color, bg:it.bg, title:it.title, sub:it.sub, trail:it.badge, data:`data-alert="${idx}"`, tappable:true })); body += '</div>'; }
   openSheet(body);
   if (items.length) $$('[data-alert]').forEach(e => e.onclick = () => { const it = items[+e.dataset.alert]; closeSheet(); it.go(); });
+}
+
+// ════════ ROOM SCHEDULE ════════
+function ensureFrontRear(rooms) {
+  let r = rooms.map(x=>String(x).trim()).filter(Boolean).filter(x=>!/^front of property$/i.test(x) && !/^rear of property$/i.test(x));
+  const seen = new Set(); r = r.filter(x=>{ const k=x.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; });
+  return ['Front of property', ...r, 'Rear of property'];
+}
+function genRooms(bed, bath) {
+  const r = [];
+  for (let i=1;i<=bed;i++) r.push(`Bedroom ${i}`);
+  r.push('Kitchen','Living room','Dining');
+  if (bath<=1) r.push('Bathroom'); else for (let i=1;i<=bath;i++) r.push(`Bathroom ${i}`);
+  r.push('Laundry','Garage');
+  return ensureFrontRear(r);
+}
+function defaultRoomsFor(p) {
+  if (p && Array.isArray(p.rooms) && p.rooms.length) return p.rooms;
+  if (p && (p.bedrooms || p.bathrooms)) return genRooms(p.bedrooms||0, p.bathrooms||0);
+  return ensureFrontRear(['Living room','Kitchen','Bathroom','Bedroom','Laundry']);
+}
+function roomsForm(p) {
+  const current = defaultRoomsFor(p);
+  openSheet(`<div class="sheet-title">Inspection rooms</div>
+    <div class="hint">These are the rooms the tenant must photograph. <b>Front and rear of property are always included.</b></div>
+    <div class="field-row">
+      <div class="field"><label>Bedrooms</label><input id="r_bed" type="number" min="0" max="20" value="${p.bedrooms??''}"></div>
+      <div class="field"><label>Bathrooms</label><input id="r_bath" type="number" min="0" max="20" value="${p.bathrooms??''}"></div>
+    </div>
+    <div class="sheet-actions" style="margin-top:0">
+      <button class="btn secondary" id="r_lookup">${svg('search',{size:18})} Look up online from address</button>
+      <button class="btn secondary" id="r_gen">${svg('door',{size:18})} Generate from bed + bath</button>
+    </div>
+    <div class="field" style="margin-top:14px"><label>Rooms (one per line)</label><textarea id="r_list" style="min-height:170px">${esc(current.join('\n'))}</textarea></div>
+    <div class="sheet-actions"><button class="btn" id="r_save">Save rooms</button></div>`);
+  $('#r_gen').onclick = () => { $('#r_list').value = genRooms(parseInt($('#r_bed').value)||0, parseInt($('#r_bath').value)||0).join('\n'); };
+  $('#r_lookup').onclick = async () => {
+    const btn = $('#r_lookup'); btn.disabled = true; const old = btn.innerHTML; btn.innerHTML = 'Looking up…';
+    try {
+      const { data, error } = await sb.functions.invoke('lookup-rooms', { body: { property_id: p.id } });
+      let payload = data;
+      if (error) { try { payload = await error.context.json(); } catch(e){} }
+      if (payload?.error) { toast(payload.error); return; }
+      if (payload?.rooms) {
+        $('#r_list').value = payload.rooms.join('\n');
+        if (payload.bedrooms!=null) $('#r_bed').value = payload.bedrooms;
+        if (payload.bathrooms!=null) $('#r_bath').value = payload.bathrooms;
+        toast(`Found rooms · ${payload.confidence||'low'} confidence`);
+      }
+    } catch(e) { toast('Lookup failed'); }
+    finally { btn.disabled = false; btn.innerHTML = old; }
+  };
+  $('#r_save').onclick = async () => {
+    const list = ensureFrontRear($('#r_list').value.split('\n'));
+    await update('properties', p.id, { rooms: list, bedrooms: parseInt($('#r_bed').value)||null, bathrooms: parseInt($('#r_bath').value)||null });
+    closeSheet(); refreshAfterEdit(); toast('Rooms saved');
+  };
 }
 
 // ════════ AI INSPECTION ANALYSIS ════════
