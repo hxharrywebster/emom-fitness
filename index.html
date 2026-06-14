@@ -1533,7 +1533,9 @@ async function fetchSuburb(g) {
   el.innerHTML = `<div class="center-load"><div class="spinner"></div>Researching ${esc(g.suburb)}…<div style="color:var(--text3);font-size:13px;margin-top:4px">live web search — this can take up to a minute</div></div>`;
   $('#suburbRefreshBtn').style.display = 'none';
   try {
-    const { data, error } = await sb.functions.invoke('suburb-insights', { body: { suburb:g.suburb, state:g.state, address:g.address } });
+    const invoke = sb.functions.invoke('suburb-insights', { body: { suburb:g.suburb, state:g.state, address:g.address } });
+    const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error('__timeout__')), 80000));
+    const { data, error } = await Promise.race([invoke, timeout]);
     let payload = data;
     if (error) { try { payload = await error.context.json(); } catch(e){} }
     if (payload?.error) { toast(payload.error); return renderSuburb(); }
@@ -1543,7 +1545,10 @@ async function fetchSuburb(g) {
       if (i>=0) state.suburb_insights[i] = rec; else state.suburb_insights.push(rec);
       renderSuburb(); toast('Market updated');
     } else renderSuburb();
-  } catch (e) { toast('Lookup failed'); renderSuburb(); }
+  } catch (e) {
+    toast(e && e.message === '__timeout__' ? 'Taking too long — web search may be rate-limited. Try again later, or use your Claude Project connector.' : 'Lookup failed');
+    renderSuburb();
+  }
 }
 
 function renderSuburb() {
