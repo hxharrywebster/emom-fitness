@@ -1,0 +1,23 @@
+# Netlify deploy config for the EMOM Fitness PWA + Weekly Health Check-in.
+# Static site — no build step, the repo root is published as-is.
+
+[build]
+  publish = "."
+  command = ""
+
+# Friendly path: /tracker -> tracker.html
+[[redirects]]
+  from = "/tracker"
+  to = "/tracker.html"
+  status = 200
+
+# Long-cache the icons, never cache the HTML (so updates ship instantly).
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
