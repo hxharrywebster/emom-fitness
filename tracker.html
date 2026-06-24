@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Weekly Check-in">
+<meta name="theme-color" content="#000000">
+<title>EMOM · Weekly Health Check-in</title>
+<style>
+  :root {
+    --bg: #000;
+    --surface: #1c1c1e;
+    --surface2: #2c2c2e;
+    --surface3: #3a3a3c;
+    --text: #fff;
+    --text2: #ebebf599;
+    --text3: #ebebf54d;
+    --accent: #ff375f;
+    --green: #30d158;
+    --blue: #0a84ff;
+    --orange: #ff9f0a;
+    --purple: #bf5af2;
+    --teal: #1ac8db;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top);
+  }
+  html { height: -webkit-fill-available; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px 120px; }
+
+  /* nav */
+  .nav-bar { padding: 18px 0 4px; position: sticky; top: 0; z-index: 10; background: var(--bg); }
+  .nav-title { font-size: 34px; font-weight: 800; letter-spacing: -0.6px; }
+  .nav-sub { font-size: 15px; color: var(--text2); margin-top: 2px; }
+
+  /* section */
+  .section-title { font-size: 20px; font-weight: 700; margin: 28px 0 4px; letter-spacing: -0.3px; }
+  .section-hint { font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+
+  /* metric card */
+  .card { background: var(--surface); border-radius: var(--radius); padding: 4px 16px; }
+  .field { padding: 14px 0; border-bottom: .5px solid var(--surface3); }
+  .field:last-child { border-bottom: none; }
+  .field-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .field-label { font-size: 16px; font-weight: 600; }
+  .field-unit { font-size: 13px; color: var(--text3); font-weight: 500; }
+  .field-row { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+  input[type="number"], input[type="date"], textarea {
+    background: var(--surface2); border: 1.5px solid transparent; border-radius: var(--radius-sm);
+    color: var(--text); font-size: 17px; font-weight: 600; padding: 11px 13px; width: 100%;
+    font-family: inherit; transition: border-color .15s;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--blue); }
+  textarea { font-weight: 500; font-size: 15px; resize: vertical; min-height: 64px; }
+  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number] { -moz-appearance: textfield; }
+
+  /* reference chips */
+  .ref { display: flex; gap: 8px; flex-shrink: 0; }
+  .ref-chip { text-align: center; padding: 4px 9px; border-radius: 9px; background: var(--surface2); min-width: 58px; }
+  .ref-chip .ref-k { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text3); }
+  .ref-chip .ref-v { font-size: 13px; font-weight: 700; margin-top: 1px; }
+  .ref-chip.elite .ref-v { color: var(--green); }
+  .ref-chip.avg .ref-v { color: var(--text2); }
+
+  /* live mini grade dot */
+  .grade-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--surface3); flex-shrink: 0; transition: background .2s; }
+
+  /* primary button */
+  .btn {
+    width: 100%; padding: 16px; border: none; border-radius: var(--radius);
+    font-size: 17px; font-weight: 700; color: #fff; cursor: pointer;
+    background: var(--accent); margin-top: 24px; transition: transform .12s, opacity .2s;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .btn.secondary { background: var(--surface2); }
+
+  /* feedback */
+  .verdict { border-radius: var(--radius); padding: 20px; margin-top: 8px; text-align: center; }
+  .verdict-band { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .verdict-score { font-size: 56px; font-weight: 800; line-height: 1; margin: 6px 0; letter-spacing: -1px; }
+  .verdict-score small { font-size: 22px; font-weight: 700; color: var(--text2); }
+  .verdict-line { font-size: 15px; color: var(--text); opacity: .9; margin-top: 4px; }
+
+  .crit { background: var(--surface); border-radius: var(--radius); padding: 6px 16px; margin-top: 12px; }
+  .crit-item { display: flex; gap: 12px; padding: 13px 0; border-bottom: .5px solid var(--surface3); align-items: flex-start; }
+  .crit-item:last-child { border-bottom: none; }
+  .crit-bar { width: 4px; align-self: stretch; border-radius: 2px; flex-shrink: 0; min-height: 36px; }
+  .crit-body { flex: 1; }
+  .crit-metric { font-size: 15px; font-weight: 700; }
+  .crit-metric .crit-val { color: var(--text2); font-weight: 600; }
+  .crit-note { font-size: 13px; color: var(--text2); margin-top: 3px; line-height: 1.4; }
+
+  /* history */
+  .hist-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: var(--surface); border-radius: var(--radius-sm); margin-top: 8px; }
+  .hist-score { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; }
+  .hist-meta { flex: 1; }
+  .hist-week { font-size: 15px; font-weight: 600; }
+  .hist-band { font-size: 12px; color: var(--text2); margin-top: 1px; }
+
+  .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(80px); background: var(--surface2); color: var(--text); padding: 13px 20px; border-radius: 24px; font-size: 14px; font-weight: 600; opacity: 0; transition: all .3s; z-index: 50; box-shadow: 0 8px 30px rgba(0,0,0,.5); }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast.err { background: var(--accent); }
+
+  .banner { background: var(--orange); color: #000; font-size: 13px; font-weight: 600; padding: 10px 14px; border-radius: var(--radius-sm); margin: 14px 0; line-height: 1.4; display: none; }
+  .empty { text-align: center; color: var(--text3); font-size: 14px; padding: 24px 0; }
+  a.back { color: var(--blue); font-size: 15px; font-weight: 600; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav-bar">
+    <a class="back" href="index.html">‹ Fitness</a>
+    <div class="nav-title">Weekly Check-in</div>
+    <div class="nav-sub">Log your wearable averages. Get graded against the top 10%.</div>
+  </div>
+
+  <div id="configBanner" class="banner"></div>
+
+  <form id="form" autocomplete="off">
+    <div class="section-title">Week</div>
+    <div class="section-hint">Pick the Monday of the week you're logging.</div>
+    <div class="card">
+      <div class="field">
+        <div class="field-top"><span class="field-label">Week starting</span></div>
+        <div class="field-row"><input type="date" id="week_start" required></div>
+      </div>
+    </div>
+
+    <div class="section-title">Recovery &amp; Cardiovascular</div>
+    <div class="section-hint">The signals that separate elite from average. Higher recovery &amp; HRV, lower resting HR.</div>
+    <div class="card" id="cardCardio"></div>
+
+    <div class="section-title">Sleep</div>
+    <div class="section-hint">Non-negotiable for a top-decile recovery baseline.</div>
+    <div class="card" id="cardSleep"></div>
+
+    <div class="section-title">Training Load</div>
+    <div class="section-hint">Top-10% fitness needs consistent, deliberate strain — not just rest.</div>
+    <div class="card" id="cardLoad"></div>
+
+    <div class="section-title">Body &amp; Notes</div>
+    <div class="card" id="cardBody"></div>
+    <div class="card" style="margin-top:8px;">
+      <div class="field">
+        <div class="field-top"><span class="field-label">Notes</span></div>
+        <div class="field-row"><textarea id="notes" placeholder="Travel, illness, alcohol, big sessions, stress…"></textarea></div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn" id="submitBtn">Save &amp; grade this week</button>
+  </form>
+
+  <div id="feedback" style="display:none;">
+    <div class="section-title">Your verdict</div>
+    <div class="verdict" id="verdict"></div>
+    <div class="crit" id="crit"></div>
+  </div>
+
+  <div class="section-title">History</div>
+  <div id="history"><div class="empty">No weeks logged yet.</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ───────────────────────── CONFIG ─────────────────────────
+   Filled in automatically when the Supabase project is provisioned.
+   On Netlify you can also override these via a small inline snippet
+   or by editing the two constants below. */
+const SUPABASE_URL = "https://opfsslnoagwdlligjukw.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable__E_pFIUi_MwHCFaUEbmaFg_ypQ2gdta";
+
+/* ──────────────────── METRIC DEFINITIONS ───────────────────
+   dir: 'high' = higher is better, 'low' = lower is better,
+        'band' = closeness to an optimal range is what's graded.
+   avg = population average (scores ~50). elite = top-10% mark (scores ~90).
+   weight = contribution to the overall fitness score. */
+const METRICS = [
+  { key:'recovery_pct',          label:'Recovery',          unit:'% avg',  card:'cardCardio', dir:'high', avg:50, elite:70, weight:0.20, step:'1',   min:0, max:100,
+    fmt:v=>v+'%',  advice:'Drive it up with earlier nights, less alcohol, and easier days after hard ones.' },
+  { key:'hrv_ms',                label:'HRV (RMSSD)',       unit:'ms avg', card:'cardCardio', dir:'high', avg:50, elite:95, weight:0.15, step:'1',   min:0, max:300,
+    fmt:v=>v+' ms', individual:true, advice:'HRV is personal — chase your own uptrend. Aerobic base, sleep and hydration move it most.' },
+  { key:'resting_hr',            label:'Resting HR',        unit:'bpm avg',card:'cardCardio', dir:'low',  avg:62, elite:48, weight:0.15, step:'1',   min:20, max:120,
+    fmt:v=>v+' bpm', advice:'Build aerobic base (Zone 2). A falling resting HR is the clearest sign fitness is climbing.' },
+  { key:'sleep_performance_pct', label:'Sleep performance', unit:'% avg',  card:'cardSleep',  dir:'high', avg:75, elite:90, weight:0.15, step:'1',   min:0, max:100,
+    fmt:v=>v+'%', advice:'Protect a consistent sleep/wake time. Hitting 90%+ is table stakes for top-decile recovery.' },
+  { key:'sleep_hours',           label:'Sleep duration',    unit:'h/night',card:'cardSleep',  dir:'high', avg:6.7, elite:8.0, weight:0.15, step:'0.1', min:0, max:16,
+    fmt:v=>v+' h', advice:'Get to bed 30–45 min earlier. Duration is the cheapest performance gain you are not taking.' },
+  { key:'day_strain',            label:'Day strain',        unit:'0–21 avg',card:'cardLoad',  dir:'band', low:13, high:17, avg:9, elite:15, weight:0.12, step:'0.1', min:0, max:21,
+    fmt:v=>v.toFixed(1), advice:'Top-10% fitness comes from consistent 13–17 strain. Too low = undertraining; chronically too high = no adaptation.' },
+  { key:'respiratory_rate',      label:'Respiratory rate',  unit:'rpm avg',card:'cardLoad',   dir:'band', low:12, high:17, avg:15, elite:14.5, weight:0.08, step:'0.1', min:5, max:40,
+    fmt:v=>v.toFixed(1)+' rpm', advice:'Mostly a stability/illness signal. A spike usually means you are getting sick or under-recovered.' },
+];
+const BODY_METRICS = [
+  { key:'weight_kg', label:'Body weight', unit:'kg', card:'cardBody', step:'0.1', min:20, max:400, optional:true },
+];
+
+/* ──────────────────── SCORING ENGINE ─────────────────────── */
+function scoreMetric(m, v){
+  if(v==null || isNaN(v)) return null;
+  if(m.dir==='high'){
+    // avg -> 50, elite -> 90, linear, clamped 0..100
+    return clamp(50 + (v - m.avg) / (m.elite - m.avg) * 40);
+  }
+  if(m.dir==='low'){
+    return clamp(50 + (m.avg - v) / (m.avg - m.elite) * 40);
+  }
+  if(m.dir==='band'){
+    if(v>=m.low && v<=m.high) return 90;               // in optimal band
+    const d = v < m.low ? (m.low - v) : (v - m.high);
+    const ref = v < m.low ? (m.low - m.avg) : (m.high) ; // rough scale
+    return clamp(90 - d / Math.max(ref,1) * 45);
+  }
+  return null;
+}
+function clamp(x){ return Math.max(0, Math.min(100, Math.round(x))); }
+
+function bandFor(score){
+  if(score>=85) return { name:'Top 10% — Elite',     color:'var(--green)' };
+  if(score>=72) return { name:'Top 25% — Strong',    color:'var(--teal)'  };
+  if(score>=58) return { name:'Above average',       color:'var(--blue)'  };
+  if(score>=46) return { name:'Average',             color:'var(--orange)'};
+  return            { name:'Below average — work to do', color:'var(--accent)'};
+}
+
+function evaluate(values){
+  let wsum=0, total=0; const per=[];
+  for(const m of METRICS){
+    const s = scoreMetric(m, values[m.key]);
+    if(s==null) continue;
+    per.push({ m, value:values[m.key], score:s });
+    total += s * m.weight; wsum += m.weight;
+  }
+  const overall = wsum ? Math.round(total/wsum) : null;
+  return { overall, band: overall!=null?bandFor(overall):null, per };
+}
+
+/* ─────────────────────── RENDER FORM ─────────────────────── */
+function refChips(m){
+  if(m.optional) return '';
+  const avg = m.dir==='band' ? `${m.low}–${m.high}` : fmtRef(m, m.avg);
+  const elite = m.dir==='band' ? `${m.low}–${m.high}` : fmtRef(m, m.elite);
+  if(m.dir==='band'){
+    return `<div class="ref"><div class="ref-chip elite"><div class="ref-k">Optimal</div><div class="ref-v">${m.low}–${m.high}</div></div></div>`;
+  }
+  return `<div class="ref">
+      <div class="ref-chip avg"><div class="ref-k">Avg</div><div class="ref-v">${avg}</div></div>
+      <div class="ref-chip elite"><div class="ref-k">Top 10%</div><div class="ref-v">${elite}</div></div>
+    </div>`;
+}
+function fmtRef(m,v){ return m.step==='0.1' ? v.toFixed(1) : v; }
+
+function fieldHTML(m){
+  const tag = m.individual ? ' <span class="field-unit">· personal</span>' : '';
+  return `<div class="field" data-key="${m.key}">
+    <div class="field-top">
+      <span class="field-label">${m.label} <span class="field-unit">${m.unit||''}</span>${tag}</span>
+      ${m.dir? '<span class="grade-dot" data-dot="'+m.key+'"></span>':''}
+    </div>
+    <div class="field-row">
+      <input type="number" id="${m.key}" step="${m.step}" min="${m.min}" max="${m.max}" inputmode="decimal" placeholder="—">
+      ${refChips(m)}
+    </div>
+  </div>`;
+}
+[...METRICS, ...BODY_METRICS].forEach(m=>{
+  document.getElementById(m.card).insertAdjacentHTML('beforeend', fieldHTML(m));
+});
+
+// default week_start to most recent Monday
+(function(){
+  const d=new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day);
+  document.getElementById('week_start').value = d.toISOString().slice(0,10);
+})();
+
+// live grade dots
+function collect(){
+  const v={};
+  [...METRICS,...BODY_METRICS].forEach(m=>{
+    const el=document.getElementById(m.key); const n=parseFloat(el.value);
+    v[m.key]= el.value===''?null:n;
+  });
+  return v;
+}
+function refreshDots(){
+  const v=collect();
+  METRICS.forEach(m=>{
+    const dot=document.querySelector(`[data-dot="${m.key}"]`); if(!dot) return;
+    const s=scoreMetric(m,v[m.key]);
+    dot.style.background = s==null?'var(--surface3)':bandFor(s).color;
+  });
+}
+document.getElementById('form').addEventListener('input', refreshDots);
+
+/* ─────────────────── SUPABASE / PERSISTENCE ──────────────── */
+let db=null, configured=false;
+if(SUPABASE_URL.indexOf('__')===-1 && SUPABASE_ANON_KEY.indexOf('__')===-1){
+  db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  configured=true;
+} else {
+  const b=document.getElementById('configBanner');
+  b.style.display='block';
+  b.textContent='⚙︎ Not connected to Supabase yet — add your project URL and anon key in the CONFIG block. You can still fill the form and see your grade; saving is disabled.';
+}
+
+const toast=(msg,err)=>{ const t=document.getElementById('toast'); t.textContent=msg; t.className='toast show'+(err?' err':''); setTimeout(()=>t.className='toast',2600); };
+
+async function loadHistory(){
+  if(!configured) return;
+  const { data, error } = await db.from('whoop_weekly').select('*').order('week_start',{ascending:false}).limit(26);
+  if(error){ toast('Could not load history',true); return; }
+  renderHistory(data||[]);
+}
+function renderHistory(rows){
+  const el=document.getElementById('history');
+  if(!rows.length){ el.innerHTML='<div class="empty">No weeks logged yet.</div>'; return; }
+  el.innerHTML = rows.map(r=>{
+    const score = r.fitness_score!=null ? Math.round(r.fitness_score) : evaluate(r).overall;
+    const band = score!=null?bandFor(score):{name:'—',color:'var(--surface3)'};
+    return `<div class="hist-row">
+      <div class="hist-score" style="background:${band.color}1f;color:${band.color}">${score??'—'}</div>
+      <div class="hist-meta">
+        <div class="hist-week">Week of ${fmtDate(r.week_start)}</div>
+        <div class="hist-band">${band.name}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function fmtDate(s){ const d=new Date(s+'T00:00:00'); return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }
+
+/* ─────────────────── FEEDBACK RENDERING ──────────────────── */
+function renderFeedback(values){
+  const r = evaluate(values);
+  if(r.overall==null){ return r; }
+  document.getElementById('feedback').style.display='block';
+  const v=document.getElementById('verdict');
+  v.style.background = `${r.band.color}1f`;
+  v.innerHTML = `<div class="verdict-band" style="color:${r.band.color}">${r.band.name}</div>
+    <div class="verdict-score" style="color:${r.band.color}">${r.overall}<small>/100</small></div>
+    <div class="verdict-line">${headline(r)}</div>`;
+
+  // critical feedback: every metric below the "strong" line, weakest first
+  const weak = r.per.filter(p=>p.score<72).sort((a,b)=>a.score-b.score);
+  const crit=document.getElementById('crit');
+  if(!weak.length){
+    crit.innerHTML = `<div class="crit-item"><div class="crit-bar" style="background:var(--green)"></div>
+      <div class="crit-body"><div class="crit-metric">No weak links this week.</div>
+      <div class="crit-note">Every tracked metric is at or above the top-25% line. Hold the routine that produced this.</div></div></div>`;
+  } else {
+    crit.innerHTML = weak.map(p=>{
+      const target = p.m.dir==='band' ? `${p.m.low}–${p.m.high}` : (p.m.step==='0.1'?p.m.elite.toFixed(1):p.m.elite);
+      const col = bandFor(p.score).color;
+      return `<div class="crit-item">
+        <div class="crit-bar" style="background:${col}"></div>
+        <div class="crit-body">
+          <div class="crit-metric">${p.m.label} <span class="crit-val">— ${p.m.fmt(p.value)} · scored ${p.score}/100</span></div>
+          <div class="crit-note"><b>Top-10% target: ${target}.</b> ${p.m.advice}</div>
+        </div></div>`;
+    }).join('');
+  }
+  return r;
+}
+function headline(r){
+  if(r.overall>=85) return "Elite week. You're in the top decile — protect what's working.";
+  if(r.overall>=72) return "Strong week, but not yet elite. Close the gaps below.";
+  if(r.overall>=58) return "Above average — and a long way from top 10%. Attack the weak links.";
+  if(r.overall>=46) return "Average. This won't move you into the top tier. Be honest about the items below.";
+  return "Below average. The fundamentals below are costing you — fix them before adding more training.";
+}
+
+/* ─────────────────────── SUBMIT ──────────────────────────── */
+document.getElementById('form').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const values = collect();
+  values.week_start = document.getElementById('week_start').value;
+  values.notes = document.getElementById('notes').value || null;
+  const r = renderFeedback(values);
+  document.getElementById('feedback').scrollIntoView({behavior:'smooth', block:'start'});
+
+  if(!configured){ toast('Graded locally — connect Supabase to save'); return; }
+  const btn=document.getElementById('submitBtn'); btn.disabled=true; btn.textContent='Saving…';
+  const payload = { ...values, fitness_score: r.overall };
+  const { error } = await db.from('whoop_weekly').upsert(payload, { onConflict:'week_start' });
+  btn.disabled=false; btn.textContent='Save & grade this week';
+  if(error){ toast('Save failed: '+error.message, true); return; }
+  toast('Week saved ✓');
+  loadHistory();
+});
+
+loadHistory();
+</script>
+</body>
+</html>
