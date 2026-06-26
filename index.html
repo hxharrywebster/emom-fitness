@@ -3,1429 +3,851 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="EMOM Fitness">
-<meta name="theme-color" content="#000000">
+<title>Buscho's Football Clinic | Junior Soccer Coaching · Sydney &amp; Regional NSW (Ages 4–12)</title>
+<meta name="description" content="High-energy junior football (soccer) coaching for ages 4–12 across Sydney metro and western/regional NSW. Weekly classes, holiday camps, 1-on-1 training & home plans. Book a free trial.">
+<meta name="theme-color" content="#0a0e0c">
 <link rel="manifest" href="manifest.json">
-<title>EMOM Fitness</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- Open Graph / social share -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Buscho's Football Clinic — Junior Football Coaching, Sydney & NSW">
+<meta property="og:description" content="Football that makes kids love the game. Ages 4–12. Book a free trial.">
+<meta property="og:image" content="/og-image.jpg">
+<meta property="og:url" content="https://buschosfootball.com.au/"><!-- EDIT: real domain -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Buscho's Football Clinic — Junior Football Coaching, Sydney & NSW">
+<meta name="twitter:description" content="Football that makes kids love the game. Ages 4–12. Book a free trial.">
+
+<!-- Local-business structured data (placeholder values — EDIT before launch) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  "name": "Buscho's Football Clinic",
+  "description": "Junior football (soccer) coaching for ages 4–12 across Sydney metro and western/regional NSW.",
+  "url": "https://buschosfootball.com.au/",
+  "telephone": "+61400000000",
+  "email": "hello@buschosfootball.com.au",
+  "priceRange": "$$",
+  "areaServed": ["Sydney", "Western New South Wales", "Regional New South Wales"],
+  "sport": "Soccer",
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "NSW",
+    "addressCountry": "AU"
+  }
+}
+</script>
+
 <style>
-  :root {
-    --bg: #000;
-    --surface: #1c1c1e;
-    --surface2: #2c2c2e;
-    --surface3: #3a3a3c;
-    --text: #fff;
-    --text2: #ebebf599;
-    --text3: #ebebf54d;
-    --accent: #ff375f;
-    --green: #30d158;
-    --blue: #0a84ff;
-    --orange: #ff9f0a;
-    --purple: #bf5af2;
-    --ring-move: #ff375f;
-    --ring-ex: #30d158;
-    --ring-stand: #1ac8db;
-    --radius: 16px;
-    --radius-sm: 10px;
+  :root{
+    /* base */
+    --bg:#0a0e0c; --bg-alt:#0f1512; --surface:#161d18; --surface2:#1f2a23; --border:#2a382e;
+    /* brand */
+    --green:#25e36a; --green-bright:#4dff8c; --green-deep:#0c3d22; --green-ink:#06210f;
+    /* text */
+    --text:#f4f8f5; --text2:#b9c6bd; --text3:#7d8a82;
+    /* type */
+    --font:-apple-system,'SF Pro Display',BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;
+    /* radius */
+    --radius:16px; --radius-sm:10px; --radius-lg:24px;
+    /* spacing */
+    --space-section:96px; --maxw:1100px;
+    /* effects */
+    --shadow:0 12px 40px rgba(0,0,0,.45);
+    --glow:0 0 0 3px rgba(37,227,106,.35);
+    --header-h:66px;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--font); background:var(--bg); color:var(--text);
+    line-height:1.5; font-size:1.0625rem; overflow-x:hidden;
+  }
+  img{max-width:100%;display:block}
+  a{color:var(--green);text-decoration:none}
+  section{scroll-margin-top:calc(var(--header-h) + 8px)}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    overflow-x: hidden;
-    overscroll-behavior: none;
-    -webkit-font-smoothing: antialiased;
-    padding-top: env(safe-area-inset-top);
-  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;width:100%}
 
-  html { height: -webkit-fill-available; }
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:16px 28px;border:none;border-radius:var(--radius);
+    font-family:inherit;font-weight:800;font-size:1.05rem;cursor:pointer;
+    transition:transform .12s,background .2s,box-shadow .2s;white-space:nowrap;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--green);color:var(--green-ink)}
+  .btn-primary:hover{background:var(--green-bright)}
+  .btn-ghost{background:transparent;color:var(--text);box-shadow:inset 0 0 0 2px var(--border)}
+  .btn-ghost:hover{box-shadow:inset 0 0 0 2px var(--green)}
+  .btn-sm{padding:11px 18px;font-size:.95rem}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+  textarea:focus-visible,summary:focus-visible{outline:none;box-shadow:var(--glow);border-radius:var(--radius-sm)}
 
-  /* ─── SCREENS ─── */
-  .screen { display: none; min-height: 100vh; flex-direction: column; }
-  .screen.active { display: flex; }
+  /* ---------- image placeholder utility ---------- */
+  .img-ph{
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;
+    background:linear-gradient(135deg,var(--green-deep),var(--green-ink));
+    color:var(--green-bright);border-radius:var(--radius);min-height:240px;
+    font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:.78rem;
+    border:1px dashed var(--border);
+  }
+  /* full-bleed real photo inside an .img-ph slot (gradient shows if the file is missing) */
+  .img-ph.has-photo{position:relative;padding:0;border:none;overflow:hidden}
+  .img-ph.has-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .card .img-ph.has-photo{min-height:210px}
 
-  /* ─── NAV BAR ─── */
-  .nav-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px 0;
-    position: sticky; top: 0; z-index: 10;
-    background: var(--bg);
+  /* ---------- header / nav ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;background:rgba(10,14,12,.92);
+    backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid transparent;
+    transition:border-color .2s,box-shadow .2s;
   }
-  .nav-title { font-size: 34px; font-weight: 700; letter-spacing: -0.5px; }
-  .nav-sub { font-size: 17px; font-weight: 600; }
-  .nav-icon-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--surface2); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text); font-size: 16px;
-  }
+  header.site.scrolled{border-bottom-color:var(--border);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:var(--header-h)}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:900;letter-spacing:-.02em;
+    font-size:1.05rem;color:var(--text)}
+  .brand .ball{font-size:1.2rem}
+  .brand b{color:var(--green)}
+  .nav-links{display:flex;align-items:center;gap:26px;list-style:none}
+  .nav-links a{color:var(--text2);font-weight:600;font-size:.98rem;transition:color .15s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:12px}
+  .hamburger{display:none;background:transparent;border:1px solid var(--border);
+    border-radius:var(--radius-sm);width:44px;height:44px;cursor:pointer;color:var(--text);
+    align-items:center;justify-content:center}
+  .hamburger svg{width:22px;height:22px}
 
-  /* ─── SCROLL CONTENT ─── */
-  .scroll-content {
-    flex: 1; overflow-y: auto; padding: 16px 0 100px;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-y: contain;
-  }
-  .scroll-content::-webkit-scrollbar { display: none; }
+  /* mobile menu panel */
+  .mobile-menu{display:none}
 
-  /* ─── SECTION HEADER ─── */
-  .section-header {
-    display: flex; align-items: baseline; justify-content: space-between;
-    padding: 16px 20px 8px;
-  }
-  .section-title { font-size: 20px; font-weight: 700; }
-  .section-see-all { font-size: 15px; color: var(--blue); cursor: pointer; }
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;
+    background:
+      radial-gradient(1200px 600px at 75% -10%, rgba(37,227,106,.18), transparent 60%),
+      linear-gradient(180deg,#0c1310 0%,var(--bg) 70%);
+    border-bottom:1px solid var(--border)}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:center;
+    padding:74px 0 84px}
+  .eyebrow{display:inline-block;text-transform:uppercase;letter-spacing:2px;font-size:.74rem;
+    font-weight:800;color:var(--green);background:rgba(37,227,106,.1);
+    border:1px solid rgba(37,227,106,.3);padding:7px 13px;border-radius:999px;margin-bottom:20px}
+  .hero h1{font-size:clamp(2.4rem,6vw,4.3rem);font-weight:900;line-height:1.02;letter-spacing:-.03em;
+    margin-bottom:18px}
+  .hero h1 em{color:var(--green);font-style:normal}
+  .hero p.lead{font-size:1.18rem;color:var(--text2);max-width:33ch;margin-bottom:28px}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .trust-strip{display:flex;gap:10px;flex-wrap:wrap;font-size:.86rem;color:var(--text3);font-weight:600}
+  .trust-strip span{display:inline-flex;align-items:center;gap:7px}
+  .trust-strip .dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+  .hero-media{position:relative}
+  .hero-media .img-ph{min-height:380px;border-radius:var(--radius-lg)}
+  .hero-badge{position:absolute;bottom:-16px;left:-12px;background:var(--surface);
+    border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;
+    box-shadow:var(--shadow);font-weight:800;font-size:.92rem}
+  .hero-badge b{color:var(--green);display:block;font-size:1.5rem;line-height:1}
 
-  /* ─── FEATURED BANNER ─── */
-  .featured-banner {
-    margin: 8px 20px 0;
-    border-radius: var(--radius);
-    overflow: hidden;
-    position: relative;
-    height: 200px;
-    cursor: pointer;
-    transition: transform .15s;
-  }
-  .featured-banner:active { transform: scale(.98); }
-  .featured-banner .banner-bg {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .featured-banner .banner-content {
-    position: absolute; inset: 0; padding: 20px;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 60%);
-  }
-  .banner-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); margin-bottom: 4px; }
-  .banner-title { font-size: 24px; font-weight: 800; line-height: 1.1; }
-  .banner-sub { font-size: 13px; color: var(--text2); margin-top: 4px; }
+  /* ---------- stats strip ---------- */
+  .stats{background:var(--green);color:var(--green-ink)}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:30px 0;text-align:center}
+  .stat b{display:block;font-size:2rem;font-weight:900;line-height:1}
+  .stat span{font-size:.92rem;font-weight:700;opacity:.85}
 
-  /* ─── HORIZONTAL SCROLL ─── */
-  .h-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 4px 20px 8px; scroll-snap-type: x mandatory; }
-  .h-scroll::-webkit-scrollbar { display: none; }
+  /* ---------- generic section ---------- */
+  .section{padding:var(--space-section) 0}
+  .section.alt{background:var(--bg-alt)}
+  .sec-head{max-width:640px;margin:0 auto 52px;text-align:center}
+  .sec-head .kicker{text-transform:uppercase;letter-spacing:2px;font-size:.76rem;font-weight:800;
+    color:var(--green);margin-bottom:12px;display:block}
+  .sec-head h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;line-height:1.08}
+  .sec-head p{color:var(--text2);margin-top:14px;font-size:1.08rem}
 
-  /* ─── WORKOUT CARD ─── */
-  .workout-card {
-    flex-shrink: 0; width: 160px; border-radius: var(--radius);
-    overflow: hidden; cursor: pointer; scroll-snap-align: start;
-    position: relative; transition: transform .15s;
-    background: var(--surface);
-  }
-  .workout-card:active { transform: scale(.97); }
-  .workout-card .card-thumb {
-    width: 100%; height: 110px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 44px;
-  }
-  .workout-card .card-body { padding: 10px 12px 12px; }
-  .workout-card .card-title { font-size: 13px; font-weight: 700; line-height: 1.2; }
-  .workout-card .card-meta { font-size: 11px; color: var(--text2); margin-top: 2px; }
-  .card-tag {
-    position: absolute; top: 8px; right: 8px;
-    background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
-    border-radius: 20px; padding: 2px 8px;
-    font-size: 10px; font-weight: 700;
-  }
+  /* card grid */
+  .grid{display:grid;gap:22px}
+  .grid.cols-4{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 
-  /* ─── SETTINGS SCREEN ─── */
-  .settings-group { margin: 16px 20px 0; }
-  .settings-group-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; padding: 0 4px; }
-  .settings-row {
-    background: var(--surface); border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-  .settings-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 16px; border-bottom: .5px solid var(--surface3);
-  }
-  .settings-item:last-child { border-bottom: none; }
-  .settings-item-label { font-size: 16px; }
-  .settings-item-value { font-size: 16px; color: var(--blue); }
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+    overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,border-color .2s}
+  .card:hover{transform:translateY(-4px);border-color:var(--green)}
+  .card .img-ph{border-radius:0;border:none;border-bottom:1px solid var(--border);min-height:150px}
+  .card-body{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card-body h3{font-size:1.22rem;font-weight:800}
+  .card-body p{color:var(--text2);font-size:.98rem;flex:1}
+  .price-hint{color:var(--green);font-weight:800;font-size:.95rem}
+  .card-body .btn{margin-top:6px}
 
-  /* ─── PILL SELECTOR ─── */
-  .pill-selector { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 20px 0; }
-  .pill {
-    padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--surface3);
-    background: transparent; color: var(--text2); font-size: 14px; font-weight: 600;
-    cursor: pointer; transition: all .15s;
-  }
-  .pill.selected { background: var(--blue); border-color: var(--blue); color: #fff; }
-  .pill.intensity-1.selected { background: var(--green); border-color: var(--green); }
-  .pill.intensity-2.selected { background: var(--orange); border-color: var(--orange); }
-  .pill.intensity-3.selected { background: var(--accent); border-color: var(--accent); }
+  /* ---------- about coach ---------- */
+  .split{display:grid;grid-template-columns:.85fr 1.15fr;gap:46px;align-items:center}
+  .split .img-ph{min-height:420px}
+  .split h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;margin-bottom:18px}
+  .split p{color:var(--text2);margin-bottom:14px}
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .badges .pill{background:var(--surface2);border:1px solid var(--border);border-radius:999px;
+    padding:9px 15px;font-size:.86rem;font-weight:700;color:var(--text)}
+  .badges .pill b{color:var(--green)}
 
-  /* ─── EQUIPMENT GRID ─── */
-  .equip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 20px 0; }
-  .equip-card {
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 14px; display: flex; align-items: center; gap: 12px;
-    cursor: pointer; border: 1.5px solid transparent; transition: all .15s;
-  }
-  .equip-card.selected { border-color: var(--blue); background: rgba(10,132,255,.15); }
-  .equip-icon { font-size: 28px; width: 36px; text-align: center; }
-  .equip-label { font-size: 13px; font-weight: 600; }
+  /* ---------- method pillars ---------- */
+  .pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px}
+  .pillar .icon{font-size:2rem;margin-bottom:12px;display:block}
+  .pillar h3{font-size:1.18rem;font-weight:800;margin-bottom:8px}
+  .pillar p{color:var(--text2);font-size:.97rem}
 
-  /* ─── WORKOUT DETAIL SCREEN ─── */
-  .workout-hero {
-    height: 260px; position: relative;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .workout-hero-icon { font-size: 80px; }
-  .workout-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,.2), var(--bg));
-  }
-  .workout-hero-content {
-    position: absolute; bottom: 20px; left: 20px; right: 20px;
-  }
-  .workout-hero-title { font-size: 28px; font-weight: 800; }
-  .workout-hero-meta { font-size: 14px; color: var(--text2); margin-top: 4px; }
-  .workout-stats {
-    display: flex; gap: 0;
-    margin: 16px 20px 0;
-    background: var(--surface); border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-  .workout-stat {
-    flex: 1; padding: 14px 12px; text-align: center;
-    border-right: .5px solid var(--surface3);
-  }
-  .workout-stat:last-child { border-right: none; }
-  .workout-stat-val { font-size: 22px; font-weight: 700; }
-  .workout-stat-lbl { font-size: 11px; color: var(--text2); margin-top: 2px; text-transform: uppercase; letter-spacing: .3px; }
-  .exercise-list { margin: 16px 20px 0; }
-  .exercise-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 12px 0; border-bottom: .5px solid var(--surface3);
-  }
-  .exercise-item:last-child { border-bottom: none; }
-  .exercise-num {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: var(--surface2); display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; flex-shrink: 0;
-  }
-  .exercise-info { flex: 1; }
-  .exercise-name { font-size: 15px; font-weight: 600; }
-  .exercise-detail { font-size: 12px; color: var(--text2); margin-top: 2px; }
-  .exercise-icon { font-size: 22px; }
+  /* ---------- age groups ---------- */
+  .age{background:linear-gradient(160deg,var(--surface2),var(--surface));
+    border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;text-align:center}
+  .age .num{font-size:2.4rem;font-weight:900;color:var(--green);line-height:1}
+  .age h3{font-size:1.3rem;font-weight:800;margin:10px 0 6px}
+  .age p{color:var(--text2);font-size:.97rem}
 
-  /* ─── START BUTTON ─── */
-  .start-btn-wrap { padding: 20px; }
-  .start-btn {
-    width: 100%; padding: 18px; border-radius: var(--radius);
-    border: none; font-size: 17px; font-weight: 700;
-    cursor: pointer; transition: transform .1s, opacity .1s;
-    color: #fff;
-  }
-  .start-btn:active { transform: scale(.98); opacity: .9; }
-  .btn-primary { background: var(--accent); }
-  .btn-green { background: var(--green); }
+  /* ---------- pricing ---------- */
+  .price-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:30px 26px;display:flex;flex-direction:column;gap:16px;position:relative}
+  .price-card.featured{border-color:var(--green);box-shadow:0 0 0 1px var(--green),0 12px 40px rgba(37,227,106,.12)}
+  .price-card .tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+    background:var(--green);color:var(--green-ink);font-weight:800;font-size:.74rem;
+    text-transform:uppercase;letter-spacing:1px;padding:5px 13px;border-radius:999px}
+  .price-card h3{font-size:1.2rem;font-weight:800}
+  .price-card .amount{font-size:2.6rem;font-weight:900;letter-spacing:-.02em;line-height:1}
+  .price-card .amount span{font-size:.95rem;font-weight:600;color:var(--text3)}
+  .price-card ul{list-style:none;display:flex;flex-direction:column;gap:9px;flex:1}
+  .price-card li{display:flex;gap:9px;align-items:flex-start;color:var(--text2);font-size:.96rem}
+  .price-card li::before{content:"✓";color:var(--green);font-weight:900}
+  .trial-banner{text-align:center;background:rgba(37,227,106,.08);border:1px solid rgba(37,227,106,.3);
+    border-radius:var(--radius);padding:14px 18px;margin-bottom:34px;font-weight:700;color:var(--text)}
+  .trial-banner b{color:var(--green)}
 
-  /* ─── MOBILE RESPONSIVE ─── */
-  @media (max-width: 390px) {
-    .nav-title { font-size: 28px; }
-    .ring-time { font-size: 52px; }
-    .timer-ex-name { font-size: 18px; }
-    .equip-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .workout-card { width: 145px; }
-    .stats-grid { gap: 8px; }
-  }
+  /* ---------- testimonials ---------- */
+  .quote{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px}
+  .quote .stars{color:var(--green);font-size:1.05rem;letter-spacing:2px;margin-bottom:12px}
+  .quote blockquote{font-size:1.05rem;color:var(--text);margin-bottom:16px;font-style:italic}
+  .quote .who{display:flex;align-items:center;gap:12px}
+  .quote .avatar{width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(135deg,var(--green),var(--green-deep));flex:none}
+  .quote .who b{display:block;font-size:.95rem}
+  .quote .who span{font-size:.85rem;color:var(--text3)}
 
-  @media (min-width: 600px) {
-    body { max-width: 430px; margin: 0 auto; }
-    .tab-bar { max-width: 430px; left: 50%; transform: translateX(-50%); }
-    .toast { max-width: 300px; }
-  }
+  /* ---------- locations ---------- */
+  .loc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px}
+  .loc-card .icon{font-size:1.8rem;margin-bottom:10px;display:block}
+  .loc-card h3{font-size:1.18rem;font-weight:800;margin-bottom:8px}
+  .loc-card p{color:var(--text2);font-size:.97rem}
 
-  /* Ensure all interactive elements meet 44pt touch target */
-  button, .workout-card, .equip-card, .pill, .featured-banner {
-    cursor: pointer;
-  }
-  .equip-card { min-height: 60px; }
-  .pill { min-height: 36px; }
-  .timer-btn { min-height: 52px; }
+  /* ---------- FAQ ---------- */
+  .faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+  details{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  details[open]{border-color:var(--green)}
+  summary{cursor:pointer;padding:18px 22px;font-weight:700;font-size:1.05rem;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;gap:14px}
+  summary::-webkit-details-marker{display:none}
+  summary .chev{transition:transform .2s;color:var(--green);flex:none;font-size:1.2rem}
+  details[open] summary .chev{transform:rotate(45deg)}
+  details .answer{padding:0 22px 20px;color:var(--text2)}
 
-  /* ─── TIMER SCREEN ─── */
-  #screen-timer { background: var(--bg); }
-  .timer-header {
-    padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;
-  }
-  .timer-back-btn {
-    background: var(--surface2); border: none; color: var(--text);
-    width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
-    font-size: 16px; display: flex; align-items: center; justify-content: center;
-  }
-  .timer-title { font-size: 17px; font-weight: 600; }
-  .timer-round { font-size: 14px; color: var(--text2); }
+  /* ---------- enquiry ---------- */
+  #enquiry{background:
+    radial-gradient(900px 500px at 15% 0%, rgba(37,227,106,.12), transparent 55%),var(--bg-alt)}
+  .enquiry-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:46px;align-items:start}
+  .enquiry-copy h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;margin-bottom:16px}
+  .enquiry-copy p{color:var(--text2);margin-bottom:24px;font-size:1.08rem}
+  .contact-list{display:flex;flex-direction:column;gap:14px;list-style:none}
+  .contact-list li{display:flex;align-items:center;gap:13px;font-weight:600}
+  .contact-list .ci{width:42px;height:42px;border-radius:var(--radius-sm);background:var(--surface);
+    border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex:none}
+  .contact-list a{color:var(--text)}
+  .contact-list a:hover{color:var(--green)}
 
-  .timer-ring-wrap {
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px 0;
+  form.enquiry{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:28px;display:flex;flex-direction:column;gap:16px}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  label{font-weight:700;font-size:.9rem}
+  input,select,textarea{font-family:inherit;font-size:1rem;color:var(--text);
+    background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:13px 14px;width:100%;transition:border-color .15s}
+  input:focus,select:focus,textarea:focus{border-color:var(--green)}
+  textarea{resize:vertical;min-height:96px}
+  select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%237d8a82' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+  .hp-field{position:absolute;left:-5000px}
+  form.enquiry button[type=submit]{margin-top:6px}
+  .form-note{font-size:.82rem;color:var(--text3);text-align:center}
+
+  /* ---------- footer ---------- */
+  footer.site{background:#070a08;border-top:1px solid var(--border);padding:54px 0 34px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;margin-bottom:34px}
+  .foot-brand .brand{margin-bottom:14px}
+  .foot-brand p{color:var(--text3);font-size:.95rem;max-width:34ch}
+  .foot-col h4{font-size:.82rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:14px}
+  .foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .foot-col a{color:var(--text2);font-size:.95rem}
+  .foot-col a:hover{color:var(--green)}
+  .foot-bottom{border-top:1px solid var(--border);padding-top:22px;display:flex;
+    justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+    font-size:.85rem;color:var(--text3)}
+  .foot-bottom .wwcc{color:var(--text2)}
+  .foot-bottom .wwcc b{color:var(--green)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:34px;padding:54px 0 64px}
+    .hero p.lead{max-width:none}
+    .hero-media .img-ph{min-height:280px}
+    .split{grid-template-columns:1fr;gap:30px}
+    .split .img-ph{min-height:300px}
+    .enquiry-grid{grid-template-columns:1fr;gap:34px}
+    .foot-grid{grid-template-columns:1fr 1fr}
   }
-  .ring-svg { transform: rotate(-90deg); }
-  .ring-track { fill: none; stroke: var(--surface2); stroke-width: 12; }
-  .ring-progress { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset .05s linear; }
-  .ring-center {
-    position: absolute;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  @media (max-width:720px){
+    :root{--space-section:60px}
+    .nav-links{display:none}
+    .nav-cta .btn-cta-desktop{display:none}
+    .hamburger{display:inline-flex}
+    .mobile-menu{display:block;position:fixed;inset:var(--header-h) 0 auto 0;z-index:49;
+      background:var(--bg);border-bottom:1px solid var(--border);
+      transform:translateY(-130%);transition:transform .25s ease;box-shadow:var(--shadow)}
+    .mobile-menu.open{transform:translateY(0)}
+    .mobile-menu ul{list-style:none;padding:14px 22px 22px;display:flex;flex-direction:column;gap:4px}
+    .mobile-menu a{display:block;padding:14px 6px;color:var(--text);font-weight:700;font-size:1.1rem;
+      border-bottom:1px solid var(--border)}
+    .mobile-menu .btn{margin-top:14px;width:100%}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:22px}
+    .field-row{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .foot-bottom{flex-direction:column;align-items:flex-start}
   }
-  .ring-time { font-size: 64px; font-weight: 200; letter-spacing: -3px; line-height: 1; }
-  .ring-label { font-size: 14px; color: var(--text2); font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
-  .ring-container { position: relative; display: inline-flex; align-items: center; justify-content: center; }
-
-  .timer-exercise-card {
-    margin: 0 20px;
-    background: var(--surface); border-radius: var(--radius);
-    padding: 20px; text-align: center;
-  }
-  .timer-ex-icon { font-size: 48px; margin-bottom: 8px; }
-  .timer-ex-name { font-size: 22px; font-weight: 700; }
-  .timer-ex-target { font-size: 15px; color: var(--text2); margin-top: 4px; }
-  .timer-phase-badge {
-    display: inline-block; padding: 4px 12px; border-radius: 20px;
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-  .phase-work { background: rgba(255,55,95,.2); color: var(--accent); }
-  .phase-rest { background: rgba(48,209,88,.2); color: var(--green); }
-  .phase-get-ready { background: rgba(10,132,255,.2); color: var(--blue); }
-
-  .timer-next { margin: 12px 20px 0; }
-  .timer-next-label { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
-  .timer-next-item {
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 12px 16px; display: flex; align-items: center; gap: 12px;
-  }
-  .timer-next-icon { font-size: 22px; }
-  .timer-next-name { font-size: 14px; font-weight: 600; }
-
-  .timer-controls { display: flex; gap: 16px; padding: 20px; }
-  .timer-btn {
-    flex: 1; padding: 16px; border-radius: var(--radius);
-    border: none; font-size: 16px; font-weight: 700;
-    cursor: pointer; transition: transform .1s;
-  }
-  .timer-btn:active { transform: scale(.97); }
-  .btn-pause { background: var(--surface2); color: var(--text); }
-  .btn-skip { background: var(--surface2); color: var(--blue); }
-  .btn-stop { background: rgba(255,55,95,.2); color: var(--accent); }
-
-  /* ─── PROGRESS BAR ─── */
-  .workout-progress { padding: 0 20px; margin-top: 4px; }
-  .progress-track { height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width .3s; }
-  .progress-label { font-size: 11px; color: var(--text3); margin-top: 4px; display: flex; justify-content: space-between; }
-
-  /* ─── COMPLETE SCREEN ─── */
-  .complete-hero { padding: 60px 20px 30px; text-align: center; }
-  .complete-rings { display: flex; justify-content: center; gap: -20px; margin-bottom: 24px; }
-  .complete-icon { font-size: 80px; margin-bottom: 16px; }
-  .complete-title { font-size: 34px; font-weight: 800; }
-  .complete-sub { font-size: 16px; color: var(--text2); margin-top: 8px; }
-  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 20px 0; }
-  .stat-card {
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 16px; text-align: center;
-  }
-  .stat-card-icon { font-size: 22px; margin-bottom: 6px; }
-  .stat-card-val { font-size: 28px; font-weight: 700; }
-  .stat-card-lbl { font-size: 12px; color: var(--text2); margin-top: 2px; }
-
-  /* ─── TAB BAR ─── */
-  .tab-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(0,0,0,.92); backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-top: .5px solid var(--surface2);
-    display: flex; padding: 8px 0 max(12px, env(safe-area-inset-bottom));
-    z-index: 100;
-  }
-  .tab-item {
-    flex: 1; display: flex; flex-direction: column; align-items: center;
-    gap: 3px; cursor: pointer; padding: 4px 0; border: none; background: transparent;
-    color: var(--text3); transition: color .15s;
-    min-height: 44px; /* iOS minimum touch target */
-  }
-  .tab-item.active { color: var(--accent); }
-  .tab-icon { font-size: 22px; line-height: 1; }
-  .tab-label { font-size: 10px; font-weight: 600; }
-
-  /* ─── ACTIVITY RINGS (decorative) ─── */
-  .rings-widget {
-    margin: 12px 20px 0;
-    background: var(--surface); border-radius: var(--radius-sm);
-    padding: 16px; display: flex; align-items: center; gap: 20px;
-  }
-  .mini-rings svg { filter: drop-shadow(0 0 6px rgba(255,55,95,.4)); }
-  .rings-info { flex: 1; }
-  .rings-info-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .rings-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .rings-text { font-size: 12px; }
-  .rings-val { font-weight: 700; }
-
-  /* ─── BACK BUTTON ─── */
-  .back-btn {
-    background: transparent; border: none; color: var(--blue);
-    font-size: 16px; cursor: pointer; display: flex; align-items: center; gap: 4px;
-    padding: 0;
-  }
-
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
-  @keyframes countdownPop { 0% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-  .screen.active { animation: fadeIn .2s ease-out; }
-  .pulse { animation: pulse 1s infinite; }
-  .countdown-pop { animation: countdownPop .3s ease-out; }
-
-  /* ─── GRADIENT BACKGROUNDS ─── */
-  .grad-red { background: linear-gradient(135deg, #ff375f33, #ff375f66); }
-  .grad-orange { background: linear-gradient(135deg, #ff9f0a33, #ff9f0a66); }
-  .grad-green { background: linear-gradient(135deg, #30d15833, #30d15866); }
-  .grad-blue { background: linear-gradient(135deg, #0a84ff33, #0a84ff66); }
-  .grad-purple { background: linear-gradient(135deg, #bf5af233, #bf5af266); }
-  .grad-cyan { background: linear-gradient(135deg, #1ac8db33, #1ac8db66); }
-
-  /* ─── TOAST ─── */
-  .toast {
-    position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px);
-    background: var(--surface2); border-radius: 20px; padding: 10px 20px;
-    font-size: 14px; font-weight: 600; z-index: 999; opacity: 0;
-    transition: all .3s; pointer-events: none; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* highlight on generated workout */
-  .generated-badge {
-    background: linear-gradient(135deg, var(--blue), var(--purple));
-    color: #fff; border-radius: 4px; padding: 1px 6px;
-    font-size: 10px; font-weight: 700; text-transform: uppercase;
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important}
   }
 </style>
 </head>
 <body>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 1: HOME / DISCOVER
-════════════════════════════════════════════ -->
-<div class="screen active" id="screen-home">
-  <div class="nav-bar">
-    <div class="nav-title">Fitness</div>
-    <button class="nav-icon-btn" onclick="showToast('Search coming soon')">🔍</button>
-  </div>
-  <div class="scroll-content">
-
-    <!-- Activity Rings Widget -->
-    <div class="rings-widget">
-      <div class="mini-rings">
-        <svg width="70" height="70" viewBox="0 0 70 70">
-          <circle cx="35" cy="35" r="30" fill="none" stroke="#3a1a1f" stroke-width="7"/>
-          <circle cx="35" cy="35" r="30" fill="none" stroke="#ff375f" stroke-width="7" stroke-linecap="round"
-            stroke-dasharray="188" stroke-dashoffset="52" transform="rotate(-90 35 35)"/>
-          <circle cx="35" cy="35" r="22" fill="none" stroke="#1a3322" stroke-width="7"/>
-          <circle cx="35" cy="35" r="22" fill="none" stroke="#30d158" stroke-width="7" stroke-linecap="round"
-            stroke-dasharray="138" stroke-dashoffset="30" transform="rotate(-90 35 35)"/>
-          <circle cx="35" cy="35" r="14" fill="none" stroke="#0d2a32" stroke-width="7"/>
-          <circle cx="35" cy="35" r="14" fill="none" stroke="#1ac8db" stroke-width="7" stroke-linecap="round"
-            stroke-dasharray="88" stroke-dashoffset="20" transform="rotate(-90 35 35)"/>
+<!-- ============ HEADER / NAV ============ -->
+<header class="site" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Buscho's Football Clinic home">
+      <span class="ball" aria-hidden="true">⚽</span> BUSCHO'S <b>FOOTBALL</b>&nbsp;CLINIC
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#coach">Coach</a></li>
+        <li><a href="#method">Method</a></li>
+        <li><a href="#locations">Locations</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="#enquiry" class="btn btn-primary btn-sm btn-cta-desktop">Book a free trial</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
-      </div>
-      <div class="rings-info">
-        <div class="rings-info-row"><div class="rings-dot" style="background:#ff375f"></div><span class="rings-text"><span class="rings-val">420</span> / 600 cal Move</span></div>
-        <div class="rings-info-row"><div class="rings-dot" style="background:#30d158"></div><span class="rings-text"><span class="rings-val">25</span> / 30 min Exercise</span></div>
-        <div class="rings-info-row"><div class="rings-dot" style="background:#1ac8db"></div><span class="rings-text"><span class="rings-val">8</span> / 12 hrs Stand</span></div>
-      </div>
+      </button>
     </div>
-
-    <!-- Featured -->
-    <div class="section-header" style="padding-top:20px">
-      <div class="section-title">Featured</div>
-    </div>
-    <div class="featured-banner" onclick="openWorkout(0)">
-      <div class="banner-bg grad-red">
-        <span style="font-size:90px;opacity:.6">🔥</span>
-      </div>
-      <div class="banner-content">
-        <div class="banner-label">EMOM Spotlight</div>
-        <div class="banner-title">Bodyweight Blast</div>
-        <div class="banner-sub">No equipment · 20 min · All levels</div>
-      </div>
-    </div>
-
-    <!-- Quick Start -->
-    <div class="section-header">
-      <div class="section-title">EMOM Programs</div>
-      <div class="section-see-all" onclick="switchTab('workouts')">See All</div>
-    </div>
-    <div class="h-scroll" id="home-cards"></div>
-
-    <!-- Recent / Suggestions -->
-    <div class="section-header">
-      <div class="section-title">Quick Workouts</div>
-    </div>
-    <div class="h-scroll" id="quick-cards"></div>
-
   </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 2: WORKOUTS
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-workouts">
-  <div class="nav-bar">
-    <div class="nav-title">Workouts</div>
-    <button class="nav-icon-btn" onclick="switchTab('settings')">⚙️</button>
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#coach">Coach</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#locations">Locations</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#enquiry" class="btn btn-primary">Book a free trial</a></li>
+    </ul>
   </div>
-  <div class="scroll-content">
-    <div class="pill-selector" id="filter-pills">
-      <button class="pill selected" onclick="filterWorkouts('all', this)">All</button>
-      <button class="pill" onclick="filterWorkouts('strength', this)">Strength</button>
-      <button class="pill" onclick="filterWorkouts('cardio', this)">Cardio</button>
-      <button class="pill" onclick="filterWorkouts('core', this)">Core</button>
-      <button class="pill" onclick="filterWorkouts('full-body', this)">Full Body</button>
-    </div>
-    <div id="workouts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 20px 0;"></div>
-  </div>
-</div>
+</header>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 3: SETTINGS
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-settings">
-  <div class="nav-bar">
-    <div class="nav-title">Settings</div>
-  </div>
-  <div class="scroll-content">
+<main>
 
-    <div class="settings-group">
-      <div class="settings-group-title">Health Tracking</div>
-      <div class="settings-row">
-        <a href="tracker.html" style="text-decoration:none;color:inherit">
-          <div class="settings-item">
-            <div class="settings-item-label">📊 Weekly Check-in</div>
-            <div class="settings-item-value">Open ›</div>
-          </div>
-        </a>
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow">Junior football coaching · Ages 4–12</span>
+      <h1 id="hero-h">Football that makes kids <em>love</em> the game.</h1>
+      <p class="lead">Small-group, high-energy coaching across Sydney and regional NSW. Real skills, real confidence, real fun — every single session.</p>
+      <div class="hero-actions">
+        <a href="#enquiry" class="btn btn-primary">Book a free trial</a>
+        <a href="#programs" class="btn btn-ghost">See our programs</a>
+      </div>
+      <div class="trust-strip">
+        <span><i class="dot" aria-hidden="true"></i> Sydney metro</span>
+        <span><i class="dot" aria-hidden="true"></i> Western &amp; regional NSW</span>
+        <span><i class="dot" aria-hidden="true"></i> We travel to you</span>
       </div>
     </div>
-
-    <div class="settings-group" style="margin-top:20px">
-      <div class="settings-group-title">Intensity Level</div>
-      <div class="pill-selector" style="margin:0">
-        <button class="pill intensity-1 selected" onclick="setIntensity(1,this)" id="intensity-pill-1">🟢 Beginner</button>
-        <button class="pill intensity-2" onclick="setIntensity(2,this)" id="intensity-pill-2">🟡 Intermediate</button>
-        <button class="pill intensity-3" onclick="setIntensity(3,this)" id="intensity-pill-3">🔴 Advanced</button>
+    <div class="hero-media">
+      <div class="img-ph has-photo">
+        <img src="img/hero.jpg" alt="Young player in a number 3 jersey striking a football at a target during a Buscho's Football Clinic session" width="1170" height="1520">
       </div>
+      <div class="hero-badge">First session <b>FREE</b></div>
     </div>
+  </div>
+</section>
 
-    <div class="settings-group" style="margin-top:20px">
-      <div class="settings-group-title">Intensity Preview</div>
-      <div class="settings-row" id="intensity-preview-row">
-        <div class="settings-item">
-          <div class="settings-item-label">Interval Duration</div>
-          <div class="settings-item-value" id="prev-work">60s</div>
+<!-- ============ STATS STRIP ============ -->
+<!-- EDIT: replace with your real numbers -->
+<section class="stats" aria-label="At a glance">
+  <div class="wrap stats-grid">
+    <div class="stat"><b>200+</b><span>kids coached</span></div>
+    <div class="stat"><b>10+</b><span>years experience</span></div>
+    <div class="stat"><b>4</b><span>program types</span></div>
+    <div class="stat"><b>5.0★</b><span>parent rating</span></div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS ============ -->
+<section class="section" id="programs" aria-labelledby="programs-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">What we offer</span>
+      <h2 id="programs-h">Programs for every young player</h2>
+      <p>From first touches to game-day confidence — pick the format that fits your family.</p>
+    </div>
+    <div class="grid cols-4">
+      <!-- EDIT pricing & blurbs throughout -->
+      <article class="card">
+        <div class="img-ph has-photo"><img src="img/program-weekly.jpg" alt="A child sprinting through agility hurdles at a weekly football class" loading="lazy" width="1170" height="1520"></div>
+        <div class="card-body">
+          <h3>Weekly Classes</h3>
+          <p>Term-based small-group sessions that build core skills week on week in a fun, supportive crew.</p>
+          <span class="price-hint">Enquire for current rates</span>
+          <a href="#enquiry" class="btn btn-ghost btn-sm">Book a free trial</a>
         </div>
-        <div class="settings-item">
-          <div class="settings-item-label">Rest</div>
-          <div class="settings-item-value" id="prev-rest">Time remaining</div>
+      </article>
+      <article class="card">
+        <div class="img-ph has-photo"><img src="img/program-camp.jpg" alt="The Buscho's coaching team in matching shirts at a school-holiday football camp" loading="lazy" width="1170" height="1410"></div>
+        <div class="card-body">
+          <h3>Clinics &amp; Holiday Camps</h3>
+          <p>Intensive school-holiday camps — a term's worth of fun, skills and games packed into a few days.</p>
+          <span class="price-hint">From $50 / day (early bird)</span>
+          <a href="#enquiry" class="btn btn-ghost btn-sm">Enquire now</a>
         </div>
-        <div class="settings-item">
-          <div class="settings-item-label">Circuits</div>
-          <div class="settings-item-value" id="prev-rounds">3</div>
+      </article>
+      <article class="card">
+        <div class="img-ph has-photo"><img src="img/program-1on1.jpg" alt="A coach guiding a young player through a ball drill in a one-on-one session" loading="lazy" width="1170" height="1520"></div>
+        <div class="card-body">
+          <h3>1-on-1 Training</h3>
+          <p>Personalised coaching tailored to your child's goals, pace and position. The fastest way to improve.</p>
+          <span class="price-hint">Enquire for current rates</span>
+          <a href="#enquiry" class="btn btn-ghost btn-sm">Enquire now</a>
         </div>
-        <div class="settings-item">
-          <div class="settings-item-label">Total Time (est.)</div>
-          <div class="settings-item-value" id="prev-time">~15 min</div>
+      </article>
+      <article class="card">
+        <div class="img-ph has-photo"><img src="img/program-home.jpg" alt="Two young players practising with a ball at home in the backyard" loading="lazy" width="1170" height="1520"></div>
+        <div class="card-body">
+          <h3>Home Training Plans</h3>
+          <p>Structured drills and video guides to practise in the backyard between sessions — progress that sticks.</p>
+          <span class="price-hint">Enquire for current rates</span>
+          <a href="#enquiry" class="btn btn-ghost btn-sm">Get a plan</a>
         </div>
-      </div>
-    </div>
-
-    <div class="settings-group" style="margin-top:20px">
-      <div class="settings-group-title">Available Equipment</div>
-      <div class="equip-grid" id="equip-grid"></div>
-    </div>
-
-    <div class="settings-group" style="margin-top:20px">
-      <div class="settings-group-title">Generate Workout</div>
-      <div class="settings-row">
-        <div class="settings-item">
-          <div class="settings-item-label">Auto-generate from equipment</div>
-          <div id="gen-badge"></div>
-        </div>
-      </div>
-      <button class="start-btn btn-primary" style="margin-top:12px" onclick="generateWorkout()">Generate My Workout ✨</button>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 4: WORKOUT DETAIL
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-detail">
-  <div style="position:sticky;top:0;z-index:10;padding:16px 20px;background:var(--bg);display:flex;align-items:center;gap:12px">
-    <button class="back-btn" onclick="goBack()">‹ Back</button>
-  </div>
-  <div class="scroll-content" style="padding-top:0">
-    <div class="workout-hero" id="detail-hero">
-      <div class="workout-hero-icon" id="detail-hero-icon"></div>
-      <div class="workout-hero-overlay"></div>
-      <div class="workout-hero-content">
-        <div class="workout-hero-title" id="detail-title"></div>
-        <div class="workout-hero-meta" id="detail-meta"></div>
-      </div>
-    </div>
-    <div class="workout-stats">
-      <div class="workout-stat"><div class="workout-stat-val" id="ds-time"></div><div class="workout-stat-lbl">Minutes</div></div>
-      <div class="workout-stat"><div class="workout-stat-val" id="ds-rounds"></div><div class="workout-stat-lbl">Rounds</div></div>
-      <div class="workout-stat"><div class="workout-stat-val" id="ds-cals"></div><div class="workout-stat-lbl">Cal Est.</div></div>
-    </div>
-    <div style="margin:20px 20px 0">
-      <div class="section-title">Exercises</div>
-      <div class="exercise-list" id="detail-exercises"></div>
-    </div>
-    <div class="start-btn-wrap">
-      <button class="start-btn btn-primary" onclick="startWorkout()">Start Workout</button>
+      </article>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 5: TIMER
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-timer">
-  <div class="timer-header">
-    <button class="timer-back-btn" onclick="confirmStop()">✕</button>
+<!-- ============ ABOUT COACH ============ -->
+<section class="section alt" id="coach" aria-labelledby="coach-h">
+  <div class="wrap split">
+    <div class="img-ph has-photo"><img src="img/coach.jpg" alt="Coach Buscho high-fiving young players at a football session" loading="lazy" width="1170" height="1520"></div>
     <div>
-      <div class="timer-title" id="timer-workout-name"></div>
-      <div class="timer-round" id="timer-round-label"></div>
-    </div>
-    <div style="width:36px"></div>
-  </div>
-
-  <div class="workout-progress">
-    <div class="progress-track">
-      <div class="progress-fill" id="workout-progress-fill" style="width:0%"></div>
-    </div>
-    <div class="progress-label">
-      <span id="progress-done">0 done</span>
-      <span id="progress-total"></span>
-    </div>
-  </div>
-
-  <div class="timer-ring-wrap">
-    <div class="ring-container">
-      <svg class="ring-svg" width="220" height="220" viewBox="0 0 220 220">
-        <circle class="ring-track" cx="110" cy="110" r="96"/>
-        <circle class="ring-progress" id="ring-progress" cx="110" cy="110" r="96"
-          stroke="#ff375f" stroke-dasharray="603" stroke-dashoffset="0"/>
-      </svg>
-      <div class="ring-center">
-        <div class="ring-time" id="ring-time">00</div>
-        <div class="ring-label" id="ring-label">GET READY</div>
+      <span class="kicker" style="color:var(--green);text-transform:uppercase;letter-spacing:2px;font-size:.76rem;font-weight:800;display:block;margin-bottom:12px">Meet your coach</span>
+      <h2 id="coach-h">Hi, I'm Coach Buscho 👋</h2>
+      <!-- EDIT: replace with your real bio, experience and qualifications -->
+      <p>I've spent the last [X] years coaching junior football right across Sydney and regional NSW — from first-touch four-year-olds to club-ready twelves. Before coaching I [played / studied / add your story here].</p>
+      <p>My philosophy is simple: lots of ball touches, lots of encouragement, and a session every kid leaves smiling from. Football should build confidence that lasts well beyond the pitch.</p>
+      <div class="badges" aria-label="Credentials">
+        <span class="pill"><b>✓</b> Working With Children Check</span>
+        <span class="pill"><b>✓</b> First Aid &amp; CPR certified</span>
+        <span class="pill"><b>✓</b> Football Australia accredited</span>
       </div>
     </div>
   </div>
+</section>
 
-  <div class="timer-exercise-card">
-    <div class="timer-phase-badge" id="phase-badge">GET READY</div>
-    <div class="timer-ex-icon" id="timer-ex-icon">🏃</div>
-    <div class="timer-ex-name" id="timer-ex-name">Loading...</div>
-    <div class="timer-ex-target" id="timer-ex-target"></div>
-  </div>
-
-  <div class="timer-next" id="timer-next-wrap">
-    <div class="timer-next-label">Up Next</div>
-    <div class="timer-next-item">
-      <div class="timer-next-icon" id="next-ex-icon">⏭</div>
-      <div class="timer-next-name" id="next-ex-name">—</div>
+<!-- ============ METHOD ============ -->
+<section class="section" id="method" aria-labelledby="method-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Our coaching method</span>
+      <h2 id="method-h">Why parents choose Buscho's</h2>
+      <p>A proven, touch-heavy approach that develops skill <em>and</em> character.</p>
     </div>
-  </div>
-
-  <div class="timer-controls">
-    <button class="timer-btn btn-pause" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
-    <button class="timer-btn btn-skip" onclick="skipPhase()">Skip ›</button>
-    <button class="timer-btn btn-stop" onclick="confirmStop()">Stop</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 6: COMPLETE
-════════════════════════════════════════════ -->
-<div class="screen" id="screen-complete">
-  <div class="scroll-content">
-    <div class="complete-hero">
-      <div class="complete-icon">🏆</div>
-      <div class="complete-title">Workout Complete!</div>
-      <div class="complete-sub" id="complete-sub">Great work today</div>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-card-icon">⏱</div>
-        <div class="stat-card-val" id="c-time">—</div>
-        <div class="stat-card-lbl">Minutes</div>
+    <div class="grid cols-4">
+      <div class="pillar">
+        <span class="icon" aria-hidden="true">⚽</span>
+        <h3>Maximum ball touches</h3>
+        <p>Sessions are built around constant contact with the ball — every child playing, no standing in line.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">🔥</div>
-        <div class="stat-card-val" id="c-cals">—</div>
-        <div class="stat-card-lbl">Calories</div>
+      <div class="pillar">
+        <span class="icon" aria-hidden="true">👥</span>
+        <h3>Small groups, real attention</h3>
+        <p>Low coach-to-player ratios mean every kid is seen, coached and challenged at their level.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">🔄</div>
-        <div class="stat-card-val" id="c-rounds">—</div>
-        <div class="stat-card-lbl">Rounds</div>
+      <div class="pillar">
+        <span class="icon" aria-hidden="true">💪</span>
+        <h3>Confidence first</h3>
+        <p>We coach the whole child — resilience, teamwork and a genuine love of the game.</p>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-icon">💪</div>
-        <div class="stat-card-val" id="c-exercises">—</div>
-        <div class="stat-card-lbl">Exercises</div>
+      <div class="pillar">
+        <span class="icon" aria-hidden="true">📈</span>
+        <h3>Progress you can see</h3>
+        <p>Clear skill milestones and friendly parent updates each term so you can track the growth.</p>
       </div>
     </div>
-    <div class="start-btn-wrap" style="margin-top:24px">
-      <button class="start-btn btn-green" onclick="finishWorkout()">Done</button>
+  </div>
+</section>
+
+<!-- ============ AGE GROUPS ============ -->
+<section class="section alt" aria-labelledby="ages-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Built for their stage</span>
+      <h2 id="ages-h">Age-appropriate groups</h2>
+      <p>Kids train with others at the same stage, so every session lands just right.</p>
+    </div>
+    <div class="grid cols-3">
+      <div class="age">
+        <div class="num" aria-hidden="true">4–6</div>
+        <h3>Mini Kickers</h3>
+        <p>First touches, fun games and the fundamentals — falling in love with the ball.</p>
+      </div>
+      <div class="age">
+        <div class="num" aria-hidden="true">7–9</div>
+        <h3>Skill Builders</h3>
+        <p>Dribbling, passing and small-sided games that grow real on-field ability.</p>
+      </div>
+      <div class="age">
+        <div class="num" aria-hidden="true">10–12</div>
+        <h3>Game Ready</h3>
+        <p>Tactics, positions and match confidence to thrive in club and rep football.</p>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- TAB BAR (hidden during timer/complete) -->
-<div class="tab-bar" id="tab-bar">
-  <button class="tab-item active" onclick="switchTab('home')" id="tab-home">
-    <span class="tab-icon">🏠</span><span class="tab-label">Home</span>
-  </button>
-  <button class="tab-item" onclick="switchTab('workouts')" id="tab-workouts">
-    <span class="tab-icon">🏋️</span><span class="tab-label">Workouts</span>
-  </button>
-  <button class="tab-item" onclick="switchTab('settings')" id="tab-settings">
-    <span class="tab-icon">⚙️</span><span class="tab-label">Settings</span>
-  </button>
-</div>
+<!-- ============ LOCATIONS ============ -->
+<section class="section" id="locations" aria-labelledby="loc-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Where we coach</span>
+      <h2 id="loc-h">Across Sydney &amp; regional NSW</h2>
+      <p>Quality coaching — wherever your local pitch is.</p>
+    </div>
+    <div class="grid cols-3">
+      <div class="loc-card">
+        <span class="icon" aria-hidden="true">🏙️</span>
+        <h3>Sydney Metro</h3>
+        <!-- EDIT: list your real suburbs / grounds -->
+        <p>Weekly classes and camps at parks and grounds across [your suburbs here].</p>
+      </div>
+      <div class="loc-card">
+        <span class="icon" aria-hidden="true">🌾</span>
+        <h3>Western &amp; Regional NSW</h3>
+        <!-- EDIT: list your real towns -->
+        <p>Regular clinics in [your towns here] — bringing quality coaching well beyond the city.</p>
+      </div>
+      <div class="loc-card">
+        <span class="icon" aria-hidden="true">🚗</span>
+        <h3>We Travel To You</h3>
+        <p>Can't get to us? We'll come to your local park, school or club. Get in touch for travel options.</p>
+      </div>
+    </div>
+    <!-- EDIT: optionally embed a Google Map or static map image of your service areas -->
+    <div class="img-ph" role="img" aria-label="Map showing service areas across Sydney and regional New South Wales" style="margin-top:22px;min-height:200px">Map: service areas</div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section alt" id="pricing" aria-labelledby="pricing-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Simple pricing</span>
+      <h2 id="pricing-h">Plans &amp; pricing</h2>
+      <p>No lock-in contracts. Try your first session free, then choose what suits.</p>
+    </div>
+    <div class="trial-banner">🎉 <b>First session is always free</b> — no commitment, just come and play.</div>
+    <!-- EDIT all prices and inclusions before launch -->
+    <div class="grid cols-4">
+      <div class="price-card">
+        <h3>Weekly Classes</h3>
+        <!-- EDIT: add your real term price -->
+        <div class="amount" style="font-size:1.5rem">Enquire for rates</div>
+        <ul>
+          <li>Weekly small-group session</li>
+          <li>Term skill curriculum</li>
+          <li>End-of-term report</li>
+        </ul>
+        <a href="#enquiry" class="btn btn-ghost">Book a free trial</a>
+      </div>
+      <div class="price-card featured">
+        <span class="tag">Most popular</span>
+        <h3>Holiday Camp</h3>
+        <div class="amount">$60<span> / day</span></div>
+        <ul>
+          <li>Early bird $50/day — save $10</li>
+          <li>2 days $100 ($80 early bird)</li>
+          <li>Games, skills &amp; tournaments</li>
+        </ul>
+        <a href="#enquiry" class="btn btn-primary">Enquire now</a>
+      </div>
+      <div class="price-card">
+        <h3>1-on-1 Training</h3>
+        <!-- EDIT: add your real session price -->
+        <div class="amount" style="font-size:1.5rem">Enquire for rates</div>
+        <ul>
+          <li>Fully personalised</li>
+          <li>Choose your focus</li>
+          <li>Flexible scheduling</li>
+        </ul>
+        <a href="#enquiry" class="btn btn-ghost">Enquire now</a>
+      </div>
+      <div class="price-card">
+        <h3>Home Training Plan</h3>
+        <!-- EDIT: add your real plan price -->
+        <div class="amount" style="font-size:1.5rem">Enquire for rates</div>
+        <ul>
+          <li>Drills &amp; video guides</li>
+          <li>Monthly new content</li>
+          <li>Train any time</li>
+        </ul>
+        <a href="#enquiry" class="btn btn-ghost">Get a plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section" aria-labelledby="testi-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Happy families</span>
+      <h2 id="testi-h">What parents are saying</h2>
+    </div>
+    <!-- EDIT: replace with real testimonials (with consent) -->
+    <div class="grid cols-3">
+      <figure class="quote">
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>"My son went from shy on the sideline to first to the ball. Coach Buscho is brilliant with little kids."</blockquote>
+        <figcaption class="who">
+          <span class="avatar" aria-hidden="true"></span>
+          <span><b>Sample Parent</b><span>Mum of Jack (6), Parramatta</span></span>
+        </figcaption>
+      </figure>
+      <figure class="quote">
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>"The holiday camp was the highlight of the break. We've already booked the next one."</blockquote>
+        <figcaption class="who">
+          <span class="avatar" aria-hidden="true"></span>
+          <span><b>Sample Parent</b><span>Dad of Mia (9), Penrith</span></span>
+        </figcaption>
+      </figure>
+      <figure class="quote">
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>"Even out our way the coaching is top-class. The kids count down the days to each session."</blockquote>
+        <figcaption class="who">
+          <span class="avatar" aria-hidden="true"></span>
+          <span><b>Sample Parent</b><span>Mum of Eli (8), Dubbo</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section alt" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Good to know</span>
+      <h2 id="faq-h">Frequently asked questions</h2>
+    </div>
+    <!-- EDIT answers to match your real policies -->
+    <div class="faq">
+      <details>
+        <summary>What ages do you coach? <span class="chev" aria-hidden="true">+</span></summary>
+        <div class="answer">We coach kids aged 4 to 12, grouped by stage — Mini Kickers (4–6), Skill Builders (7–9) and Game Ready (10–12).</div>
+      </details>
+      <details>
+        <summary>Do you offer a free trial? <span class="chev" aria-hidden="true">+</span></summary>
+        <div class="answer">Yes! Your child's first session is completely free with no commitment. Just book through the enquiry form and come along.</div>
+      </details>
+      <details>
+        <summary>What should my child wear and bring? <span class="chev" aria-hidden="true">+</span></summary>
+        <div class="answer">Comfortable sportswear, runners or boots, shin pads, a drink bottle and a hat. We supply the balls and equipment.</div>
+      </details>
+      <details>
+        <summary>What happens if it rains? <span class="chev" aria-hidden="true">+</span></summary>
+        <div class="answer">If a session is cancelled for weather we'll let you know as early as we can and reschedule or credit the session.</div>
+      </details>
+      <details>
+        <summary>Where are sessions held? <span class="chev" aria-hidden="true">+</span></summary>
+        <div class="answer">At parks and grounds across Sydney metro and regional NSW — and we can travel to your local park, school or club. See Locations above.</div>
+      </details>
+      <details>
+        <summary>How do payments and bookings work? <span class="chev" aria-hidden="true">+</span></summary>
+        <div class="answer">Submit an enquiry and we'll confirm availability, then send payment details for the program you choose. [EDIT: describe your real process.]</div>
+      </details>
+      <details>
+        <summary>Do you provide the equipment? <span class="chev" aria-hidden="true">+</span></summary>
+        <div class="answer">Yes — we bring all balls, cones, goals and training gear. Your child just needs themselves and the basics above.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENQUIRY / BOOKING ============ -->
+<section class="section" id="enquiry" aria-labelledby="enquiry-h">
+  <div class="wrap enquiry-grid">
+    <div class="enquiry-copy">
+      <span class="kicker" style="color:var(--green);text-transform:uppercase;letter-spacing:2px;font-size:.76rem;font-weight:800;display:block;margin-bottom:12px">Get started</span>
+      <h2 id="enquiry-h">Book your free trial today</h2>
+      <p>Tell us a little about your child and we'll be in touch within 1–2 days to find the perfect session.</p>
+      <!-- EDIT: real phone, email and socials -->
+      <ul class="contact-list">
+        <li><span class="ci" aria-hidden="true">📞</span> <a href="tel:+61400000000">04XX XXX XXX</a></li>
+        <li><span class="ci" aria-hidden="true">✉️</span> <a href="mailto:hello@buschosfootball.com.au">hello@buschosfootball.com.au</a></li>
+        <li><span class="ci" aria-hidden="true">📸</span> <a href="https://instagram.com/" target="_blank" rel="noopener">@buschosfootball</a></li>
+        <li><span class="ci" aria-hidden="true">📍</span> Sydney &amp; regional NSW</li>
+      </ul>
+    </div>
+
+    <!-- Netlify Forms: native POST, no backend. Detected on deploy. -->
+    <form name="enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks" class="enquiry">
+      <input type="hidden" name="form-name" value="enquiry">
+      <p class="hp-field" aria-hidden="true">
+        <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+      </p>
+
+      <div class="field">
+        <label for="parent_name">Parent / guardian name *</label>
+        <input id="parent_name" name="parent_name" type="text" autocomplete="name" required>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="email">Email *</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="child_age">Child's age (4–12)</label>
+          <input id="child_age" name="child_age" type="number" min="4" max="12">
+        </div>
+        <div class="field">
+          <label for="program">Program of interest</label>
+          <select id="program" name="program">
+            <option>Weekly classes</option>
+            <option>Clinics / holiday camps</option>
+            <option>1-on-1 training</option>
+            <option>Home training plan</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="area">Your area</label>
+        <select id="area" name="area">
+          <option>Sydney metro</option>
+          <option>Western / regional NSW</option>
+          <option>Other (travel-to-client)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Anything else?</label>
+        <textarea id="message" name="message" rows="4" placeholder="Tell us about your child's experience, goals or preferred days…"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Book a free trial</button>
+      <p class="form-note">No spam, ever. We'll only use your details to arrange coaching.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand"><span class="ball" aria-hidden="true">⚽</span> BUSCHO'S <b>FOOTBALL</b>&nbsp;CLINIC</span>
+        <p>High-energy junior football coaching for ages 4–12 across Sydney and regional NSW.</p>
+        <!-- EDIT: remove this line if you'd rather not reference the old brand -->
+        <p style="color:var(--green);font-weight:700;font-size:.9rem;margin-top:8px">Proudly formerly Exceed Football ⚽</p>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#coach">Coach</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#enquiry">Book a trial</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Get in touch</h4>
+        <ul>
+          <!-- EDIT: real contact details & socials -->
+          <li><a href="tel:+61400000000">04XX XXX XXX</a></li>
+          <li><a href="mailto:hello@buschosfootball.com.au">hello@buschosfootball.com.au</a></li>
+          <li><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Buscho's Football Clinic. All rights reserved.</span>
+      <span class="wwcc"><b>✓</b> Working With Children Check verified · Fully insured</span>
+    </div>
+  </div>
+</footer>
 
 <script>
-// ═══════════════════════════════════════════
-//  DATA: EXERCISES LIBRARY
-// ═══════════════════════════════════════════
-const EXERCISE_LIBRARY = {
-  bodyweight: [
-    { name: 'Burpees', icon: '🤸', target: 'Full Body', reps: '10 reps' },
-    { name: 'Push-Ups', icon: '💪', target: 'Chest & Triceps', reps: '15 reps' },
-    { name: 'Jump Squats', icon: '🦵', target: 'Legs & Glutes', reps: '15 reps' },
-    { name: 'Mountain Climbers', icon: '🏔', target: 'Core & Cardio', reps: '20 reps' },
-    { name: 'Lunges', icon: '🚶', target: 'Legs', reps: '12 each leg' },
-    { name: 'Plank Hold', icon: '🧘', target: 'Core', reps: 'Max hold' },
-    { name: 'High Knees', icon: '🏃', target: 'Cardio', reps: '30 reps' },
-    { name: 'Tricep Dips', icon: '🪑', target: 'Triceps', reps: '12 reps' },
-    { name: 'Superman', icon: '🦸', target: 'Lower Back', reps: '12 reps' },
-    { name: 'Hip Thrusts', icon: '🍑', target: 'Glutes', reps: '15 reps' },
-    { name: 'Crunches', icon: '🎯', target: 'Abs', reps: '20 reps' },
-    { name: 'Broad Jumps', icon: '🦘', target: 'Power', reps: '8 reps' },
-  ],
-  dumbbells: [
-    { name: 'DB Thrusters', icon: '🏋️', target: 'Full Body', reps: '10 reps' },
-    { name: 'DB Rows', icon: '💪', target: 'Back & Biceps', reps: '12 reps' },
-    { name: 'DB Shoulder Press', icon: '🔝', target: 'Shoulders', reps: '12 reps' },
-    { name: 'DB RDL', icon: '🦵', target: 'Hamstrings', reps: '12 reps' },
-    { name: 'DB Bicep Curls', icon: '💪', target: 'Biceps', reps: '15 reps' },
-    { name: 'DB Goblet Squat', icon: '🏆', target: 'Legs', reps: '12 reps' },
-    { name: 'DB Lateral Raise', icon: '↔️', target: 'Delts', reps: '12 reps' },
-    { name: 'DB Snatch', icon: '⚡', target: 'Full Body', reps: '8 each' },
-  ],
-  kettlebell: [
-    { name: 'KB Swings', icon: '🔔', target: 'Posterior Chain', reps: '15 reps' },
-    { name: 'KB Clean & Press', icon: '🏅', target: 'Full Body', reps: '8 each' },
-    { name: 'KB Goblet Squat', icon: '🏆', target: 'Legs', reps: '12 reps' },
-    { name: 'KB Turkish Get-Up', icon: '🛋', target: 'Full Body', reps: '4 each' },
-    { name: 'KB Windmill', icon: '🌬', target: 'Core & Hips', reps: '8 each' },
-    { name: 'KB Sumo Deadlift', icon: '🏋️', target: 'Hamstrings', reps: '12 reps' },
-  ],
-  barbell: [
-    { name: 'Barbell Back Squat', icon: '🏋️', target: 'Legs', reps: '8 reps' },
-    { name: 'Barbell Deadlift', icon: '💀', target: 'Full Body', reps: '6 reps' },
-    { name: 'Barbell Clean', icon: '⚡', target: 'Full Body', reps: '5 reps' },
-    { name: 'Barbell Press', icon: '🔝', target: 'Chest', reps: '8 reps' },
-    { name: 'Barbell Row', icon: '↩️', target: 'Back', reps: '10 reps' },
-    { name: 'Power Clean', icon: '💥', target: 'Full Body', reps: '5 reps' },
-  ],
-  pullup_bar: [
-    { name: 'Pull-Ups', icon: '🙌', target: 'Back & Biceps', reps: '8 reps' },
-    { name: 'Chin-Ups', icon: '🧗', target: 'Biceps & Back', reps: '8 reps' },
-    { name: 'Hanging Knee Raises', icon: '🦵', target: 'Core', reps: '15 reps' },
-    { name: 'Dead Hang', icon: '🎯', target: 'Grip & Lat', reps: '30s hold' },
-  ],
-  resistance_bands: [
-    { name: 'Band Pull-Aparts', icon: '↔️', target: 'Rear Delts', reps: '20 reps' },
-    { name: 'Band Squats', icon: '🦵', target: 'Legs', reps: '15 reps' },
-    { name: 'Band Rows', icon: '↩️', target: 'Back', reps: '15 reps' },
-    { name: 'Band Chest Press', icon: '💪', target: 'Chest', reps: '15 reps' },
-    { name: 'Band Curls', icon: '💪', target: 'Biceps', reps: '15 reps' },
-  ],
-  jump_rope: [
-    { name: 'Jump Rope Singles', icon: '🪢', target: 'Cardio', reps: '60s' },
-    { name: 'Jump Rope Doubles', icon: '🪢', target: 'Cardio Power', reps: '30s' },
-    { name: 'Jump Rope Alternating', icon: '🪢', target: 'Coordination', reps: '45s' },
-  ],
-  box: [
-    { name: 'Box Jumps', icon: '📦', target: 'Explosive Power', reps: '8 reps' },
-    { name: 'Step-Ups', icon: '📦', target: 'Legs & Glutes', reps: '12 each' },
-    { name: 'Box Push-Ups', icon: '📦', target: 'Chest', reps: '12 reps' },
-    { name: 'Depth Jumps', icon: '📦', target: 'Plyometrics', reps: '6 reps' },
-  ],
-};
-
-// ═══════════════════════════════════════════
-//  DATA: 10 WORKOUT PROGRAMS
-// ═══════════════════════════════════════════
-const WORKOUTS = [
-  {
-    id: 0,
-    name: 'Bodyweight Blast',
-    icon: '🔥',
-    category: 'full-body',
-    gradient: 'grad-red',
-    description: 'Pure bodyweight EMOM that builds full-body strength and conditioning',
-    equipment: [],
-    baseExercises: ['Burpees','Push-Ups','Jump Squats','Mountain Climbers','Lunges','Plank Hold'],
-    difficulty: 'all',
-    calPerMin: 12,
-  },
-  {
-    id: 1,
-    name: 'Kettlebell Power',
-    icon: '🔔',
-    category: 'strength',
-    gradient: 'grad-orange',
-    description: 'Drive strength and power through classical kettlebell movements',
-    equipment: ['kettlebell'],
-    baseExercises: ['KB Swings','KB Clean & Press','KB Goblet Squat','KB Sumo Deadlift'],
-    difficulty: 'intermediate',
-    calPerMin: 14,
-  },
-  {
-    id: 2,
-    name: 'Barbell Strength',
-    icon: '🏋️',
-    category: 'strength',
-    gradient: 'grad-blue',
-    description: 'Heavy compound lifts in EMOM format for raw strength gains',
-    equipment: ['barbell'],
-    baseExercises: ['Barbell Back Squat','Barbell Deadlift','Barbell Press','Power Clean'],
-    difficulty: 'advanced',
-    calPerMin: 11,
-  },
-  {
-    id: 3,
-    name: 'Dumbbell Circuits',
-    icon: '💪',
-    category: 'strength',
-    gradient: 'grad-purple',
-    description: 'Sculpt and strengthen with targeted dumbbell EMOM circuits',
-    equipment: ['dumbbells'],
-    baseExercises: ['DB Thrusters','DB Rows','DB Shoulder Press','DB RDL','DB Goblet Squat'],
-    difficulty: 'beginner',
-    calPerMin: 10,
-  },
-  {
-    id: 4,
-    name: 'Core Crusher',
-    icon: '🎯',
-    category: 'core',
-    gradient: 'grad-cyan',
-    description: 'Intense core-focused EMOM to build a strong, stable midsection',
-    equipment: [],
-    baseExercises: ['Plank Hold','Mountain Climbers','Crunches','Superman','Hip Thrusts'],
-    difficulty: 'all',
-    calPerMin: 9,
-  },
-  {
-    id: 5,
-    name: 'Cardio Burn',
-    icon: '🏃',
-    category: 'cardio',
-    gradient: 'grad-red',
-    description: 'Maximum calorie burn through high-intensity cardio EMOM intervals',
-    equipment: [],
-    baseExercises: ['High Knees','Burpees','Jump Squats','Mountain Climbers','Broad Jumps'],
-    difficulty: 'all',
-    calPerMin: 16,
-  },
-  {
-    id: 6,
-    name: 'Upper Body Focus',
-    icon: '🙌',
-    category: 'strength',
-    gradient: 'grad-blue',
-    description: 'Build pressing, pulling and shoulder strength in a focused upper EMOM',
-    equipment: ['pullup_bar'],
-    baseExercises: ['Pull-Ups','Push-Ups','Hanging Knee Raises','Chin-Ups'],
-    difficulty: 'intermediate',
-    calPerMin: 10,
-  },
-  {
-    id: 7,
-    name: 'Lower Body Drive',
-    icon: '🦵',
-    category: 'strength',
-    gradient: 'grad-green',
-    description: 'Build powerful legs and glutes with targeted lower body EMOM work',
-    equipment: [],
-    baseExercises: ['Jump Squats','Lunges','Hip Thrusts','Broad Jumps','Crunches'],
-    difficulty: 'all',
-    calPerMin: 13,
-  },
-  {
-    id: 8,
-    name: 'Full Body Conditioning',
-    icon: '⚡',
-    category: 'full-body',
-    gradient: 'grad-orange',
-    description: 'Complete athletic conditioning across all muscle groups and energy systems',
-    equipment: ['dumbbells','jump_rope'],
-    baseExercises: ['DB Thrusters','Jump Rope Singles','Burpees','DB Rows','High Knees'],
-    difficulty: 'intermediate',
-    calPerMin: 15,
-  },
-  {
-    id: 9,
-    name: 'Athletic Performance',
-    icon: '🏅',
-    category: 'full-body',
-    gradient: 'grad-purple',
-    description: 'Sport-specific explosive EMOM training for peak athletic output',
-    equipment: ['box','kettlebell'],
-    baseExercises: ['Box Jumps','KB Swings','Power Clean','Broad Jumps','KB Turkish Get-Up'],
-    difficulty: 'advanced',
-    calPerMin: 14,
-  },
-];
-
-// ═══════════════════════════════════════════
-//  INTENSITY SETTINGS
-//  True EMOM: each exercise = 1 full minute.
-//  Finish your reps, rest for what remains.
-//  Rounds = how many full circuits through the exercise list.
-// ═══════════════════════════════════════════
-const INTENSITY = {
-  1: { label: 'Beginner',     rounds: 3,  color: '#30d158' },
-  2: { label: 'Intermediate', rounds: 5,  color: '#ff9f0a' },
-  3: { label: 'Advanced',     rounds: 8,  color: '#ff375f' },
-};
-
-// ═══════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════
-let state = {
-  intensity: 1,
-  equipment: ['bodyweight'],
-  currentWorkout: null,
-  currentScreen: 'home',
-  prevScreen: 'home',
-  filter: 'all',
-  generatedWorkout: null,
-
-  // timer
-  timer: null,
-  timerState: 'idle', // idle | countdown | work | rest | done
-  currentRound: 0,
-  currentExIdx: 0,
-  timeLeft: 0,
-  totalRounds: 0,
-  isPaused: false,
-  workoutStartTime: null,
-  exercises: [],
-};
-
-// ═══════════════════════════════════════════
-//  EQUIPMENT LIST
-// ═══════════════════════════════════════════
-const EQUIPMENT_LIST = [
-  { id: 'bodyweight',      label: 'Bodyweight',    icon: '🤸', always: true },
-  { id: 'dumbbells',       label: 'Dumbbells',     icon: '🏋️' },
-  { id: 'kettlebell',      label: 'Kettlebell',    icon: '🔔' },
-  { id: 'barbell',         label: 'Barbell',       icon: '🥊' },
-  { id: 'pullup_bar',      label: 'Pull-up Bar',   icon: '🙌' },
-  { id: 'resistance_bands',label: 'Bands',         icon: '↔️' },
-  { id: 'jump_rope',       label: 'Jump Rope',     icon: '🪢' },
-  { id: 'box',             label: 'Box / Bench',   icon: '📦' },
-];
-
-// ═══════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  renderEquipmentGrid();
-  renderHomeCards();
-  renderWorkoutsGrid();
-  updateIntensityPreview();
-});
-
-// ═══════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════
-function renderHomeCards() {
-  const container = document.getElementById('home-cards');
-  const quick = document.getElementById('quick-cards');
-  container.innerHTML = '';
-  quick.innerHTML = '';
-
-  WORKOUTS.forEach((w, i) => {
-    const card = buildCard(w, i < 5 ? container : quick);
-  });
-}
-
-function buildCard(w, container) {
-  const div = document.createElement('div');
-  div.className = 'workout-card';
-  div.onclick = () => openWorkout(w.id);
-  div.innerHTML = `
-    <div class="card-thumb ${w.gradient}">${w.icon}</div>
-    <div class="card-body">
-      <div class="card-title">${w.name}</div>
-      <div class="card-meta">${getWorkoutDuration(w)} min · ${w.equipment.length === 0 ? 'Bodyweight' : w.equipment.map(e => EQUIPMENT_LIST.find(x=>x.id===e)?.label||e).join(', ')}</div>
-    </div>
-    <div class="card-tag" style="color:${getDiffColor(w.difficulty)}">${getDiffLabel(w.difficulty)}</div>
-  `;
-  container.appendChild(div);
-}
-
-function renderWorkoutsGrid() {
-  const grid = document.getElementById('workouts-grid');
-  grid.innerHTML = '';
-  const filtered = state.filter === 'all' ? WORKOUTS : WORKOUTS.filter(w => w.category === state.filter);
-
-  // add generated if exists
-  const allWorkouts = state.generatedWorkout
-    ? [state.generatedWorkout, ...filtered]
-    : filtered;
-
-  allWorkouts.forEach(w => {
-    const div = document.createElement('div');
-    div.className = 'workout-card';
-    div.style.width = '100%';
-    div.onclick = () => openWorkout(w.id);
-    const isGen = w.id === 'generated';
-    div.innerHTML = `
-      <div class="card-thumb ${w.gradient}" style="height:130px">${w.icon}</div>
-      <div class="card-body">
-        <div class="card-title">${w.name} ${isGen ? '<span class="generated-badge">Custom</span>' : ''}</div>
-        <div class="card-meta">${getWorkoutDuration(w)} min</div>
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
-
-function renderEquipmentGrid() {
-  const grid = document.getElementById('equip-grid');
-  grid.innerHTML = '';
-  EQUIPMENT_LIST.forEach(eq => {
-    const div = document.createElement('div');
-    div.className = 'equip-card' + (state.equipment.includes(eq.id) ? ' selected' : '');
-    div.onclick = () => toggleEquipment(eq.id, div, eq.always);
-    div.innerHTML = `<div class="equip-icon">${eq.icon}</div><div class="equip-label">${eq.label}${eq.always ? ' ✓' : ''}</div>`;
-    grid.appendChild(div);
-  });
-}
-
-// ═══════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════
-function getWorkoutDuration(w) {
-  const { rounds } = INTENSITY[state.intensity];
-  const ex = getExercisesForWorkout(w);
-  // Each exercise = exactly 1 minute
-  return ex.length * rounds;
-}
-
-function getDiffLabel(d) {
-  return d === 'beginner' ? '🟢' : d === 'advanced' ? '🔴' : d === 'intermediate' ? '🟡' : '⚪';
-}
-function getDiffColor(d) {
-  return d === 'beginner' ? '#30d158' : d === 'advanced' ? '#ff375f' : d === 'intermediate' ? '#ff9f0a' : '#fff';
-}
-
-function getExercisesForWorkout(w) {
-  // Map exercise names to full objects
-  const allExercises = Object.values(EXERCISE_LIBRARY).flat();
-  const found = w.baseExercises.map(name => allExercises.find(e => e.name === name)).filter(Boolean);
-  return found.length >= 3 ? found : [...found, ...EXERCISE_LIBRARY.bodyweight.slice(0, 3 - found.length)];
-}
-
-function getExercisesFromEquipment(equipment) {
-  let pool = [];
-  equipment.forEach(eq => {
-    if (EXERCISE_LIBRARY[eq]) pool.push(...EXERCISE_LIBRARY[eq]);
-  });
-  // Always include bodyweight
-  pool.push(...EXERCISE_LIBRARY.bodyweight);
-  // Deduplicate
-  const seen = new Set();
-  return pool.filter(e => { if (seen.has(e.name)) return false; seen.add(e.name); return true; });
-}
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// ═══════════════════════════════════════════
-//  SETTINGS ACTIONS
-// ═══════════════════════════════════════════
-function setIntensity(level, btn) {
-  state.intensity = level;
-  document.querySelectorAll('[id^="intensity-pill-"]').forEach(p => p.classList.remove('selected'));
-  btn.classList.add('selected');
-  updateIntensityPreview();
-  renderHomeCards();
-  renderWorkoutsGrid();
-}
-
-function updateIntensityPreview() {
-  const s = INTENSITY[state.intensity];
-  document.getElementById('prev-work').textContent = '60s';
-  document.getElementById('prev-rest').textContent = 'Time remaining';
-  document.getElementById('prev-rounds').textContent = s.rounds;
-  // Approximate: assume 5 exercises per workout
-  document.getElementById('prev-time').textContent = '~' + (s.rounds * 5) + ' min';
-}
-
-function toggleEquipment(id, el, always) {
-  if (always) { showToast('Bodyweight always included'); return; }
-  if (state.equipment.includes(id)) {
-    state.equipment = state.equipment.filter(e => e !== id);
-    el.classList.remove('selected');
-  } else {
-    state.equipment.push(id);
-    el.classList.add('selected');
-  }
-}
-
-function generateWorkout() {
-  const pool = getExercisesFromEquipment(state.equipment);
-  const count = state.intensity === 1 ? 4 : state.intensity === 2 ? 5 : 6;
-  const chosen = shuffle(pool).slice(0, count);
-  const equipLabels = state.equipment
-    .filter(e => e !== 'bodyweight')
-    .map(e => EQUIPMENT_LIST.find(x => x.id === e)?.label || e);
-
-  state.generatedWorkout = {
-    id: 'generated',
-    name: 'My Custom Workout',
-    icon: '✨',
-    category: 'full-body',
-    gradient: 'grad-purple',
-    description: `Custom ${INTENSITY[state.intensity].label} EMOM using your available equipment`,
-    equipment: state.equipment.filter(e => e !== 'bodyweight'),
-    baseExercises: chosen.map(e => e.name),
-    difficulty: state.intensity === 1 ? 'beginner' : state.intensity === 2 ? 'intermediate' : 'advanced',
-    calPerMin: 12,
-    _resolved: chosen,
-  };
-
-  renderWorkoutsGrid();
-  showToast('✨ Custom workout generated!');
-  switchTab('workouts');
-}
-
-// ═══════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════
-function switchTab(tab) {
-  ['home','workouts','settings'].forEach(t => {
-    document.getElementById('screen-' + t).classList.toggle('active', t === tab);
-    document.getElementById('tab-' + t)?.classList.toggle('active', t === tab);
-  });
-  state.currentScreen = tab;
-  document.getElementById('tab-bar').style.display = 'flex';
-}
-
-function openWorkout(id) {
-  const w = id === 'generated' ? state.generatedWorkout : WORKOUTS.find(x => x.id === id);
-  if (!w) return;
-  state.currentWorkout = w;
-  state.prevScreen = state.currentScreen;
-
-  const exercises = w._resolved || getExercisesForWorkout(w);
-  const { rounds } = INTENSITY[state.intensity];
-  const totalMin = exercises.length * rounds; // 1 min per exercise per round
-  const cals = Math.round(totalMin * w.calPerMin);
-
-  // Hero
-  document.getElementById('detail-hero').className = 'workout-hero ' + w.gradient;
-  document.getElementById('detail-hero-icon').textContent = w.icon;
-  document.getElementById('detail-title').textContent = w.name;
-  document.getElementById('detail-meta').textContent = w.description;
-  document.getElementById('ds-time').textContent = totalMin;
-  document.getElementById('ds-rounds').textContent = rounds;
-  document.getElementById('ds-cals').textContent = cals;
-
-  // Exercise list
-  const list = document.getElementById('detail-exercises');
-  list.innerHTML = '';
-  exercises.forEach((ex, i) => {
-    const div = document.createElement('div');
-    div.className = 'exercise-item';
-    div.innerHTML = `
-      <div class="exercise-num">${i + 1}</div>
-      <div class="exercise-info">
-        <div class="exercise-name">${ex.name}</div>
-        <div class="exercise-detail">${ex.target} · ${ex.reps}</div>
-      </div>
-      <div class="exercise-icon">${ex.icon}</div>
-    `;
-    list.appendChild(div);
-  });
-
-  showScreen('detail');
-}
-
-function startWorkout() {
-  const w = state.currentWorkout;
-  const exercises = w._resolved || getExercisesForWorkout(w);
-  const { rounds } = INTENSITY[state.intensity];
-
-  state.exercises = exercises;
-  state.totalRounds = rounds;
-  state.currentRound = 0;
-  state.currentExIdx = 0;
-  state.isPaused = false;
-  state.workoutStartTime = Date.now();
-
-  document.getElementById('timer-workout-name').textContent = w.name;
-  document.getElementById('tab-bar').style.display = 'none';
-  showScreen('timer');
-
-  startCountdown(5);
-}
-
-function goBack() {
-  showScreen(state.prevScreen || 'home');
-  document.getElementById('tab-bar').style.display = 'flex';
-}
-
-function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  state.currentScreen = name;
-  if (['home','workouts','settings'].includes(name)) {
-    ['home','workouts','settings'].forEach(t => {
-      document.getElementById('tab-' + t)?.classList.toggle('active', t === name);
+  // Mobile menu toggle
+  (function(){
+    var btn = document.getElementById('hamburger');
+    var menu = document.getElementById('mobile-menu');
+    if(!btn || !menu) return;
+    function close(){ menu.classList.remove('open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Open menu'); }
+    function open(){ menu.classList.add('open'); btn.setAttribute('aria-expanded','true'); btn.setAttribute('aria-label','Close menu'); }
+    btn.addEventListener('click', function(){
+      menu.classList.contains('open') ? close() : open();
     });
-  }
-}
+    // Close when a link is tapped
+    menu.addEventListener('click', function(e){ if(e.target.closest('a')) close(); });
+    // Close on Escape
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  })();
 
-function filterWorkouts(cat, btn) {
-  state.filter = cat;
-  document.querySelectorAll('#filter-pills .pill').forEach(p => p.classList.remove('selected'));
-  btn.classList.add('selected');
-  renderWorkoutsGrid();
-}
-
-// ═══════════════════════════════════════════
-//  TIMER ENGINE — true EMOM
-//  Each exercise gets exactly 60 seconds.
-//  Do your reps, rest for whatever's left.
-//  No separate rest phase.
-// ═══════════════════════════════════════════
-const RING_CIRCUMFERENCE = 2 * Math.PI * 96; // 603.2
-const EMOM_INTERVAL = 60; // seconds per exercise slot
-
-function startCountdown(secs) {
-  state.timerState = 'countdown';
-  state.timeLeft = secs;
-  updateTimerUI();
-  clearInterval(state.timer);
-  state.timer = setInterval(tick, 1000);
-}
-
-function startEmomSlot() {
-  state.timerState = 'emom';
-  state.timeLeft = EMOM_INTERVAL;
-  updateTimerUI();
-}
-
-function tick() {
-  if (state.isPaused) return;
-  state.timeLeft--;
-
-  if (state.timeLeft <= 0) {
-    advance();
-    return;
-  }
-  updateTimerUI();
-}
-
-function advance() {
-  if (state.timerState === 'countdown') {
-    startEmomSlot();
-    return;
-  }
-
-  if (state.timerState === 'emom') {
-    // Move to next exercise
-    state.currentExIdx++;
-    if (state.currentExIdx >= state.exercises.length) {
-      state.currentExIdx = 0;
-      state.currentRound++;
-    }
-    if (state.currentRound >= state.totalRounds) {
-      finishTimer();
-      return;
-    }
-    startEmomSlot();
-    return;
-  }
-}
-
-function skipPhase() {
-  state.timeLeft = 1;
-}
-
-function finishTimer() {
-  clearInterval(state.timer);
-  state.timerState = 'done';
-
-  const elapsed = Math.round((Date.now() - state.workoutStartTime) / 1000 / 60);
-  const w = state.currentWorkout;
-  const cals = Math.round(elapsed * w.calPerMin);
-
-  document.getElementById('complete-sub').textContent = `${w.name} · ${INTENSITY[state.intensity].label}`;
-  document.getElementById('c-time').textContent = elapsed || getWorkoutDuration(w);
-  document.getElementById('c-cals').textContent = cals;
-  document.getElementById('c-rounds').textContent = state.totalRounds;
-  document.getElementById('c-exercises').textContent = state.exercises.length;
-
-  showScreen('complete');
-  document.getElementById('tab-bar').style.display = 'none';
-}
-
-function finishWorkout() {
-  document.getElementById('tab-bar').style.display = 'flex';
-  switchTab('home');
-  showToast('🏆 Workout saved!');
-}
-
-function togglePause() {
-  state.isPaused = !state.isPaused;
-  document.getElementById('pause-btn').textContent = state.isPaused ? '▶ Resume' : '⏸ Pause';
-}
-
-function confirmStop() {
-  clearInterval(state.timer);
-  state.timerState = 'idle';
-  document.getElementById('tab-bar').style.display = 'flex';
-  showScreen(state.prevScreen || 'workouts');
-}
-
-function updateTimerUI() {
-  const phase = state.timerState;
-  const exs = state.exercises;
-  const ex = exs[state.currentExIdx] || { name: 'Loading', icon: '⏳', target: '', reps: '' };
-
-  // Round label
-  const roundLabel = phase === 'countdown'
-    ? 'Get Ready'
-    : `Round ${state.currentRound + 1} of ${state.totalRounds}`;
-  document.getElementById('timer-round-label').textContent = roundLabel;
-
-  // Ring colour: blue countdown → accent red during EMOM, pulse green in last 10s
-  const ringEl = document.getElementById('ring-progress');
-  const ringLabel = document.getElementById('ring-label');
-  const ringTime = document.getElementById('ring-time');
-  const phaseBadge = document.getElementById('phase-badge');
-
-  let maxTime, ringColor;
-  if (phase === 'countdown') {
-    maxTime = 5; ringColor = '#0a84ff';
-    ringLabel.textContent = 'GET READY';
-    phaseBadge.className = 'timer-phase-badge phase-get-ready';
-    phaseBadge.textContent = 'GET READY';
-  } else {
-    maxTime = EMOM_INTERVAL;
-    // Show green "rest" colour in the last 15s to signal finish your reps
-    ringColor = state.timeLeft <= 15 ? '#30d158' : '#ff375f';
-    ringLabel.textContent = state.timeLeft <= 15 ? 'REST' : 'WORK';
-    if (state.timeLeft <= 15) {
-      phaseBadge.className = 'timer-phase-badge phase-rest';
-      phaseBadge.textContent = 'REST';
-    } else {
-      phaseBadge.className = 'timer-phase-badge phase-work';
-      phaseBadge.textContent = 'WORK';
-    }
-  }
-
-  ringEl.style.stroke = ringColor;
-  const pct = state.timeLeft / maxTime;
-  ringEl.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - pct);
-  ringTime.textContent = String(state.timeLeft).padStart(2, '0');
-  if (state.timeLeft <= 5 && phase !== 'countdown') {
-    ringTime.classList.add('pulse');
-  } else {
-    ringTime.classList.remove('pulse');
-  }
-
-  // Exercise display — show current exercise the whole 60s
-  document.getElementById('timer-ex-icon').textContent = ex.icon;
-  document.getElementById('timer-ex-name').textContent =
-    phase === 'countdown' ? ex.name : ex.name;
-  document.getElementById('timer-ex-target').textContent =
-    phase === 'countdown' ? 'Prepare...' : `${ex.target} · ${ex.reps}`;
-
-  // Up Next: show next exercise
-  const nextIdx = (state.currentExIdx + 1) % exs.length;
-  const isLastInRound = state.currentExIdx === exs.length - 1;
-  const nextRound = state.currentRound + (isLastInRound ? 1 : 0);
-  const nextEx = exs[nextIdx];
-
-  if (phase !== 'countdown' && nextEx && !(isLastInRound && nextRound >= state.totalRounds)) {
-    document.getElementById('next-ex-icon').textContent = nextEx.icon;
-    document.getElementById('next-ex-name').textContent = nextEx.name;
-    document.getElementById('timer-next-wrap').style.opacity = '1';
-  } else {
-    document.getElementById('timer-next-wrap').style.opacity = '0';
-  }
-
-  // Progress bar
-  const totalSets = state.totalRounds * exs.length;
-  const doneSets = state.currentRound * exs.length + state.currentExIdx;
-  const pctDone = doneSets / totalSets * 100;
-  document.getElementById('workout-progress-fill').style.width = pctDone + '%';
-  document.getElementById('progress-done').textContent = `Min ${doneSets + 1} of ${totalSets}`;
-  document.getElementById('progress-total').textContent = totalSets + ' min total';
-}
-
-// ═══════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════
-let toastTimer = null;
-function showToast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
-}
-
-// ═══════════════════════════════════════════
-//  KICK OFF
-// ═══════════════════════════════════════════
-renderHomeCards();
-renderWorkoutsGrid();
-renderEquipmentGrid();
-updateIntensityPreview();
+  // Sticky header shadow on scroll
+  (function(){
+    var header = document.querySelector('header.site');
+    if(!header) return;
+    function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 8); }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive:true });
+  })();
 </script>
+
 </body>
 </html>
