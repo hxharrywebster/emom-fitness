@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Buscho's Football Clinic">
+  <rect width="64" height="64" rx="14" fill="#0a0e0c"/>
+  <circle cx="32" cy="32" r="20" fill="#25e36a"/>
+  <!-- simple football panel motif -->
+  <path d="M32 16l5.9 4.3-2.3 6.9h-7.2l-2.3-6.9L32 16z" fill="#06210f"/>
+  <path d="M16.5 33.7l6.7-2.4 4.4 5.8-3.6 6.2-7-.9-.5-8.7z" fill="#06210f"/>
+  <path d="M47.5 33.7l-6.7-2.4-4.4 5.8 3.6 6.2 7-.9.5-8.7z" fill="#06210f"/>
+</svg>

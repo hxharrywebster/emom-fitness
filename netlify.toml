@@ -11,6 +11,18 @@
   to = "/tracker.html"
   status = 200
 
+# Friendly path: /emom -> the relocated EMOM Fitness timer app
+[[redirects]]
+  from = "/emom"
+  to = "/emom.html"
+  status = 200
+
+# Friendly path: /thanks -> enquiry form success page
+[[redirects]]
+  from = "/thanks"
+  to = "/thanks.html"
+  status = 200
+
 # Long-cache the icons, never cache the HTML (so updates ship instantly).
 [[headers]]
   for = "/*.html"
