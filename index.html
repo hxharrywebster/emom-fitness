@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Buscho's Football Clinic — Junior Football Coaching, Sydney & NSW">
 <meta property="og:description" content="Football that makes kids love the game. Ages 4–12. Book a free trial.">
-<meta property="og:image" content="/og-image.png"><!-- EDIT: add a 1200x630 og-image.png before launch -->
+<meta property="og:image" content="/og-image.jpg">
 <meta property="og:url" content="https://buschosfootball.com.au/"><!-- EDIT: real domain -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Buscho's Football Clinic — Junior Football Coaching, Sydney & NSW">
@@ -97,6 +97,10 @@
     font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:.78rem;
     border:1px dashed var(--border);
   }
+  /* full-bleed real photo inside an .img-ph slot (gradient shows if the file is missing) */
+  .img-ph.has-photo{position:relative;padding:0;border:none;overflow:hidden}
+  .img-ph.has-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .card .img-ph.has-photo{min-height:210px}
 
   /* ---------- header / nav ---------- */
   header.site{
@@ -384,8 +388,9 @@
       </div>
     </div>
     <div class="hero-media">
-      <!-- EDIT: swap this gradient block for a hero <img> e.g. /img/hero.jpg -->
-      <div class="img-ph" role="img" aria-label="Young kids dribbling footballs at a sunny park training session">Photo: kids dribbling at training</div>
+      <div class="img-ph has-photo">
+        <img src="img/hero.jpg" alt="Young player in a number 3 jersey striking a football at a target during a Buscho's Football Clinic session" width="1170" height="1520">
+      </div>
       <div class="hero-badge">First session <b>FREE</b></div>
     </div>
   </div>
@@ -413,38 +418,38 @@
     <div class="grid cols-4">
       <!-- EDIT pricing & blurbs throughout -->
       <article class="card">
-        <div class="img-ph" role="img" aria-label="A weekly small-group football class in action">Photo: weekly class</div>
+        <div class="img-ph has-photo"><img src="img/program-weekly.jpg" alt="A child sprinting through agility hurdles at a weekly football class" loading="lazy" width="1170" height="1520"></div>
         <div class="card-body">
           <h3>Weekly Classes</h3>
           <p>Term-based small-group sessions that build core skills week on week in a fun, supportive crew.</p>
-          <span class="price-hint">From $XX / term</span>
+          <span class="price-hint">Enquire for current rates</span>
           <a href="#enquiry" class="btn btn-ghost btn-sm">Book a free trial</a>
         </div>
       </article>
       <article class="card">
-        <div class="img-ph" role="img" aria-label="Kids at a school-holiday football camp">Photo: holiday camp</div>
+        <div class="img-ph has-photo"><img src="img/program-camp.jpg" alt="The Buscho's coaching team in matching shirts at a school-holiday football camp" loading="lazy" width="1170" height="1410"></div>
         <div class="card-body">
           <h3>Clinics &amp; Holiday Camps</h3>
           <p>Intensive school-holiday camps — a term's worth of fun, skills and games packed into a few days.</p>
-          <span class="price-hint">From $XX / day</span>
+          <span class="price-hint">From $50 / day (early bird)</span>
           <a href="#enquiry" class="btn btn-ghost btn-sm">Enquire now</a>
         </div>
       </article>
       <article class="card">
-        <div class="img-ph" role="img" aria-label="A coach giving one-on-one football training to a child">Photo: 1-on-1 session</div>
+        <div class="img-ph has-photo"><img src="img/program-1on1.jpg" alt="A coach guiding a young player through a ball drill in a one-on-one session" loading="lazy" width="1170" height="1520"></div>
         <div class="card-body">
           <h3>1-on-1 Training</h3>
           <p>Personalised coaching tailored to your child's goals, pace and position. The fastest way to improve.</p>
-          <span class="price-hint">From $XX / session</span>
+          <span class="price-hint">Enquire for current rates</span>
           <a href="#enquiry" class="btn btn-ghost btn-sm">Enquire now</a>
         </div>
       </article>
       <article class="card">
-        <div class="img-ph" role="img" aria-label="A child practising football drills in the backyard">Photo: home training</div>
+        <div class="img-ph has-photo"><img src="img/program-home.jpg" alt="Two young players practising with a ball at home in the backyard" loading="lazy" width="1170" height="1520"></div>
         <div class="card-body">
           <h3>Home Training Plans</h3>
           <p>Structured drills and video guides to practise in the backyard between sessions — progress that sticks.</p>
-          <span class="price-hint">From $XX / plan</span>
+          <span class="price-hint">Enquire for current rates</span>
           <a href="#enquiry" class="btn btn-ghost btn-sm">Get a plan</a>
         </div>
       </article>
@@ -455,8 +460,7 @@
 <!-- ============ ABOUT COACH ============ -->
 <section class="section alt" id="coach" aria-labelledby="coach-h">
   <div class="wrap split">
-    <!-- EDIT: swap for a real portrait of Coach Buscho -->
-    <div class="img-ph" role="img" aria-label="Portrait of Coach Buscho on the football pitch">Photo: Coach Buscho</div>
+    <div class="img-ph has-photo"><img src="img/coach.jpg" alt="Coach Buscho high-fiving young players at a football session" loading="lazy" width="1170" height="1520"></div>
     <div>
       <span class="kicker" style="color:var(--green);text-transform:uppercase;letter-spacing:2px;font-size:.76rem;font-weight:800;display:block;margin-bottom:12px">Meet your coach</span>
       <h2 id="coach-h">Hi, I'm Coach Buscho 👋</h2>
@@ -578,7 +582,8 @@
     <div class="grid cols-4">
       <div class="price-card">
         <h3>Weekly Classes</h3>
-        <div class="amount">$XX<span> / term</span></div>
+        <!-- EDIT: add your real term price -->
+        <div class="amount" style="font-size:1.5rem">Enquire for rates</div>
         <ul>
           <li>Weekly small-group session</li>
           <li>Term skill curriculum</li>
@@ -589,17 +594,18 @@
       <div class="price-card featured">
         <span class="tag">Most popular</span>
         <h3>Holiday Camp</h3>
-        <div class="amount">$XX<span> / day</span></div>
+        <div class="amount">$60<span> / day</span></div>
         <ul>
-          <li>Full or half-day camps</li>
+          <li>Early bird $50/day — save $10</li>
+          <li>2 days $100 ($80 early bird)</li>
           <li>Games, skills &amp; tournaments</li>
-          <li>Sibling discounts</li>
         </ul>
         <a href="#enquiry" class="btn btn-primary">Enquire now</a>
       </div>
       <div class="price-card">
         <h3>1-on-1 Training</h3>
-        <div class="amount">$XX<span> / session</span></div>
+        <!-- EDIT: add your real session price -->
+        <div class="amount" style="font-size:1.5rem">Enquire for rates</div>
         <ul>
           <li>Fully personalised</li>
           <li>Choose your focus</li>
@@ -609,7 +615,8 @@
       </div>
       <div class="price-card">
         <h3>Home Training Plan</h3>
-        <div class="amount">$XX<span> / month</span></div>
+        <!-- EDIT: add your real plan price -->
+        <div class="amount" style="font-size:1.5rem">Enquire for rates</div>
         <ul>
           <li>Drills &amp; video guides</li>
           <li>Monthly new content</li>
@@ -784,6 +791,8 @@
       <div class="foot-brand">
         <span class="brand"><span class="ball" aria-hidden="true">⚽</span> BUSCHO'S <b>FOOTBALL</b>&nbsp;CLINIC</span>
         <p>High-energy junior football coaching for ages 4–12 across Sydney and regional NSW.</p>
+        <!-- EDIT: remove this line if you'd rather not reference the old brand -->
+        <p style="color:var(--green);font-weight:700;font-size:.9rem;margin-top:8px">Proudly formerly Exceed Football ⚽</p>
       </div>
       <div class="foot-col">
         <h4>Explore</h4>
