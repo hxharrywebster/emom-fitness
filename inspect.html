@@ -30,7 +30,7 @@
 
   .room { background:var(--surface); border-radius:var(--radius); margin-bottom:13px; overflow:hidden; box-shadow:0 1px 1px #0000001a, 0 10px 24px -20px #000000cc; }
   .room-head { display:flex; align-items:center; gap:12px; padding:14px 16px; }
-  .room-head .emoji { font-size:22px; width:24px; text-align:center; }
+  .room-head .ric { width:34px; height:34px; border-radius:9px; background:#0a84ff1f; color:var(--accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   .room-head .name { flex:1; font-size:17px; font-weight:600; letter-spacing:-0.2px; }
   .room-head .count { font-size:13px; color:var(--text2); display:flex; align-items:center; gap:5px; }
   .room-head .count.done { color:var(--green); }
@@ -121,6 +121,17 @@ const ICONS = {
   link:'<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
   camera:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.5l1.7-2.5h7.6L17.5 6H21a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/>',
   x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  tree:'<path d="M12 3 7 10h2.5L6 16h12l-3.5-6H17z"/><line x1="12" y1="16" x2="12" y2="21"/>',
+  bed:'<path d="M3 20v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8"/><path d="M5 10V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><line x1="3" y1="17" x2="21" y2="17"/>',
+  bath:'<path d="M4 12V5a2 2 0 0 1 2-2c1 0 1.7.4 2.2 1L9 5"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><line x1="7" y1="19" x2="7" y2="21"/><line x1="17" y1="19" x2="17" y2="21"/>',
+  utensils:'<path d="M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="22"/><path d="M21 15V2a5 5 0 0 0-5 5v6a2 2 0 0 0 2 2h3z"/><line x1="21" y1="15" x2="21" y2="22"/>',
+  sofa:'<path d="M20 10V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/><path d="M2 12a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/><line x1="5" y1="20" x2="5" y2="22"/><line x1="19" y1="20" x2="19" y2="22"/>',
+  cup:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/>',
+  laundry:'<rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="13" r="4.5"/><line x1="8" y1="6" x2="8.01" y2="6"/><line x1="12" y1="6" x2="12.01" y2="6"/>',
+  car:'<path d="M5 17H3v-4l2-5h11l3 5h2v4h-2"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><line x1="9.5" y1="17" x2="14.5" y2="17"/>',
+  door:'<path d="M4 21V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v17"/><line x1="2" y1="21" x2="22" y2="21"/><circle cx="15.5" cy="12" r="1" fill="currentColor"/>',
+  monitor:'<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="7" y2="7"/><line x1="17" y1="17" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="7" y2="17"/><line x1="17" y1="7" x2="19.1" y2="4.9"/>',
 };
 const svg = (name, size=24, sw=2) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]||''}</svg>`;
 
@@ -129,20 +140,21 @@ $('#doneIcon').innerHTML = svg('check', 44, 3);
 $('#errIcon').innerHTML = svg('link', 40);
 
 const DEFAULT_ROOMS = ['Front of property','Living room','Kitchen','Bathroom','Bedroom','Laundry','Rear of property'];
-function emojiFor(room) {
+function iconFor(room) {
   const r = String(room).toLowerCase();
-  if (r.includes('front')) return '🏠';
-  if (r.includes('rear') || r.includes('back')) return '🌳';
-  if (r.includes('bedroom')) return '🛏️';
-  if (r.includes('bath') || r.includes('ensuite')) return '🛁';
-  if (r.includes('kitchen')) return '🍳';
-  if (r.includes('living') || r.includes('lounge')) return '🛋️';
-  if (r.includes('dining')) return '🍽️';
-  if (r.includes('laundry')) return '🧺';
-  if (r.includes('garage')) return '🚗';
-  if (r.includes('hall')) return '🚪';
-  if (r.includes('yard') || r.includes('garden') || r.includes('balcony') || r.includes('exterior') || r.includes('patio')) return '🏡';
-  return '📷';
+  if (r.includes('front')) return 'home';
+  if (r.includes('rear') || r.includes('back')) return 'tree';
+  if (r.includes('bedroom') || r.includes('bed ')) return 'bed';
+  if (r.includes('bath') || r.includes('ensuite') || r.includes('toilet') || r.includes('wc') || r.includes('powder')) return 'bath';
+  if (r.includes('kitchen') || r.includes('pantry')) return 'utensils';
+  if (r.includes('living') || r.includes('lounge') || r.includes('family') || r.includes('rumpus') || r.includes('media')) return 'sofa';
+  if (r.includes('dining') || r.includes('meals')) return 'cup';
+  if (r.includes('laundry')) return 'laundry';
+  if (r.includes('garage') || r.includes('carport') || r.includes('driveway')) return 'car';
+  if (r.includes('hall') || r.includes('entry') || r.includes('stair')) return 'door';
+  if (r.includes('study') || r.includes('office')) return 'monitor';
+  if (r.includes('yard') || r.includes('garden') || r.includes('balcony') || r.includes('exterior') || r.includes('patio') || r.includes('courtyard') || r.includes('deck') || r.includes('pool') || r.includes('alfresco')) return 'sun';
+  return 'camera';
 }
 
 const photos = {}; // { [room]: [ { id, file, url } ] }
@@ -191,7 +203,7 @@ function renderRooms() {
     const el = document.createElement('div'); el.className = 'room';
     el.innerHTML = `
       <div class="room-head">
-        <span class="emoji">${emojiFor(room)}</span>
+        <span class="ric">${svg(iconFor(room), 18)}</span>
         <span class="name">${escapeHtml(room)}</span>
         <span class="count ${list.length?'done':''}" ${list.length?'':'style="color:var(--orange)"'}>${list.length?svg('check',15,2.5)+list.length:'Required'}</span>
       </div>

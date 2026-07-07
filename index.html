@@ -193,7 +193,8 @@
   .copy-link button { background: var(--accent); color: #fff; border: none; padding: 9px 15px; border-radius: 9px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: transform .12s; }
   .copy-link button:active { transform: scale(.94); }
   .hint { color: var(--text2); font-size: 14px; line-height: 1.5; margin-bottom: 10px; padding: 0 2px; }
-  .config-warn { margin: 0 0 16px; padding: 14px 16px; background: #ff9f0a1f; border: 1px solid #ff9f0a55; border-radius: 12px; color: var(--orange); font-size: 13px; line-height: 1.5; }
+  .config-warn { margin: 0 0 16px; padding: 14px 16px; background: #ff9f0a1f; border: 1px solid #ff9f0a55; border-radius: 12px; color: var(--orange); font-size: 13px; line-height: 1.5; display: flex; gap: 10px; align-items: flex-start; }
+  .config-warn .wic { display: flex; flex-shrink: 0; margin-top: 1px; }
   .note-card { padding: 0 16px; }
   .note-card .inner { background: var(--surface); border-radius: var(--radius); padding: 15px 16px; font-size: 15px; line-height: 1.5; color: var(--text2); }
 
@@ -460,7 +461,7 @@ $('#taxExportBtn').onclick = () => taxSheet();
 // ════════ AUTH ════════
 let authMode = 'signin';
 if (!configured) {
-  $('#configWarn').innerHTML = '<div class="config-warn">⚠️ Backend not configured yet. Add your Supabase URL and key to <b>config.js</b> to enable sign-in and saving.</div>';
+  $('#configWarn').innerHTML = `<div class="config-warn"><span class="wic">${svg('alert',{size:17})}</span><span>Backend not configured yet. Add your Supabase URL and key to <b>config.js</b> to enable sign-in and saving.</span></div>`;
 }
 function updateAuthModeUI() {
   $('#authSubmit').textContent = authMode === 'signin' ? 'Sign in' : 'Create account';
@@ -1358,7 +1359,7 @@ function renderAnalysis(a) {
     a.issues.forEach(is => h += rowHTML({ ...ic('alert', sevColor(is.severity)), title:`${is.category||'Issue'}${is.room?' · '+is.room:''}`, sub:is.description, trail:sevBadge(is.severity) }));
     h += `</div>`;
   } else {
-    h += `<div class="note-card"><div class="inner">✅ No issues flagged by the AI.</div></div>`;
+    h += `<div class="note-card"><div class="inner" style="display:flex;align-items:center;gap:10px"><span style="color:var(--green);display:flex;flex-shrink:0">${svg('check',{size:18})}</span>No issues flagged by the AI.</div></div>`;
   }
   if (Array.isArray(a.rooms) && a.rooms.length) {
     h += `<div class="section-header"><span class="section-title">By room</span></div><div class="group">`;
