@@ -167,7 +167,8 @@
   /* ─── AUTH ─── */
   .auth-wrap { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 32px 26px calc(32px + env(safe-area-inset-bottom)); max-width: 460px; margin: 0 auto; width: 100%; animation: screenIn .4s var(--ease); }
   .auth-logo { width: 76px; height: 76px; border-radius: 22px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; color: #fff; background: linear-gradient(160deg, var(--accent2), var(--accent)); box-shadow: 0 16px 36px -12px var(--accent); }
-  .auth-title { font-size: 29px; font-weight: 800; text-align: center; letter-spacing: -0.6px; }
+  .auth-title { font-size: 29px; font-weight: 800; text-align: center; letter-spacing: -0.8px; }
+  .auth-title span { font-weight: 300; }
   .auth-sub { font-size: 15px; color: var(--text2); text-align: center; margin: 9px 0 30px; line-height: 1.45; }
   .auth-toggle { text-align: center; margin-top: 20px; color: var(--text2); font-size: 14px; }
   .auth-toggle button { background: none; border: none; color: var(--accent); font-size: 14px; font-weight: 600; }
@@ -230,6 +231,21 @@
   .nav-actions { display: flex; gap: 8px; align-items: center; }
   .badge-dot { position: absolute; top: -3px; right: -3px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--red); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg); }
 
+  /* ─── DIALOG (confirm/alert) ─── */
+  .dialog-overlay { position: fixed; inset: 0; background: #00000099; z-index: 300; display: none; align-items: center; justify-content: center; padding: 36px; opacity: 0; transition: opacity .18s; }
+  .dialog-overlay.open { opacity: 1; }
+  .dialog { background: var(--surface2); border-radius: 16px; width: 100%; max-width: 290px; overflow: hidden; text-align: center; animation: dialogIn .22s var(--ease); box-shadow: 0 24px 60px -12px #000000cc; }
+  @keyframes dialogIn { from { transform: scale(1.08); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .dialog-body { padding: 20px 18px 17px; }
+  .dialog-body h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+  .dialog-body p { font-size: 13px; color: var(--text2); margin-top: 6px; line-height: 1.45; }
+  .dialog-actions { display: flex; border-top: 0.5px solid var(--border); }
+  .dialog-actions button { flex: 1; padding: 13px; background: none; border: none; font-size: 17px; color: var(--accent); transition: background .12s; }
+  .dialog-actions button + button { border-left: 0.5px solid var(--border); }
+  .dialog-actions button.danger { color: var(--red); font-weight: 600; }
+  .dialog-actions button.primary { font-weight: 600; }
+  .dialog-actions button:active { background: #ffffff0f; }
+
   /* ─── ACCESSIBILITY ─── */
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
@@ -241,6 +257,8 @@
     .sheet { background:#ffffff; }
     .toast { background:#1c1c1eee; color:#fff; }
     .field input, .field select, .field textarea { background:#f4f4f8; }
+    .dialog { background:#fbfbfd; }
+    .dialog-actions button:active { background:#00000008; }
     .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233c3c43aa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); }
   }
 </style>
@@ -251,7 +269,7 @@
 <div id="auth" class="screen active">
   <div class="auth-wrap">
     <div class="auth-logo" id="authLogo"></div>
-    <div class="auth-title">Property Manager</div>
+    <div class="auth-title">Property <span>Manager</span></div>
     <div class="auth-sub">Track tenants, money & inspections — all in one place.</div>
     <div id="configWarn"></div>
     <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
@@ -337,6 +355,9 @@
 
 <!-- SHEET / MODAL -->
 <div class="sheet-overlay" id="sheetOverlay"><div class="sheet" id="sheet"></div></div>
+<div class="dialog-overlay" id="dialogOverlay" role="alertdialog" aria-modal="true" aria-labelledby="dialogTitle">
+  <div class="dialog"><div class="dialog-body"><h3 id="dialogTitle"></h3><p id="dialogMsg"></p></div><div class="dialog-actions" id="dialogActions"></div></div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script src="config.js"></script>
@@ -365,6 +386,25 @@ const tenantName = id => (state.tenants.find(t=>t.id===id)||{}).name || 'No tena
 
 let toastTimer;
 function toast(msg) { const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1900); }
+
+let dialogDismiss = null;
+function hideDialog() { const ov=$('#dialogOverlay'); ov.classList.remove('open'); setTimeout(()=>{ ov.style.display='none'; },180); dialogDismiss=null; }
+function appConfirm(opts) {
+  return new Promise(resolve => {
+    const o = typeof opts === 'string' ? { message: opts } : opts;
+    $('#dialogTitle').textContent = o.title || 'Are you sure?';
+    $('#dialogMsg').textContent = o.message || '';
+    $('#dialogMsg').style.display = o.message ? '' : 'none';
+    const actions = $('#dialogActions'); actions.innerHTML = '';
+    const mk = (label, cls, val) => { const b=document.createElement('button'); if (cls) b.className=cls; b.textContent=label; b.onclick=()=>{ hideDialog(); resolve(val); }; return b; };
+    if (!o.alert) actions.appendChild(mk(o.cancelText||'Cancel','',false));
+    actions.appendChild(mk(o.confirmText||'OK', o.danger?'danger':'primary', true));
+    dialogDismiss = () => { hideDialog(); resolve(false); };
+    const ov = $('#dialogOverlay'); ov.style.display='flex'; requestAnimationFrame(()=>ov.classList.add('open'));
+  });
+}
+$('#dialogOverlay').onclick = e => { if (e.target===$('#dialogOverlay') && dialogDismiss) dialogDismiss(); };
+document.addEventListener('keydown', e => { if (e.key==='Escape' && dialogDismiss) dialogDismiss(); });
 
 // ─── Icon system (Feather-style inline SVG) ───
 const ICON = {
@@ -416,6 +456,8 @@ function svg(name, opts={}) {
   const s = opts.size||24, sw = opts.sw!=null?opts.sw:2, fill = opts.fill||'none';
   return `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="${fill}" stroke="${fill==='currentColor'?'none':'currentColor'}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICON[name]||''}</svg>`;
 }
+// Brand mark: double roofline + arched door
+const brandMark = (s=40) => `<svg viewBox="0 0 48 48" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 17.5 24 5l16 12.5" stroke-width="3.4" opacity=".45"/><path d="M8 25 24 12.5 40 25" stroke-width="3.4"/><path d="M12.5 24.5V40a1.5 1.5 0 0 0 1.5 1.5h20a1.5 1.5 0 0 0 1.5-1.5V24.5" stroke-width="3.4"/><path d="M20 41.5v-8a4 4 0 0 1 8 0v8" stroke-width="3.4"/></svg>`;
 const C = { blue:'#0a84ff', purple:'#bf5af2', green:'#30d158', red:'#ff453a', orange:'#ff9f0a', teal:'#40c8e0', gray:'#8e8e93', pink:'#ff375f' };
 function ic(name, color) { return { icon: svg(name, { size: 20 }), color, bg: color+'22' }; }
 const chev = `<span class="chev">${svg('chevR', { size: 18 })}</span>`;
@@ -442,7 +484,7 @@ function propTile(p) {
 // ─── Static icon injection ───
 const TABICON = { dashboard:'grid', properties:'home', tenants:'users', money:'card', inspections:'camera', market:'trending' };
 $$('.tab-item').forEach(b => b.querySelector('.ico').innerHTML = svg(TABICON[b.dataset.tab], { size: 24 }));
-$('#authLogo').innerHTML = svg('home', { size: 38 });
+$('#authLogo').innerHTML = brandMark(42);
 $('#signOutBtn').innerHTML = svg('power', { size: 19 });
 $('#editPropertyBtn').innerHTML = svg('more', { size: 22, fill: 'currentColor', sw: 0 });
 $('#inspectionMenuBtn').innerHTML = svg('more', { size: 22, fill: 'currentColor', sw: 0 });
@@ -852,7 +894,7 @@ function inspectionMenu(i) {
     $('#mCopy').onclick = async () => { try { await navigator.clipboard.writeText(inspectLink(i.token)); } catch(e){} closeSheet(); toast('Link copied'); };
     $('#mDone').onclick = async () => { await update('inspections', i.id, { status:'submitted', submitted_at:new Date().toISOString() }); closeSheet(); renderInspection(); toast('Marked submitted'); };
   }
-  $('#mDel').onclick = async () => { if (!confirm('Delete this inspection and its photos?')) return; await remove('inspections', i.id); closeSheet(); setTab('inspections'); toast('Deleted'); };
+  $('#mDel').onclick = async () => { if (!await appConfirm({ title:'Delete inspection?', message:'This inspection and its photos will be permanently deleted.', confirmText:'Delete', danger:true })) return; await remove('inspections', i.id); closeSheet(); setTab('inspections'); toast('Deleted'); };
 }
 
 function inspectLink(token) { return location.origin + location.pathname.replace(/[^/]*$/, '') + 'inspect.html?token=' + token; }
@@ -923,7 +965,7 @@ function propertyForm(p) {
       closeSheet(); refreshAfterEdit(); toast('Saved');
     } catch (e) { btn.disabled = false; }
   };
-  if (ed) $('#f_del').onclick = async () => { if (!confirm('Delete this property and all of its data?')) return; await remove('properties', p.id); await loadAll(); closeSheet(); setTab('properties'); toast('Deleted'); };
+  if (ed) $('#f_del').onclick = async () => { if (!await appConfirm({ title:'Delete property?', message:'This property and all of its tenants, money records and inspections will be permanently deleted.', confirmText:'Delete', danger:true })) return; await remove('properties', p.id); await loadAll(); closeSheet(); setTab('properties'); toast('Deleted'); };
 }
 
 // ── Tenant form ──
@@ -957,7 +999,7 @@ function tenantForm(t, preProp) {
     if (ed) await update('tenants', t.id, row); else await insert('tenants', row);
     closeSheet(); refreshAfterEdit(); toast('Saved');
   };
-  if (ed) $('#f_del').onclick = async () => { if (!confirm('Delete this tenant?')) return; await remove('tenants', t.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+  if (ed) $('#f_del').onclick = async () => { if (!await appConfirm({ title:'Delete tenant?', message:'This tenant and their lease details will be removed.', confirmText:'Delete', danger:true })) return; await remove('tenants', t.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
 }
 
 // ── Expense form ──
@@ -993,7 +1035,7 @@ function expenseForm(e) {
       closeSheet(); refreshAfterEdit(); toast('Saved');
     } catch (err) { btn.disabled = false; }
   };
-  if (ed) $('#f_del').onclick = async () => { await remove('expenses', e.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+  if (ed) $('#f_del').onclick = async () => { if (!await appConfirm({ title:'Delete expense?', confirmText:'Delete', danger:true })) return; await remove('expenses', e.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
 }
 
 // ── Bill form ──
@@ -1020,7 +1062,7 @@ function billForm(b) {
     if (ed) await update('bills', b.id, row); else await insert('bills', row);
     closeSheet(); refreshAfterEdit(); toast('Saved');
   };
-  if (ed) $('#f_del').onclick = async () => { await remove('bills', b.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+  if (ed) $('#f_del').onclick = async () => { if (!await appConfirm({ title:'Delete bill?', confirmText:'Delete', danger:true })) return; await remove('bills', b.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
 }
 
 // ── Payment form ──
@@ -1054,7 +1096,7 @@ function paymentForm(p) {
   };
   $('#f_save').onclick = () => save(false);
   if (ed && p.status!=='paid') $('#f_markpaid').onclick = () => save(true);
-  if (ed) $('#f_del').onclick = async () => { await remove('payments', p.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+  if (ed) $('#f_del').onclick = async () => { if (!await appConfirm({ title:'Delete rent record?', confirmText:'Delete', danger:true })) return; await remove('payments', p.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
 }
 
 // ── Inspection request form ──
@@ -1182,7 +1224,7 @@ function complianceForm(c, preProp) {
     if (ed) await update('compliance',c.id,row); else await insert('compliance',row);
     closeSheet(); refreshAfterEdit(); toast('Saved');
   };
-  if (ed) $('#f_del').onclick = async () => { await remove('compliance',c.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+  if (ed) $('#f_del').onclick = async () => { if (!await appConfirm({ title:'Delete certificate?', confirmText:'Delete', danger:true })) return; await remove('compliance',c.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
 }
 
 // ════════ PDF INSPECTION REPORT ════════
@@ -1264,7 +1306,7 @@ function docMenu(d) {
       <button class="btn danger" id="dDel">${svg('trash',{size:18})} Delete</button>
     </div>`);
   $('#dOpen').onclick = async () => { const u = await fileUrl(d.storage_path); closeSheet(); if (u) window.open(u, '_blank', 'noopener'); };
-  $('#dDel').onclick = async () => { try { await sb.storage.from('property-files').remove([d.storage_path]); } catch(e){} await remove('documents', d.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
+  $('#dDel').onclick = async () => { if (!await appConfirm({ title:'Delete document?', message:'The file will be permanently deleted.', confirmText:'Delete', danger:true })) return; try { await sb.storage.from('property-files').remove([d.storage_path]); } catch(e){} await remove('documents', d.id); closeSheet(); refreshAfterEdit(); toast('Deleted'); };
 }
 
 // ════════ ALERTS / NEEDS ATTENTION ════════
@@ -1495,7 +1537,7 @@ function tokenMenu(token, base) {
     </div>`);
   $('#cpTok').onclick = async () => { try { await navigator.clipboard.writeText(url); } catch (e) {} toast('Copied'); };
   $('#backTok').onclick = () => connectorSheet();
-  $('#revTok').onclick = async () => { if (!confirm('Revoke this connector link? Claude will lose access.')) return; await sb.from('mcp_tokens').delete().eq('token', token); toast('Revoked'); connectorSheet(); };
+  $('#revTok').onclick = async () => { if (!await appConfirm({ title:'Revoke connector link?', message:'Claude will immediately lose access to your data through this link.', confirmText:'Revoke', danger:true })) return; await sb.from('mcp_tokens').delete().eq('token', token); toast('Revoked'); connectorSheet(); };
 }
 
 // ════════ SUBURB MARKET ════════
