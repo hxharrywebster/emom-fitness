@@ -117,11 +117,11 @@
   .empty .sub { font-size: 14px; line-height: 1.5; max-width: 260px; margin: 0 auto; }
 
   /* ─── BUTTONS ─── */
-  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; background: linear-gradient(180deg, var(--accent2), var(--accent)); color: #fff; transition: transform .12s var(--ease), opacity .15s; box-shadow: 0 8px 20px -10px var(--accent); }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; background: linear-gradient(180deg, var(--accent2), var(--accent)); color: #fff; transition: transform .12s var(--ease), opacity .15s; box-shadow: 0 6px 16px -8px #0a84ff59; }
   .btn:active { transform: scale(.98); opacity: .9; }
   .btn.secondary { background: var(--surface2); color: var(--accent); box-shadow: none; }
   .btn.danger { background: #ff453a1f; color: var(--red); box-shadow: none; }
-  .btn.green { background: linear-gradient(180deg, #34d65c, #28c052); color: #fff; box-shadow: 0 8px 20px -10px var(--green); }
+  .btn.green { background: linear-gradient(180deg, #34d65c, #28c052); color: #fff; box-shadow: 0 6px 16px -8px #30d15859; }
   .btn:disabled { opacity: .45; box-shadow: none; }
 
   /* ─── SEGMENTED CONTROL ─── */
@@ -132,8 +132,11 @@
   /* ─── TAB BAR ─── */
   .tab-bar {
     position: fixed; bottom: 0; left: 0; right: 0; display: flex; z-index: 50;
-    background: #0c0c0ccc; backdrop-filter: saturate(180%) blur(24px); -webkit-backdrop-filter: saturate(180%) blur(24px);
+    background: #0c0c0cf5;
     border-top: 0.5px solid var(--border); padding-bottom: env(safe-area-inset-bottom);
+  }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .tab-bar { background: #0c0c0cdd; backdrop-filter: saturate(180%) blur(24px); -webkit-backdrop-filter: saturate(180%) blur(24px); }
   }
   .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 9px 0 6px; background: none; border: none; color: var(--text3); transition: color .15s, transform .12s var(--ease); }
   .tab-item.active { color: var(--accent); }
@@ -166,7 +169,7 @@
 
   /* ─── AUTH ─── */
   .auth-wrap { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 32px 26px calc(32px + env(safe-area-inset-bottom)); max-width: 460px; margin: 0 auto; width: 100%; animation: screenIn .4s var(--ease); }
-  .auth-logo { width: 76px; height: 76px; border-radius: 22px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; color: #fff; background: linear-gradient(160deg, var(--accent2), var(--accent)); box-shadow: 0 16px 36px -12px var(--accent); }
+  .auth-logo { width: 76px; height: 76px; border-radius: 22px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: center; color: #fff; background: linear-gradient(160deg, var(--accent2), var(--accent)); box-shadow: 0 14px 30px -14px #0a84ff80; }
   .auth-title { font-size: 29px; font-weight: 800; text-align: center; letter-spacing: -0.8px; }
   .auth-title span { font-weight: 300; }
   .auth-sub { font-size: 15px; color: var(--text2); text-align: center; margin: 9px 0 30px; line-height: 1.45; }
@@ -253,7 +256,8 @@
   /* ─── LIGHT MODE (system) ─── */
   @media (prefers-color-scheme: light) {
     :root { --bg:#f2f2f7; --surface:#ffffff; --surface2:#ececf1; --surface3:#d6d6de; --text:#000; --text2:#3c3c4399; --text3:#3c3c4366; --border:#0000001f; }
-    .tab-bar { background:#fbfbfdcc; }
+    .tab-bar { background:#fbfbfdf5; }
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) { .tab-bar { background:#fbfbfdcc; } }
     .sheet { background:#ffffff; }
     .toast { background:#1c1c1eee; color:#fff; }
     .field input, .field select, .field textarea { background:#f4f4f8; }
@@ -476,6 +480,14 @@ function complianceStatus(c) {
   return { label:'Valid', cls:'green', rank:3, days };
 }
 const byExpiry = arr => [...arr].sort((a,b)=>complianceStatus(a).rank-complianceStatus(b).rank || (a.expires_on||'').localeCompare(b.expires_on||''));
+function propFacts(p) {
+  const parts = [];
+  if (p.bedrooms) parts.push(p.bedrooms + ' bed');
+  if (p.bathrooms) parts.push(p.bathrooms + ' bath');
+  const a = parseAddr(p.address||'');
+  if (a.suburb && a.suburb.toLowerCase() !== (p.name||'').toLowerCase()) parts.push(a.suburb + (a.state ? ' ' + a.state : ''));
+  return parts.join(' · ');
+}
 function propTile(p) {
   const u = p.image_path && state.coverUrls[p.image_path];
   return u ? { icon:`<img src="${u}" alt="">`, color:'#fff', bg:'var(--surface2)' } : ic('home', C.blue);
@@ -633,11 +645,12 @@ function renderDashboard() {
     wireDelegates($('#dashboardContent')); return;
   }
 
+  const submitted = state.inspections.filter(i=>i.status==='submitted').length;
   let html = `<div class="stat-grid">
     ${statCard('home', C.blue, 'Properties', state.properties.length, `${state.tenants.length} tenant${state.tenants.length!==1?'s':''}`, null, 'data-tab="properties"')}
-    ${statCard('camera', C.purple, 'Inspections', pending.length+' pending', `${state.inspections.filter(i=>i.status==='submitted').length} submitted`, null, 'data-tab="inspections"')}
-    ${statCard('check', C.green, 'Rent this month', money(collected), 'collected', C.green, 'data-tab="money"')}
-    ${statCard('receipt', C.red, 'Expenses', money(expMonth), `${expMonthItems.length} this month`, C.red, 'data-tab="money"')}
+    ${statCard('camera', C.purple, 'Inspections', pending.length, `pending · ${submitted} submitted`, null, 'data-tab="inspections"')}
+    ${statCard('check', C.green, 'Rent this month', money(collected), 'collected', collected>0?C.green:null, 'data-tab="money"')}
+    ${statCard('receipt', C.orange, 'Expenses', money(expMonth), `${expMonthItems.length} this month`, null, 'data-tab="money"')}
   </div>`;
 
   if (state.payments.length || state.expenses.length) html += cashflowCard();
@@ -645,7 +658,7 @@ function renderDashboard() {
 
   const compAlerts = byExpiry(state.compliance.filter(c => complianceStatus(c).rank <= 1));
   if (compAlerts.length) {
-    html += `<div class="section-header"><span class="section-title">Compliance attention</span></div><div class="group">`;
+    html += `<div class="section-header"><span class="section-title">Compliance due</span></div><div class="group">`;
     compAlerts.slice(0,4).forEach(c => { const st = complianceStatus(c); html += rowHTML({ ...compIc(c.type), title: c.type, sub: propName(c.property_id)+(c.expires_on?' · expires '+fmtDate(c.expires_on):''), trail:`<span class="badge ${st.cls}">${st.label}</span>`+chev, data:`data-property="${c.property_id}"`, tappable:true }); });
     html += `</div>`;
   }
@@ -681,7 +694,7 @@ function renderProperties() {
   let html = '<div class="group">';
   state.properties.forEach(p => {
     const tCount = state.tenants.filter(t=>t.property_id===p.id).length;
-    html += rowHTML({ ...propTile(p), title: p.name, sub: p.address || `${tCount} tenant${tCount!==1?'s':''}`, trail: chev, data:`data-property="${p.id}"`, tappable:true });
+    html += rowHTML({ ...propTile(p), title: p.name, sub: propFacts(p) || p.address || `${tCount} tenant${tCount!==1?'s':''}`, trail: chev, data:`data-property="${p.id}"`, tappable:true });
   });
   html += '</div>';
   el.innerHTML = html;
@@ -707,7 +720,7 @@ function renderProperty() {
   if (p.address) html += `<div style="padding:4px 22px 2px;color:var(--text2);font-size:15px;display:flex;align-items:center;gap:6px">${svg('pin',{size:15})} ${esc(p.address)}</div>`;
   html += `<div class="stat-grid">
     ${statCard('card', C.green, 'Monthly rent', money(rent))}
-    ${statCard('receipt', C.red, 'Total expenses', money(totalExp), null, C.red)}
+    ${statCard('receipt', C.orange, 'Total expenses', money(totalExp))}
   </div>`;
   if (p.notes) html += `<div class="section-header"><span class="section-title">Notes</span></div><div class="note-card"><div class="inner">${esc(p.notes)}</div></div>`;
 
@@ -752,7 +765,7 @@ function renderTenants() {
   const el = $('#tenantsContent');
   if (!state.tenants.length) { el.innerHTML = emptyHTML('users', C.purple, 'No tenants yet', 'Add a property first, then assign tenants to it.'); return; }
   let html = '<div class="group">';
-  [...state.tenants].sort((a,b)=>(a.name||'').localeCompare(b.name||'')).forEach(t => html += rowHTML({ ...ic('user', C.purple), title:t.name, sub: propName(t.property_id), trail: (t.rent_amount?`<span class="amount">${money(t.rent_amount)}</span>`:'')+chev, data:`data-tenant="${t.id}"`, tappable:true }));
+  [...state.tenants].sort((a,b)=>(a.name||'').localeCompare(b.name||'')).forEach(t => html += rowHTML({ ...ic('user', C.purple), title:t.name, sub: propName(t.property_id) + (t.lease_end?' · lease ends '+fmtDate(t.lease_end):''), trail: (t.rent_amount?`<span class="amount">${money(t.rent_amount)}<span style="color:var(--text3);font-weight:400;font-size:13px"> /mo</span></span>`:'')+chev, data:`data-tenant="${t.id}"`, tappable:true }));
   html += '</div>';
   el.innerHTML = html;
   wireDelegates(el);
@@ -1564,7 +1577,7 @@ function renderMarket() {
   if (!groups.length) { el.innerHTML = emptyHTML('trending', C.teal, 'No suburbs yet', 'Add a property with an address to see local sales results and property news for its suburb.'); return; }
   let html = `<div class="hint" style="padding:8px 22px 2px">Local sales results & property news for your suburbs, researched live on demand.</div><div class="group">`;
   groups.forEach(g => { const ci = cachedInsight(g.suburb); const d = ci?.data;
-    const sub = d ? `${d.median_house_price?d.median_house_price+' median house · ':''}updated ${fmtDate(ci.fetched_at)}` : `${g.props.length} propert${g.props.length>1?'ies':'y'} · tap for sales & news`;
+    const sub = d ? `${d.median_house_price?d.median_house_price+' median house · ':''}updated ${fmtDate(ci.fetched_at)}` : `${g.props.length} propert${g.props.length>1?'ies':'y'} · not researched yet`;
     html += rowHTML({ ...ic('trending', C.teal), title:`${g.suburb}${g.state?', '+g.state:''}`, sub, trail: chev, data:`data-suburb="${esc(g.suburb)}"`, tappable:true });
   });
   html += '</div>';

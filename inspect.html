@@ -20,7 +20,7 @@
   .wrap { max-width:620px; margin:0 auto; padding:20px 18px calc(120px + env(safe-area-inset-bottom)); animation:fade .4s var(--ease); }
   @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
   .header { text-align:center; padding:14px 0 6px; }
-  .header .logo { width:72px; height:72px; border-radius:20px; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(160deg,var(--accent2),var(--accent)); box-shadow:0 16px 36px -12px var(--accent); }
+  .header .logo { width:72px; height:72px; border-radius:20px; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; color:#fff; background:linear-gradient(160deg,var(--accent2),var(--accent)); box-shadow:0 14px 30px -14px #0a84ff80; }
   .header h1 { font-size:26px; font-weight:800; letter-spacing:-0.5px; }
   .header .prop { font-size:17px; color:var(--accent); font-weight:600; margin-top:5px; }
   .header .due { font-size:14px; color:var(--text2); margin-top:6px; }
@@ -43,15 +43,18 @@
   .add-tile:active { transform:scale(.95); border-color:var(--accent); }
   .add-tile .lbl { font-size:11px; font-weight:600; }
 
-  .btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:16px; border-radius:14px; border:none; font-size:17px; font-weight:700; letter-spacing:-0.2px; background:linear-gradient(180deg,var(--accent2),var(--accent)); color:#fff; box-shadow:0 8px 22px -10px var(--accent); transition:transform .12s var(--ease), opacity .15s; }
+  .btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:16px; border-radius:14px; border:none; font-size:17px; font-weight:700; letter-spacing:-0.2px; background:linear-gradient(180deg,var(--accent2),var(--accent)); color:#fff; box-shadow:0 6px 16px -8px #0a84ff59; transition:transform .12s var(--ease), opacity .15s; }
   .btn:active { transform:scale(.98); }
   .btn:disabled { opacity:.45; box-shadow:none; }
-  .submit-bar { position:fixed; left:0; right:0; bottom:0; padding:14px 18px calc(14px + env(safe-area-inset-bottom)); background:#0c0c0ccc; backdrop-filter:saturate(180%) blur(24px); -webkit-backdrop-filter:saturate(180%) blur(24px); border-top:0.5px solid var(--border); }
+  .submit-bar { position:fixed; left:0; right:0; bottom:0; padding:14px 18px calc(14px + env(safe-area-inset-bottom)); background:#0c0c0cf5; border-top:0.5px solid var(--border); }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .submit-bar { background:#0c0c0ccc; backdrop-filter:saturate(180%) blur(24px); -webkit-backdrop-filter:saturate(180%) blur(24px); }
+  }
   .submit-bar .inner { max-width:620px; margin:0 auto; }
 
   .state { text-align:center; padding:90px 28px; animation:fade .4s var(--ease); max-width:480px; margin:0 auto; }
   .state .big { width:88px; height:88px; border-radius:26px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; }
-  .state .big.ok { background:linear-gradient(160deg,#34d65c,#28c052); color:#fff; box-shadow:0 16px 40px -12px var(--green); }
+  .state .big.ok { background:linear-gradient(160deg,#34d65c,#28c052); color:#fff; box-shadow:0 14px 30px -14px #30d15880; }
   .state .big.err { background:var(--surface); color:var(--orange); }
   .state h2 { font-size:24px; font-weight:800; letter-spacing:-0.4px; }
   .state p { font-size:15px; color:var(--text2); margin-top:11px; line-height:1.55; }
@@ -74,7 +77,8 @@
   @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.001ms !important; transition-duration:.001ms !important; } }
   @media (prefers-color-scheme: light) {
     :root { --bg:#f2f2f7; --surface:#ffffff; --surface2:#ececf1; --surface3:#d6d6de; --text:#000; --text2:#3c3c4399; --text3:#3c3c4366; --border:#0000001f; }
-    .submit-bar { background:#fbfbfdcc; }
+    .submit-bar { background:#fbfbfdf5; }
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) { .submit-bar { background:#fbfbfdcc; } }
     .dialog { background:#fbfbfd; }
     .dialog-actions button:active { background:#00000008; }
   }
