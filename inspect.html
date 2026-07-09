@@ -235,7 +235,7 @@ async function init() {
     if (info.status === 'submitted') return fail('Already submitted', 'These inspection photos have already been submitted. Thank you!', true);
     $('#propName').textContent = info.property || 'Your property';
     $('#dueDate').textContent = info.due_date ? ('Please submit by ' + new Date(info.due_date).toLocaleDateString('en-AU', { day:'numeric', month:'long', year:'numeric' })) : '';
-    $('#note').innerHTML = '<b>From your landlord:</b> ' + escapeHtml(info.notes || 'Please take clear photos of each room.');
+    $('#note').innerHTML = escapeHtml(info.notes || 'Please take clear, well-lit photos of each room.');
     if (Array.isArray(info.rooms) && info.rooms.length) rooms = info.rooms;
     renderRooms();
     show('form');
@@ -271,8 +271,9 @@ function renderRooms() {
       thumbs.appendChild(t);
     });
     const add = document.createElement('label'); add.className = 'add-tile';
-    add.innerHTML = svg('camera',24) + '<span class="lbl">Add</span>';
-    const input = document.createElement('input'); input.type='file'; input.accept='image/*'; input.multiple=true; input.style.display='none';
+    add.innerHTML = svg('camera',24) + '<span class="lbl">Take photo</span>';
+    const input = document.createElement('input'); input.type='file'; input.accept='image/*'; input.style.display='none';
+    input.setAttribute('capture', 'environment');
     input.onchange = () => { addFiles(room, input.files); input.value=''; };
     add.appendChild(input); thumbs.appendChild(add);
     c.appendChild(el);
@@ -280,11 +281,50 @@ function renderRooms() {
   updateProgress();
 }
 
-function addFiles(room, fileList) {
+// Burn a visible date/time stamp into the photo (bottom-right) so every
+// submitted image carries proof of when it was taken.
+function stampFile(file) {
+  return new Promise(resolve => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      try {
+        const maxW = 2000;
+        const scale = Math.min(1, maxW / img.naturalWidth);
+        const w = Math.round(img.naturalWidth * scale), h = Math.round(img.naturalHeight * scale);
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        const stamp = new Date().toLocaleString('en-AU', { day:'numeric', month:'short', year:'numeric', hour:'numeric', minute:'2-digit' });
+        const fs = Math.max(16, Math.round(w * 0.03));
+        ctx.font = `600 ${fs}px -apple-system, 'Segoe UI', sans-serif`;
+        const pad = Math.round(fs * 0.55), m = Math.round(fs * 0.8);
+        const tw = ctx.measureText(stamp).width;
+        const bw = tw + pad * 2, bh = fs + pad * 2;
+        const x = w - bw - m, y = h - bh - m;
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(x, y, bw, bh, Math.round(fs * 0.45)); ctx.fill(); }
+        else ctx.fillRect(x, y, bw, bh);
+        ctx.fillStyle = '#fff'; ctx.textBaseline = 'middle';
+        ctx.fillText(stamp, x + pad, y + bh / 2 + 1);
+        c.toBlob(b => {
+          if (!b) return resolve(file);
+          resolve(new File([b], (file.name.replace(/\.[^.]+$/, '') || 'photo') + '.jpg', { type: 'image/jpeg' }));
+        }, 'image/jpeg', 0.85);
+      } catch (e) { resolve(file); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
+async function addFiles(room, fileList) {
   photos[room] = photos[room] || [];
   for (const file of fileList) {
     if (!file.type.startsWith('image/')) continue;
-    photos[room].push({ id: Math.random().toString(36).slice(2), file, url: URL.createObjectURL(file) });
+    const stamped = await stampFile(file);
+    photos[room].push({ id: Math.random().toString(36).slice(2), file: stamped, url: URL.createObjectURL(stamped) });
   }
   renderRooms();
 }
