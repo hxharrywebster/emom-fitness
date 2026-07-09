@@ -279,6 +279,67 @@
     .auth-card { box-shadow: 0 24px 60px -44px #00000059; }
     .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233c3c43aa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); }
   }
+
+  /* ─── LIQUID GLASS ─── */
+  body { background: #050507; }
+  body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(1000px 700px at 85% -10%, #0a84ff21, transparent 62%),
+                radial-gradient(900px 640px at -15% 28%, #bf5af215, transparent 58%),
+                radial-gradient(820px 620px at 55% 112%, #40c8e013, transparent 60%); }
+  .row-icon, .stat-ic { box-shadow: inset 0 1px 1px #ffffff2b, inset 0 -3px 6px #00000024; border: 0.5px solid #ffffff12; }
+  .auth-logo { position: relative; overflow: hidden; }
+  .auth-logo::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(180deg, #ffffff47, #ffffff0f 46%, #ffffff00 60%); }
+  .auth-logo svg { position: relative; }
+  .btn:not(.secondary):not(.danger) { box-shadow: 0 6px 16px -8px #0a84ff59, inset 0 1px 0 #ffffff45; }
+  .btn.green { box-shadow: 0 6px 16px -8px #30d15859, inset 0 1px 0 #ffffff45; }
+  .tab-bar { left: 10px; right: 10px; bottom: calc(8px + env(safe-area-inset-bottom)); border-radius: 28px; border: 1px solid #ffffff17; padding-bottom: 0; background: #151518f5; box-shadow: inset 0 1px 0 #ffffff14, 0 18px 44px -20px #000000e6; }
+  .tab-item { padding: 10px 0 8px; }
+  #app::after { content: ''; position: fixed; left: 0; right: 0; bottom: 0; height: calc(132px + env(safe-area-inset-bottom)); z-index: 40; pointer-events: none; background: linear-gradient(180deg, transparent, #050507f2 68%); }
+  .scroll-content { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+  .toast { bottom: calc(96px + env(safe-area-inset-bottom)); }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .group, .stat-card, .chart-card, .note-card .inner, .ai-card, .auth-card, .empty .ic-wrap {
+      background: #ffffff0a; border: 1px solid #ffffff14;
+      -webkit-backdrop-filter: blur(18px) saturate(170%); backdrop-filter: blur(18px) saturate(170%);
+      box-shadow: inset 0 1px 0 #ffffff12, 0 16px 40px -28px #000000e6;
+    }
+    .ai-card { background: linear-gradient(160deg, #0a84ff26, #ffffff08); }
+    .row.tappable:active { background: #ffffff0f; }
+    .nav-icon-btn { background: #ffffff12; border: 1px solid #ffffff10; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+    .segmented { background: #ffffff0c; border: 1px solid #ffffff10; }
+    .segmented button.active { background: #ffffff1c; }
+    .tab-bar { background: #17171a99; -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%); }
+    .sheet { background: #1b1b1fe0; -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%); box-shadow: inset 0 1px 0 #ffffff14; }
+    .dialog { background: #28282cd0; -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%); border: 1px solid #ffffff17; }
+    .toast { background: #2c2c2ec9; -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+    .field input, .field select, .field textarea { background: #ffffff0f; border-color: #ffffff14; }
+    .copy-link { background: #ffffff0d; }
+  }
+  @media (prefers-color-scheme: light) {
+    body { background: #eef0f6; }
+    body::before { background: radial-gradient(1000px 700px at 85% -10%, #0a84ff1a, transparent 62%),
+                               radial-gradient(900px 640px at -15% 28%, #bf5af211, transparent 58%),
+                               radial-gradient(820px 620px at 55% 112%, #40c8e011, transparent 60%); }
+    .row-icon, .stat-ic { box-shadow: inset 0 1px 1px #ffffffb3, inset 0 -3px 6px #00000010; border: 0.5px solid #ffffff8c; }
+    #app::after { background: linear-gradient(180deg, transparent, #eef0f6f2 68%); }
+    .tab-bar { background: #fbfcfef2; border-color: #0000000f; box-shadow: inset 0 1px 0 #ffffffe6, 0 18px 44px -24px #3c3c6433; }
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+      .group, .stat-card, .chart-card, .note-card .inner, .ai-card, .auth-card, .empty .ic-wrap {
+        background: #ffffff9e; border: 1px solid #ffffffdd; box-shadow: inset 0 1px 0 #ffffff, 0 16px 36px -28px #3c3c6459;
+      }
+      .ai-card { background: linear-gradient(160deg, #0a84ff1c, #ffffffa8); }
+      .row.tappable:active { background: #00000008; }
+      .nav-icon-btn { background: #ffffff8c; border: 1px solid #ffffffb3; }
+      .segmented { background: #ffffff73; border: 1px solid #ffffffb3; }
+      .segmented button.active { background: #ffffff; }
+      .tab-bar { background: #f7f8fcb8; }
+      .sheet { background: #f6f7fbe6; }
+      .dialog { background: #fbfbfde0; }
+      .toast { background: #1c1c1ec9; }
+      .field input, .field select, .field textarea { background: #00000008; border-color: #00000014; }
+      .copy-link { background: #00000008; }
+    }
+  }
 </style>
 </head>
 <body>

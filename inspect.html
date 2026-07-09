@@ -82,6 +82,41 @@
     .dialog { background:#fbfbfd; }
     .dialog-actions button:active { background:#00000008; }
   }
+
+  /* ─── LIQUID GLASS ─── */
+  body { background:#050507; }
+  body::before { content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background: radial-gradient(1000px 700px at 85% -10%, #0a84ff21, transparent 62%),
+                radial-gradient(900px 640px at -15% 28%, #bf5af215, transparent 58%),
+                radial-gradient(820px 620px at 55% 112%, #40c8e013, transparent 60%); }
+  .header .logo { position:relative; overflow:hidden; }
+  .header .logo::before { content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(180deg,#ffffff47,#ffffff0f 46%,#ffffff00 60%); }
+  .header .logo svg { position:relative; }
+  .room-head .ric { box-shadow: inset 0 1px 1px #ffffff2b; border:0.5px solid #ffffff12; }
+  .btn { box-shadow: 0 6px 16px -8px #0a84ff59, inset 0 1px 0 #ffffff45; }
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .room, .note {
+      background:#ffffff0a; border:1px solid #ffffff14;
+      -webkit-backdrop-filter: blur(18px) saturate(170%); backdrop-filter: blur(18px) saturate(170%);
+      box-shadow: inset 0 1px 0 #ffffff12, 0 16px 40px -28px #000000e6;
+    }
+    .thumb, .add-tile { background:#ffffff0d; }
+    .add-tile { border-color:#ffffff2b; }
+    .dialog { background:#28282cd0; -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%); border:1px solid #ffffff17; }
+  }
+  @media (prefers-color-scheme: light) {
+    body { background:#eef0f6; }
+    body::before { background: radial-gradient(1000px 700px at 85% -10%, #0a84ff1a, transparent 62%),
+                               radial-gradient(900px 640px at -15% 28%, #bf5af211, transparent 58%),
+                               radial-gradient(820px 620px at 55% 112%, #40c8e011, transparent 60%); }
+    .room-head .ric { box-shadow: inset 0 1px 1px #ffffffb3; border:0.5px solid #ffffff8c; }
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+      .room, .note { background:#ffffff9e; border:1px solid #ffffffdd; box-shadow: inset 0 1px 0 #ffffff, 0 16px 36px -28px #3c3c6459; }
+      .thumb, .add-tile { background:#00000008; }
+      .add-tile { border-color:#00000024; }
+      .dialog { background:#fbfbfde0; }
+    }
+  }
 </style>
 </head>
 <body>
