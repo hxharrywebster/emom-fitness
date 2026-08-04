@@ -1,0 +1,481 @@
+person,date,headline_hours,is_selected_person,uoa_pct,productive_pct,ancillary_pct,availability_used_pct,trend_uoa_pct,trend_productive_pct,effective_utilisation,proximity_stoppages,primary_machine,primary_region,shifts,swing_summary,loads
+T. Baker,2026-01-05,9.9,1,0.7860,0.7857,0.6559,0.8252,0.8014,0.7713,70.91,19.40,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",118
+T. Baker,2026-01-06,9.4,1,0.8099,0.7755,0.6537,0.8017,0.7754,0.7463,75.40,22.60,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",167
+T. Baker,2026-01-07,9.7,1,0.7741,0.7821,0.6036,0.8260,0.8178,0.7883,70.69,20.55,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",152
+T. Baker,2026-01-08,9.1,1,0.7735,0.7652,0.6615,0.7963,0.7910,0.7402,73.46,21.42,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",152
+T. Baker,2026-01-09,10.1,1,0.8027,0.7806,0.6184,0.8302,0.7857,0.7951,70.84,22.59,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",123
+T. Baker,2026-01-10,9,1,0.7844,0.7413,0.6123,0.8362,0.7745,0.7595,73.69,22.13,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",147
+T. Baker,2026-01-11,10.2,1,0.7904,0.7710,0.6071,0.7962,0.7648,0.7940,75.86,20.16,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",165
+T. Baker,2026-01-12,9.3,1,0.7811,0.7436,0.6021,0.7888,0.7813,0.7726,75.97,20.90,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",130
+T. Baker,2026-01-13,9.5,1,0.7915,0.7608,0.6018,0.8254,0.7859,0.7898,71.03,21.93,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",142
+T. Baker,2026-01-14,10.1,1,0.7914,0.7643,0.6334,0.7941,0.7607,0.7598,73.24,20.36,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",179
+T. Baker,2026-01-15,10.2,1,0.7898,0.7449,0.6763,0.8151,0.7957,0.7475,70.58,22.53,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",154
+T. Baker,2026-01-16,9.7,1,0.7990,0.7722,0.6694,0.8002,0.7677,0.7674,70.41,22.82,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",127
+T. Baker,2026-01-17,10.1,1,0.7854,0.7434,0.6073,0.8123,0.7869,0.7970,70.18,22.99,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",175
+T. Baker,2026-01-18,9.9,1,0.7911,0.7662,0.6369,0.8110,0.7739,0.7532,70.56,20.53,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",179
+T. Baker,2026-01-19,10,1,0.7716,0.7751,0.6231,0.8224,0.8131,0.7554,70.38,21.38,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",161
+T. Baker,2026-01-20,10,1,0.7721,0.7782,0.6751,0.7902,0.7619,0.7546,71.08,21.01,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",119
+T. Baker,2026-01-21,10.2,1,0.7731,0.7428,0.6160,0.8005,0.7627,0.7891,70.06,22.70,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",106
+T. Baker,2026-01-22,10.1,1,0.7697,0.7789,0.6255,0.8027,0.7930,0.7656,74.16,22.08,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",154
+T. Baker,2026-01-23,9.6,1,0.7756,0.7702,0.6633,0.8349,0.7835,0.7433,70.44,22.76,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",145
+T. Baker,2026-01-24,9.9,1,0.8049,0.7812,0.6668,0.8320,0.7630,0.7636,72.40,19.35,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",138
+T. Baker,2026-01-25,10,1,0.7907,0.7822,0.6540,0.8199,0.7614,0.7892,73.39,20.43,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",113
+T. Baker,2026-01-26,9.3,1,0.7609,0.7493,0.6564,0.7846,0.7698,0.7812,70.78,19.90,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",100
+T. Baker,2026-01-27,9.2,1,0.8022,0.7774,0.6280,0.8028,0.8012,0.7629,73.76,22.50,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",153
+T. Baker,2026-01-28,9.6,1,0.7603,0.7422,0.6029,0.8012,0.7912,0.7507,74.48,21.95,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",131
+T. Baker,2026-01-29,9.1,1,0.7739,0.7610,0.6577,0.7898,0.7985,0.7911,72.65,22.72,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",110
+T. Baker,2026-01-30,10,1,0.7652,0.7886,0.6419,0.8246,0.7783,0.7748,74.23,23.04,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",105
+T. Baker,2026-01-31,9.1,1,0.7866,0.7551,0.6278,0.7917,0.7973,0.7505,71.57,21.50,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",134
+T. Baker,2026-02-01,9.4,1,0.7832,0.7628,0.6085,0.8188,0.8039,0.7893,70.30,22.64,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",169
+T. Baker,2026-02-02,10.1,1,0.7930,0.7597,0.6079,0.8343,0.7975,0.7985,71.52,21.84,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",135
+T. Baker,2026-02-03,10.4,1,0.8012,0.7709,0.6049,0.8184,0.8181,0.7424,70.93,21.73,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",107
+T. Baker,2026-02-04,10.4,1,0.7733,0.7731,0.6426,0.8204,0.7937,0.7521,71.14,21.72,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",147
+T. Baker,2026-02-05,9.9,1,0.7974,0.7763,0.6729,0.8375,0.7683,0.7960,71.08,23.13,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",111
+T. Baker,2026-02-06,10.3,1,0.7798,0.7526,0.6021,0.7981,0.7924,0.7960,71.96,20.58,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",125
+T. Baker,2026-02-07,9.6,1,0.7754,0.7428,0.6327,0.7956,0.8038,0.7859,75.42,19.99,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",124
+T. Baker,2026-02-08,9.4,1,0.7725,0.7822,0.6147,0.7951,0.8180,0.7553,72.34,22.66,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",150
+T. Baker,2026-02-09,9.5,1,0.7896,0.7876,0.6195,0.8204,0.7678,0.7860,73.45,19.27,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",165
+T. Baker,2026-02-10,9.2,1,0.7690,0.7810,0.6702,0.7858,0.8188,0.7604,73.88,21.61,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",127
+T. Baker,2026-02-11,9.5,1,0.7826,0.7464,0.6743,0.8285,0.7625,0.7747,71.93,19.98,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",160
+T. Baker,2026-02-12,9.5,1,0.7915,0.7775,0.6689,0.8180,0.8148,0.7985,72.97,22.74,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",113
+T. Baker,2026-02-13,9.1,1,0.7756,0.7561,0.6310,0.7846,0.8064,0.7683,75.16,22.65,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",163
+T. Baker,2026-02-14,10.3,1,0.7607,0.7567,0.6760,0.8269,0.7772,0.7932,72.81,21.03,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",133
+T. Baker,2026-02-15,9,1,0.7923,0.7758,0.6319,0.8207,0.8059,0.7920,70.71,20.86,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",146
+T. Baker,2026-02-16,10.3,1,0.7748,0.7442,0.6736,0.8377,0.8100,0.7805,70.56,20.66,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",125
+T. Baker,2026-02-17,10.4,1,0.8064,0.7882,0.6544,0.8002,0.7748,0.7604,70.65,21.60,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",158
+T. Baker,2026-02-18,10.5,1,0.7798,0.7426,0.6721,0.8279,0.7792,0.7996,75.13,21.48,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",134
+T. Baker,2026-02-19,9.8,1,0.7690,0.7483,0.6765,0.7974,0.7859,0.7572,75.62,22.99,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",156
+T. Baker,2026-02-20,9.9,1,0.7816,0.7662,0.6679,0.8014,0.7723,0.7674,70.45,21.06,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",135
+T. Baker,2026-02-21,9.2,1,0.7694,0.7578,0.6239,0.7942,0.7657,0.7515,75.06,19.21,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",118
+T. Baker,2026-02-22,10.4,1,0.7811,0.7819,0.6358,0.8252,0.8054,0.7556,75.48,22.51,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",160
+T. Baker,2026-02-23,9.8,1,0.7922,0.7665,0.6707,0.8253,0.8108,0.7894,71.65,19.93,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",122
+T. Baker,2026-02-24,9.2,1,0.8060,0.7864,0.6139,0.8126,0.7615,0.7677,71.19,21.92,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",168
+T. Baker,2026-02-25,10.2,1,0.7953,0.7419,0.6136,0.7845,0.8144,0.7853,72.30,22.92,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",169
+T. Baker,2026-02-26,9.8,1,0.7775,0.7851,0.6007,0.8317,0.8054,0.7864,74.91,21.31,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",138
+T. Baker,2026-02-27,9.9,1,0.7953,0.7726,0.6603,0.8372,0.8064,0.7876,75.45,22.55,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",115
+T. Baker,2026-02-28,10,1,0.7779,0.7882,0.6442,0.8395,0.7655,0.7613,75.68,20.51,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",151
+T. Baker,2026-03-01,9,1,0.7701,0.7825,0.6332,0.8379,0.7970,0.7532,72.70,20.22,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",139
+T. Baker,2026-03-02,10.2,1,0.7670,0.7616,0.6174,0.7888,0.8094,0.7773,73.66,22.73,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",143
+T. Baker,2026-03-03,10.3,1,0.7650,0.7475,0.6542,0.8252,0.8051,0.7733,73.06,21.49,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",147
+T. Baker,2026-03-04,10.2,1,0.7773,0.7710,0.6580,0.8061,0.7820,0.7572,74.46,21.11,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",122
+T. Baker,2026-03-05,9.3,1,0.7834,0.7441,0.6365,0.7860,0.7707,0.7830,75.44,21.05,EX3660,"South Stockyard",14,"Strong swing. Utilisation of availability up 4.2% on last swing; proximity stoppages down. Keep pit-floor grading cadence through node 7.",176
+A. Nguyen,2026-01-05,9.3,0,0.8164,0.7877,0.6471,0.8195,0.8248,0.7797,75.52,21.92,EX3661,"Panel 4 North",14,,132
+A. Nguyen,2026-01-06,10,0,0.8120,0.7897,0.6843,0.8266,0.7885,0.7694,78.44,18.87,EX3661,"Panel 4 North",14,,156
+A. Nguyen,2026-01-07,9.9,0,0.8183,0.7937,0.6301,0.8170,0.7851,0.7925,75.69,21.87,EX3661,"Panel 4 North",14,,137
+A. Nguyen,2026-01-08,9.6,0,0.8034,0.7609,0.6769,0.8425,0.7916,0.8097,73.84,21.57,EX3661,"Panel 4 North",14,,173
+A. Nguyen,2026-01-09,9.7,0,0.7907,0.7942,0.7015,0.7996,0.7795,0.8009,72.70,18.52,EX3661,"Panel 4 North",14,,151
+A. Nguyen,2026-01-10,9.3,0,0.7787,0.7879,0.6503,0.8021,0.8060,0.8195,76.90,20.16,EX3661,"Panel 4 North",14,,166
+A. Nguyen,2026-01-11,10.5,0,0.8012,0.7729,0.6845,0.8245,0.7844,0.8189,73.59,18.81,EX3661,"Panel 4 North",14,,106
+A. Nguyen,2026-01-12,10.2,0,0.8002,0.7717,0.6925,0.8150,0.8104,0.8134,78.00,22.19,EX3661,"Panel 4 North",14,,111
+A. Nguyen,2026-01-13,10.3,0,0.7914,0.7819,0.6271,0.8376,0.8067,0.8142,77.06,19.34,EX3661,"Panel 4 North",14,,148
+A. Nguyen,2026-01-14,9.9,0,0.8235,0.7831,0.6331,0.8186,0.7895,0.8147,78.32,19.69,EX3661,"Panel 4 North",14,,176
+A. Nguyen,2026-01-15,10,0,0.8211,0.7688,0.6523,0.8529,0.7886,0.7816,73.17,21.39,EX3661,"Panel 4 North",14,,139
+A. Nguyen,2026-01-16,10.2,0,0.8133,0.7669,0.6851,0.8480,0.7875,0.7643,73.14,19.95,EX3661,"Panel 4 North",14,,142
+A. Nguyen,2026-01-17,10.1,0,0.8161,0.7761,0.6982,0.7983,0.7906,0.7642,75.57,19.80,EX3661,"Panel 4 North",14,,149
+A. Nguyen,2026-01-18,9.3,0,0.7999,0.7602,0.6484,0.8186,0.8238,0.7799,77.71,20.35,EX3661,"Panel 4 North",14,,158
+A. Nguyen,2026-01-19,9.7,0,0.7832,0.8002,0.6414,0.8194,0.7990,0.7613,72.92,20.28,EX3661,"Panel 4 North",14,,180
+A. Nguyen,2026-01-20,9.4,0,0.7814,0.7648,0.6961,0.8420,0.8213,0.7838,76.65,21.61,EX3661,"Panel 4 North",14,,112
+A. Nguyen,2026-01-21,10.4,0,0.8186,0.7679,0.6941,0.7984,0.8192,0.8081,77.99,19.48,EX3661,"Panel 4 North",14,,164
+A. Nguyen,2026-01-22,10.4,0,0.7978,0.8079,0.6988,0.8338,0.8075,0.7943,74.91,20.88,EX3661,"Panel 4 North",14,,148
+A. Nguyen,2026-01-23,10.5,0,0.7919,0.7654,0.6929,0.8122,0.7881,0.7744,75.64,21.74,EX3661,"Panel 4 North",14,,156
+A. Nguyen,2026-01-24,10,0,0.7867,0.7607,0.6595,0.8430,0.7833,0.8151,73.22,19.13,EX3661,"Panel 4 North",14,,153
+A. Nguyen,2026-01-25,9.9,0,0.7785,0.7794,0.7032,0.7966,0.8219,0.7658,74.59,22.01,EX3661,"Panel 4 North",14,,161
+A. Nguyen,2026-01-26,10.1,0,0.8234,0.7847,0.6276,0.8232,0.8232,0.8071,78.29,20.72,EX3661,"Panel 4 North",14,,176
+A. Nguyen,2026-01-27,10.7,0,0.7831,0.7994,0.6503,0.8518,0.8356,0.7824,74.16,18.38,EX3661,"Panel 4 North",14,,161
+A. Nguyen,2026-01-28,10.2,0,0.8243,0.7637,0.6590,0.8049,0.8071,0.8131,77.98,21.55,EX3661,"Panel 4 North",14,,170
+A. Nguyen,2026-01-29,10.1,0,0.8072,0.7689,0.6970,0.8515,0.8270,0.7931,78.19,21.61,EX3661,"Panel 4 North",14,,154
+A. Nguyen,2026-01-30,10.7,0,0.8157,0.7634,0.6895,0.8259,0.7838,0.7805,77.80,20.97,EX3661,"Panel 4 North",14,,157
+A. Nguyen,2026-01-31,9.9,0,0.7893,0.7740,0.6978,0.8328,0.7886,0.8059,73.74,18.46,EX3661,"Panel 4 North",14,,124
+A. Nguyen,2026-02-01,9.6,0,0.7906,0.7796,0.6361,0.7959,0.7940,0.7934,77.75,18.41,EX3661,"Panel 4 North",14,,111
+A. Nguyen,2026-02-02,9.4,0,0.7836,0.7864,0.6467,0.8207,0.7898,0.7750,78.31,20.25,EX3661,"Panel 4 North",14,,129
+A. Nguyen,2026-02-03,9.4,0,0.7807,0.7703,0.6373,0.8008,0.8051,0.7696,78.16,18.76,EX3661,"Panel 4 North",14,,149
+A. Nguyen,2026-02-04,9.4,0,0.7924,0.7725,0.6493,0.8148,0.7804,0.7995,76.35,19.19,EX3661,"Panel 4 North",14,,125
+A. Nguyen,2026-02-05,10.6,0,0.8054,0.7674,0.6579,0.7978,0.8161,0.7652,77.59,22.29,EX3661,"Panel 4 North",14,,124
+A. Nguyen,2026-02-06,10.4,0,0.7818,0.7996,0.6940,0.8008,0.8094,0.7651,75.44,21.57,EX3661,"Panel 4 North",14,,117
+A. Nguyen,2026-02-07,9.3,0,0.8156,0.8055,0.6977,0.8137,0.7878,0.7733,73.71,19.08,EX3661,"Panel 4 North",14,,108
+A. Nguyen,2026-02-08,10.4,0,0.8016,0.7694,0.6821,0.8167,0.8354,0.7685,78.28,20.58,EX3661,"Panel 4 North",14,,172
+A. Nguyen,2026-02-09,9.7,0,0.7951,0.8014,0.6409,0.8466,0.8237,0.7768,74.67,21.29,EX3661,"Panel 4 North",14,,142
+A. Nguyen,2026-02-10,9.4,0,0.8258,0.7985,0.6279,0.8029,0.8115,0.7635,72.92,20.05,EX3661,"Panel 4 North",14,,104
+A. Nguyen,2026-02-11,9.7,0,0.8062,0.7995,0.6608,0.8306,0.7938,0.7955,74.32,20.02,EX3661,"Panel 4 North",14,,139
+A. Nguyen,2026-02-12,10,0,0.7909,0.7712,0.6650,0.8544,0.8145,0.7768,75.99,20.66,EX3661,"Panel 4 North",14,,113
+A. Nguyen,2026-02-13,9.3,0,0.8140,0.7700,0.6481,0.8279,0.7814,0.8164,73.84,19.76,EX3661,"Panel 4 North",14,,148
+A. Nguyen,2026-02-14,10.7,0,0.8147,0.7958,0.6941,0.7951,0.7856,0.7654,76.39,18.64,EX3661,"Panel 4 North",14,,129
+A. Nguyen,2026-02-15,9.5,0,0.8268,0.7638,0.6835,0.8334,0.8134,0.8021,76.79,20.80,EX3661,"Panel 4 North",14,,125
+A. Nguyen,2026-02-16,9.9,0,0.7831,0.7867,0.6290,0.8175,0.7892,0.7704,75.99,18.77,EX3661,"Panel 4 North",14,,168
+A. Nguyen,2026-02-17,10.6,0,0.8015,0.8095,0.6638,0.8216,0.8257,0.8189,76.17,21.59,EX3661,"Panel 4 North",14,,118
+A. Nguyen,2026-02-18,9.8,0,0.7982,0.7636,0.6852,0.8044,0.8159,0.7981,75.70,19.75,EX3661,"Panel 4 North",14,,163
+A. Nguyen,2026-02-19,9.4,0,0.8167,0.7829,0.6450,0.8137,0.8020,0.8054,75.09,19.98,EX3661,"Panel 4 North",14,,145
+A. Nguyen,2026-02-20,10.4,0,0.7807,0.8072,0.6723,0.8216,0.7914,0.8136,73.36,20.82,EX3661,"Panel 4 North",14,,166
+A. Nguyen,2026-02-21,9.5,0,0.8017,0.7912,0.6783,0.7968,0.7895,0.7811,76.82,18.70,EX3661,"Panel 4 North",14,,163
+A. Nguyen,2026-02-22,10.4,0,0.8029,0.8000,0.6623,0.8365,0.8030,0.7626,74.24,21.85,EX3661,"Panel 4 North",14,,126
+A. Nguyen,2026-02-23,10.5,0,0.8170,0.7876,0.6305,0.8177,0.8168,0.7681,73.71,21.46,EX3661,"Panel 4 North",14,,102
+A. Nguyen,2026-02-24,9.9,0,0.8082,0.7702,0.6812,0.8023,0.7920,0.7909,75.78,18.41,EX3661,"Panel 4 North",14,,172
+A. Nguyen,2026-02-25,9.9,0,0.8135,0.7739,0.6898,0.8116,0.7964,0.7914,77.32,19.66,EX3661,"Panel 4 North",14,,175
+A. Nguyen,2026-02-26,9.6,0,0.7879,0.7936,0.6306,0.8164,0.7968,0.7831,76.97,21.03,EX3661,"Panel 4 North",14,,105
+A. Nguyen,2026-02-27,10.4,0,0.8185,0.8090,0.6384,0.8195,0.8229,0.8198,76.50,21.76,EX3661,"Panel 4 North",14,,151
+A. Nguyen,2026-02-28,9.6,0,0.7809,0.7830,0.6560,0.7967,0.7861,0.7950,74.54,18.52,EX3661,"Panel 4 North",14,,152
+A. Nguyen,2026-03-01,9.7,0,0.7901,0.8080,0.6435,0.8045,0.8066,0.8019,75.20,19.51,EX3661,"Panel 4 North",14,,175
+A. Nguyen,2026-03-02,10.5,0,0.8253,0.8031,0.6386,0.8393,0.7802,0.7750,77.43,21.84,EX3661,"Panel 4 North",14,,154
+A. Nguyen,2026-03-03,9.4,0,0.7998,0.7700,0.6747,0.8065,0.8341,0.7957,77.68,22.23,EX3661,"Panel 4 North",14,,151
+A. Nguyen,2026-03-04,10.5,0,0.7818,0.8009,0.6519,0.8063,0.8183,0.8166,72.65,18.37,EX3661,"Panel 4 North",14,,133
+A. Nguyen,2026-03-05,10,0,0.8042,0.7799,0.6825,0.8219,0.8250,0.7699,72.51,21.48,EX3661,"Panel 4 North",14,,161
+S. Whitfield,2026-01-05,10.8,0,0.8088,0.8128,0.6740,0.8138,0.8020,0.7969,77.98,18.88,EX3662,"South Stockyard",14,,111
+S. Whitfield,2026-01-06,9.9,0,0.8177,0.8286,0.7200,0.8374,0.8408,0.8154,76.04,19.62,EX3662,"South Stockyard",14,,112
+S. Whitfield,2026-01-07,10.4,0,0.8327,0.7894,0.7244,0.8260,0.8095,0.7822,79.18,17.47,EX3662,"South Stockyard",14,,176
+S. Whitfield,2026-01-08,10,0,0.8075,0.7856,0.6803,0.8180,0.7956,0.8156,79.15,20.70,EX3662,"South Stockyard",14,,165
+S. Whitfield,2026-01-09,10.5,0,0.8050,0.7828,0.6577,0.8342,0.8507,0.8182,77.38,18.70,EX3662,"South Stockyard",14,,134
+S. Whitfield,2026-01-10,9.5,0,0.8232,0.7821,0.6988,0.8490,0.8087,0.8380,80.98,20.75,EX3662,"South Stockyard",14,,166
+S. Whitfield,2026-01-11,10.6,0,0.8049,0.7860,0.6939,0.8263,0.8335,0.8182,77.13,20.90,EX3662,"South Stockyard",14,,137
+S. Whitfield,2026-01-12,10.7,0,0.8369,0.7939,0.6581,0.8527,0.8135,0.8001,75.66,17.62,EX3662,"South Stockyard",14,,117
+S. Whitfield,2026-01-13,10.8,0,0.8410,0.7962,0.6694,0.8304,0.8021,0.8060,77.65,20.06,EX3662,"South Stockyard",14,,117
+S. Whitfield,2026-01-14,10.2,0,0.8274,0.8149,0.6680,0.8473,0.8132,0.8249,76.01,18.33,EX3662,"South Stockyard",14,,125
+S. Whitfield,2026-01-15,10.5,0,0.8047,0.7866,0.6637,0.8181,0.7989,0.8291,79.30,19.29,EX3662,"South Stockyard",14,,163
+S. Whitfield,2026-01-16,10.8,0,0.7972,0.7890,0.6679,0.8681,0.8422,0.7908,78.70,19.19,EX3662,"South Stockyard",14,,126
+S. Whitfield,2026-01-17,10.5,0,0.8110,0.7881,0.6601,0.8353,0.8353,0.8070,76.24,18.80,EX3662,"South Stockyard",14,,126
+S. Whitfield,2026-01-18,10.9,0,0.8386,0.7969,0.7194,0.8680,0.8303,0.7937,79.45,20.50,EX3662,"South Stockyard",14,,152
+S. Whitfield,2026-01-19,10.8,0,0.8282,0.8182,0.7175,0.8452,0.8357,0.7907,75.24,21.33,EX3662,"South Stockyard",14,,116
+S. Whitfield,2026-01-20,10.3,0,0.8400,0.7991,0.6506,0.8396,0.7990,0.7803,77.69,19.00,EX3662,"South Stockyard",14,,125
+S. Whitfield,2026-01-21,9.6,0,0.8226,0.8181,0.7233,0.8424,0.8401,0.8186,75.15,19.35,EX3662,"South Stockyard",14,,139
+S. Whitfield,2026-01-22,10.2,0,0.8209,0.7814,0.6702,0.8307,0.8158,0.8177,75.30,19.65,EX3662,"South Stockyard",14,,170
+S. Whitfield,2026-01-23,10.3,0,0.8368,0.7968,0.7100,0.8287,0.8198,0.8018,79.29,18.23,EX3662,"South Stockyard",14,,139
+S. Whitfield,2026-01-24,10.5,0,0.8422,0.8045,0.7046,0.8283,0.8167,0.8226,79.66,18.49,EX3662,"South Stockyard",14,,144
+S. Whitfield,2026-01-25,10.4,0,0.7982,0.8232,0.6589,0.8118,0.8540,0.8313,76.25,19.75,EX3662,"South Stockyard",14,,147
+S. Whitfield,2026-01-26,10.8,0,0.8075,0.8296,0.6559,0.8119,0.8407,0.7931,76.00,19.04,EX3662,"South Stockyard",14,,101
+S. Whitfield,2026-01-27,10.5,0,0.8358,0.8146,0.6759,0.8634,0.8439,0.7864,76.80,20.48,EX3662,"South Stockyard",14,,162
+S. Whitfield,2026-01-28,10,0,0.8061,0.8068,0.7047,0.8545,0.8222,0.7901,80.74,18.50,EX3662,"South Stockyard",14,,132
+S. Whitfield,2026-01-29,10.3,0,0.8363,0.7812,0.6747,0.8379,0.8467,0.8300,78.93,20.79,EX3662,"South Stockyard",14,,123
+S. Whitfield,2026-01-30,10.1,0,0.8054,0.8230,0.6691,0.8600,0.8318,0.8291,80.99,18.85,EX3662,"South Stockyard",14,,166
+S. Whitfield,2026-01-31,10.5,0,0.8025,0.8151,0.6707,0.8244,0.8410,0.7870,77.94,18.95,EX3662,"South Stockyard",14,,108
+S. Whitfield,2026-02-01,10.1,0,0.8117,0.7940,0.7023,0.8521,0.8099,0.8271,76.98,18.20,EX3662,"South Stockyard",14,,147
+S. Whitfield,2026-02-02,9.8,0,0.8426,0.7975,0.6963,0.8474,0.8549,0.7810,77.26,21.33,EX3662,"South Stockyard",14,,139
+S. Whitfield,2026-02-03,9.6,0,0.8242,0.7825,0.7287,0.8287,0.8394,0.8272,79.88,20.74,EX3662,"South Stockyard",14,,112
+S. Whitfield,2026-02-04,9.6,0,0.8269,0.7975,0.6723,0.8563,0.8017,0.7803,79.17,18.59,EX3662,"South Stockyard",14,,144
+S. Whitfield,2026-02-05,10,0,0.8219,0.8263,0.6802,0.8406,0.8415,0.8111,77.67,19.86,EX3662,"South Stockyard",14,,125
+S. Whitfield,2026-02-06,10.6,0,0.8297,0.7849,0.7158,0.8275,0.8466,0.8094,77.67,18.99,EX3662,"South Stockyard",14,,114
+S. Whitfield,2026-02-07,9.8,0,0.8437,0.7951,0.6680,0.8521,0.7993,0.8280,76.54,18.79,EX3662,"South Stockyard",14,,134
+S. Whitfield,2026-02-08,10.8,0,0.8306,0.8019,0.7161,0.8336,0.8287,0.7968,78.16,20.72,EX3662,"South Stockyard",14,,121
+S. Whitfield,2026-02-09,10.9,0,0.8311,0.7934,0.6597,0.8279,0.7999,0.8358,78.58,17.95,EX3662,"South Stockyard",14,,145
+S. Whitfield,2026-02-10,10,0,0.8271,0.8117,0.6974,0.8595,0.8460,0.7852,77.12,19.93,EX3662,"South Stockyard",14,,143
+S. Whitfield,2026-02-11,9.7,0,0.8033,0.7825,0.7169,0.8389,0.7997,0.8028,75.43,18.48,EX3662,"South Stockyard",14,,108
+S. Whitfield,2026-02-12,10.4,0,0.7962,0.8079,0.7246,0.8334,0.8349,0.7992,77.65,20.13,EX3662,"South Stockyard",14,,172
+S. Whitfield,2026-02-13,10.5,0,0.8053,0.7880,0.7256,0.8209,0.8150,0.8088,79.04,18.13,EX3662,"South Stockyard",14,,166
+S. Whitfield,2026-02-14,10,0,0.8348,0.7831,0.6771,0.8203,0.8437,0.8297,79.36,18.48,EX3662,"South Stockyard",14,,123
+S. Whitfield,2026-02-15,10.3,0,0.8407,0.8161,0.7214,0.8517,0.8175,0.8347,78.46,20.07,EX3662,"South Stockyard",14,,124
+S. Whitfield,2026-02-16,10.2,0,0.8058,0.8235,0.6858,0.8122,0.8218,0.8179,76.48,19.66,EX3662,"South Stockyard",14,,157
+S. Whitfield,2026-02-17,10,0,0.8385,0.8164,0.7126,0.8191,0.8111,0.8249,78.15,18.08,EX3662,"South Stockyard",14,,107
+S. Whitfield,2026-02-18,9.9,0,0.7975,0.8013,0.6678,0.8540,0.7952,0.8326,76.33,17.42,EX3662,"South Stockyard",14,,145
+S. Whitfield,2026-02-19,10.4,0,0.8211,0.8117,0.7270,0.8147,0.8215,0.8008,79.91,19.69,EX3662,"South Stockyard",14,,132
+S. Whitfield,2026-02-20,10.6,0,0.8183,0.7997,0.6686,0.8615,0.8132,0.7916,80.73,19.51,EX3662,"South Stockyard",14,,122
+S. Whitfield,2026-02-21,10.1,0,0.8147,0.8019,0.6785,0.8175,0.8307,0.7887,76.45,18.33,EX3662,"South Stockyard",14,,130
+S. Whitfield,2026-02-22,9.6,0,0.8039,0.8261,0.6707,0.8615,0.8529,0.8247,77.22,20.84,EX3662,"South Stockyard",14,,160
+S. Whitfield,2026-02-23,10.5,0,0.8118,0.8260,0.7194,0.8447,0.8058,0.7924,76.61,18.01,EX3662,"South Stockyard",14,,151
+S. Whitfield,2026-02-24,10,0,0.8027,0.8270,0.6688,0.8565,0.8198,0.8089,75.49,20.43,EX3662,"South Stockyard",14,,149
+S. Whitfield,2026-02-25,9.9,0,0.8166,0.7977,0.6956,0.8579,0.8056,0.8122,78.70,18.00,EX3662,"South Stockyard",14,,120
+S. Whitfield,2026-02-26,10.3,0,0.8040,0.8049,0.7024,0.8132,0.8302,0.7958,77.56,21.33,EX3662,"South Stockyard",14,,109
+S. Whitfield,2026-02-27,9.7,0,0.8313,0.8039,0.7243,0.8221,0.8535,0.7890,79.93,18.73,EX3662,"South Stockyard",14,,174
+S. Whitfield,2026-02-28,10.9,0,0.8239,0.7827,0.6728,0.8611,0.8372,0.8049,75.98,18.10,EX3662,"South Stockyard",14,,135
+S. Whitfield,2026-03-01,10.9,0,0.8229,0.7967,0.6531,0.8145,0.7956,0.8012,75.54,19.50,EX3662,"South Stockyard",14,,174
+S. Whitfield,2026-03-02,10.7,0,0.8040,0.8071,0.6695,0.8313,0.8249,0.8244,79.62,17.55,EX3662,"South Stockyard",14,,175
+S. Whitfield,2026-03-03,10.4,0,0.8067,0.7814,0.6547,0.8696,0.8460,0.7875,80.44,20.15,EX3662,"South Stockyard",14,,128
+S. Whitfield,2026-03-04,10.9,0,0.8194,0.8262,0.6700,0.8566,0.8476,0.8064,76.07,19.20,EX3662,"South Stockyard",14,,151
+S. Whitfield,2026-03-05,10.6,0,0.8190,0.7925,0.6746,0.8348,0.8387,0.8132,76.63,17.88,EX3662,"South Stockyard",14,,172
+K. Dunstan,2026-01-05,10.1,0,0.8168,0.8200,0.7345,0.8670,0.8602,0.8142,81.12,19.41,EX3663,"Panel 4 North",14,,136
+K. Dunstan,2026-01-06,9.8,0,0.8374,0.8215,0.6832,0.8541,0.8268,0.8411,82.74,16.61,EX3663,"Panel 4 North",14,,160
+K. Dunstan,2026-01-07,10.7,0,0.8143,0.8285,0.6807,0.8265,0.8469,0.8048,80.66,17.89,EX3663,"Panel 4 North",14,,108
+K. Dunstan,2026-01-08,11.1,0,0.8475,0.8111,0.7293,0.8820,0.8189,0.8428,82.64,16.85,EX3663,"Panel 4 North",14,,138
+K. Dunstan,2026-01-09,10.7,0,0.8142,0.8465,0.6871,0.8259,0.8552,0.8214,80.31,17.04,EX3663,"Panel 4 North",14,,144
+K. Dunstan,2026-01-10,10.7,0,0.8347,0.8082,0.6950,0.8407,0.8649,0.8025,81.84,17.93,EX3663,"Panel 4 North",14,,166
+K. Dunstan,2026-01-11,10,0,0.8392,0.8066,0.7465,0.8755,0.8708,0.8480,79.35,18.30,EX3663,"Panel 4 North",14,,115
+K. Dunstan,2026-01-12,10.8,0,0.8378,0.8139,0.7513,0.8521,0.8142,0.8460,77.56,19.93,EX3663,"Panel 4 North",14,,124
+K. Dunstan,2026-01-13,11,0,0.8548,0.8043,0.7432,0.8447,0.8368,0.8559,80.43,18.64,EX3663,"Panel 4 North",14,,110
+K. Dunstan,2026-01-14,10.3,0,0.8359,0.8242,0.7045,0.8549,0.8666,0.8231,80.97,19.64,EX3663,"Panel 4 North",14,,169
+K. Dunstan,2026-01-15,11.2,0,0.8158,0.8263,0.6942,0.8338,0.8166,0.8172,80.69,19.37,EX3663,"Panel 4 North",14,,112
+K. Dunstan,2026-01-16,10.2,0,0.8616,0.8195,0.6789,0.8525,0.8209,0.8326,79.01,17.88,EX3663,"Panel 4 North",14,,144
+K. Dunstan,2026-01-17,10.5,0,0.8157,0.8457,0.7227,0.8547,0.8308,0.8197,77.82,20.04,EX3663,"Panel 4 North",14,,152
+K. Dunstan,2026-01-18,10.3,0,0.8575,0.8195,0.7047,0.8610,0.8535,0.8478,79.90,18.92,EX3663,"Panel 4 North",14,,111
+K. Dunstan,2026-01-19,10.3,0,0.8596,0.8259,0.7251,0.8597,0.8155,0.8350,81.63,20.08,EX3663,"Panel 4 North",14,,177
+K. Dunstan,2026-01-20,10.8,0,0.8482,0.8111,0.6850,0.8381,0.8682,0.8126,83.28,19.63,EX3663,"Panel 4 North",14,,123
+K. Dunstan,2026-01-21,10,0,0.8586,0.8361,0.7530,0.8806,0.8684,0.8550,78.17,19.30,EX3663,"Panel 4 North",14,,164
+K. Dunstan,2026-01-22,10.2,0,0.8269,0.8060,0.7106,0.8626,0.8558,0.8280,80.43,20.02,EX3663,"Panel 4 North",14,,172
+K. Dunstan,2026-01-23,10.7,0,0.8524,0.8042,0.6928,0.8646,0.8707,0.8430,81.86,19.20,EX3663,"Panel 4 North",14,,111
+K. Dunstan,2026-01-24,10.7,0,0.8512,0.8488,0.7482,0.8598,0.8131,0.8508,83.37,20.05,EX3663,"Panel 4 North",14,,164
+K. Dunstan,2026-01-25,11,0,0.8400,0.8150,0.6913,0.8403,0.8581,0.8181,78.64,20.31,EX3663,"Panel 4 North",14,,123
+K. Dunstan,2026-01-26,11,0,0.8457,0.8046,0.7231,0.8644,0.8144,0.8521,77.56,17.80,EX3663,"Panel 4 North",14,,103
+K. Dunstan,2026-01-27,11.1,0,0.8613,0.8263,0.6810,0.8315,0.8336,0.8570,78.24,16.62,EX3663,"Panel 4 North",14,,134
+K. Dunstan,2026-01-28,10.7,0,0.8251,0.8213,0.6852,0.8733,0.8454,0.8341,80.43,20.11,EX3663,"Panel 4 North",14,,131
+K. Dunstan,2026-01-29,10,0,0.8386,0.8274,0.7255,0.8329,0.8443,0.8088,78.89,17.74,EX3663,"Panel 4 North",14,,135
+K. Dunstan,2026-01-30,10.1,0,0.8170,0.8051,0.7302,0.8660,0.8557,0.8349,78.31,18.85,EX3663,"Panel 4 North",14,,116
+K. Dunstan,2026-01-31,10.1,0,0.8332,0.8389,0.7007,0.8331,0.8694,0.8109,79.78,20.38,EX3663,"Panel 4 North",14,,109
+K. Dunstan,2026-02-01,10.5,0,0.8191,0.8448,0.7226,0.8582,0.8700,0.8093,77.81,18.01,EX3663,"Panel 4 North",14,,106
+K. Dunstan,2026-02-02,11,0,0.8286,0.8130,0.7258,0.8698,0.8603,0.8525,80.41,18.97,EX3663,"Panel 4 North",14,,117
+K. Dunstan,2026-02-03,11,0,0.8597,0.8413,0.7314,0.8686,0.8182,0.8016,78.13,18.03,EX3663,"Panel 4 North",14,,114
+K. Dunstan,2026-02-04,10.4,0,0.8400,0.8100,0.7435,0.8803,0.8608,0.8444,82.35,19.43,EX3663,"Panel 4 North",14,,125
+K. Dunstan,2026-02-05,10.9,0,0.8467,0.8243,0.7473,0.8817,0.8600,0.8378,79.45,17.62,EX3663,"Panel 4 North",14,,107
+K. Dunstan,2026-02-06,10.2,0,0.8500,0.8028,0.6942,0.8441,0.8627,0.8562,81.30,17.50,EX3663,"Panel 4 North",14,,130
+K. Dunstan,2026-02-07,10.4,0,0.8203,0.8138,0.6971,0.8769,0.8629,0.8140,81.22,19.02,EX3663,"Panel 4 North",14,,178
+K. Dunstan,2026-02-08,10.2,0,0.8530,0.8453,0.6951,0.8520,0.8141,0.8372,80.24,18.89,EX3663,"Panel 4 North",14,,125
+K. Dunstan,2026-02-09,10.4,0,0.8463,0.8162,0.6986,0.8255,0.8269,0.8279,79.68,16.68,EX3663,"Panel 4 North",14,,112
+K. Dunstan,2026-02-10,10.3,0,0.8309,0.8224,0.7386,0.8373,0.8127,0.8525,83.06,17.28,EX3663,"Panel 4 North",14,,175
+K. Dunstan,2026-02-11,10.4,0,0.8483,0.8381,0.6893,0.8553,0.8510,0.8521,82.90,20.30,EX3663,"Panel 4 North",14,,146
+K. Dunstan,2026-02-12,11.2,0,0.8192,0.8403,0.6869,0.8845,0.8712,0.8446,82.10,18.26,EX3663,"Panel 4 North",14,,110
+K. Dunstan,2026-02-13,10.3,0,0.8438,0.8218,0.6840,0.8295,0.8556,0.8493,80.82,19.62,EX3663,"Panel 4 North",14,,149
+K. Dunstan,2026-02-14,11,0,0.8582,0.8046,0.6910,0.8750,0.8575,0.8241,82.45,17.25,EX3663,"Panel 4 North",14,,120
+K. Dunstan,2026-02-15,11.2,0,0.8486,0.8196,0.6752,0.8547,0.8686,0.8539,82.74,16.84,EX3663,"Panel 4 North",14,,129
+K. Dunstan,2026-02-16,10.2,0,0.8391,0.8333,0.7361,0.8793,0.8409,0.8290,80.16,16.81,EX3663,"Panel 4 North",14,,113
+K. Dunstan,2026-02-17,10.6,0,0.8268,0.8133,0.6929,0.8547,0.8582,0.8366,78.30,16.50,EX3663,"Panel 4 North",14,,107
+K. Dunstan,2026-02-18,10.5,0,0.8577,0.8318,0.7479,0.8531,0.8324,0.8011,78.68,19.06,EX3663,"Panel 4 North",14,,138
+K. Dunstan,2026-02-19,10.6,0,0.8189,0.8107,0.6764,0.8800,0.8261,0.8392,81.31,16.59,EX3663,"Panel 4 North",14,,167
+K. Dunstan,2026-02-20,10.3,0,0.8445,0.8207,0.7071,0.8644,0.8128,0.8235,80.90,16.52,EX3663,"Panel 4 North",14,,164
+K. Dunstan,2026-02-21,10.8,0,0.8376,0.8306,0.7444,0.8422,0.8629,0.8587,77.63,18.65,EX3663,"Panel 4 North",14,,108
+K. Dunstan,2026-02-22,10.3,0,0.8325,0.8465,0.7279,0.8465,0.8284,0.8417,82.04,18.96,EX3663,"Panel 4 North",14,,116
+K. Dunstan,2026-02-23,10.9,0,0.8601,0.8144,0.7228,0.8551,0.8446,0.8346,81.38,17.25,EX3663,"Panel 4 North",14,,136
+K. Dunstan,2026-02-24,11.1,0,0.8309,0.8056,0.7094,0.8477,0.8295,0.8049,78.45,17.65,EX3663,"Panel 4 North",14,,123
+K. Dunstan,2026-02-25,10.8,0,0.8137,0.8467,0.6853,0.8604,0.8397,0.8320,80.80,16.58,EX3663,"Panel 4 North",14,,125
+K. Dunstan,2026-02-26,11,0,0.8382,0.8106,0.7438,0.8520,0.8433,0.8141,80.99,20.28,EX3663,"Panel 4 North",14,,105
+K. Dunstan,2026-02-27,10.8,0,0.8466,0.8416,0.7478,0.8369,0.8292,0.8589,80.45,16.73,EX3663,"Panel 4 North",14,,176
+K. Dunstan,2026-02-28,11,0,0.8372,0.8125,0.7086,0.8608,0.8413,0.8258,80.88,16.54,EX3663,"Panel 4 North",14,,154
+K. Dunstan,2026-03-01,10,0,0.8295,0.8345,0.7168,0.8797,0.8640,0.8303,77.95,19.42,EX3663,"Panel 4 North",14,,166
+K. Dunstan,2026-03-02,9.9,0,0.8274,0.8458,0.7307,0.8509,0.8160,0.8143,78.91,18.14,EX3663,"Panel 4 North",14,,165
+K. Dunstan,2026-03-03,10.3,0,0.8195,0.8452,0.7514,0.8428,0.8425,0.8088,81.85,16.93,EX3663,"Panel 4 North",14,,129
+K. Dunstan,2026-03-04,11.2,0,0.8198,0.8401,0.7299,0.8637,0.8621,0.8475,79.22,17.36,EX3663,"Panel 4 North",14,,175
+K. Dunstan,2026-03-05,11.1,0,0.8198,0.8360,0.7488,0.8597,0.8237,0.8320,79.79,18.71,EX3663,"Panel 4 North",14,,119
+M. Okafor,2026-01-05,10.6,0,0.8529,0.8453,0.7799,0.8839,0.8730,0.8425,83.17,16.82,EX3664,"South Stockyard",14,,180
+M. Okafor,2026-01-06,10.1,0,0.8662,0.8429,0.7140,0.8778,0.8855,0.8728,81.16,17.37,EX3664,"South Stockyard",14,,108
+M. Okafor,2026-01-07,10.3,0,0.8630,0.8341,0.7079,0.8584,0.8451,0.8227,80.48,18.76,EX3664,"South Stockyard",14,,127
+M. Okafor,2026-01-08,10.1,0,0.8615,0.8520,0.7537,0.8456,0.8424,0.8385,82.50,15.84,EX3664,"South Stockyard",14,,152
+M. Okafor,2026-01-09,11,0,0.8405,0.8612,0.7405,0.8837,0.8764,0.8273,85.95,18.66,EX3664,"South Stockyard",14,,167
+M. Okafor,2026-01-10,10.4,0,0.8789,0.8549,0.7293,0.8793,0.8782,0.8386,83.64,16.44,EX3664,"South Stockyard",14,,134
+M. Okafor,2026-01-11,10.9,0,0.8703,0.8358,0.7604,0.8410,0.8642,0.8785,84.51,16.75,EX3664,"South Stockyard",14,,133
+M. Okafor,2026-01-12,10.7,0,0.8354,0.8382,0.7268,0.8522,0.8431,0.8582,85.92,17.84,EX3664,"South Stockyard",14,,148
+M. Okafor,2026-01-13,10.1,0,0.8306,0.8492,0.7000,0.8916,0.8557,0.8456,81.17,18.93,EX3664,"South Stockyard",14,,176
+M. Okafor,2026-01-14,10.6,0,0.8529,0.8589,0.7415,0.8759,0.8537,0.8550,80.36,19.29,EX3664,"South Stockyard",14,,141
+M. Okafor,2026-01-15,11.5,0,0.8700,0.8373,0.7343,0.8980,0.8535,0.8399,82.07,18.48,EX3664,"South Stockyard",14,,105
+M. Okafor,2026-01-16,10.6,0,0.8673,0.8514,0.7248,0.8464,0.8440,0.8222,80.10,16.00,EX3664,"South Stockyard",14,,143
+M. Okafor,2026-01-17,10.1,0,0.8351,0.8335,0.7204,0.8874,0.8398,0.8245,82.24,17.13,EX3664,"South Stockyard",14,,110
+M. Okafor,2026-01-18,10.1,0,0.8541,0.8483,0.7306,0.8907,0.8623,0.8462,80.88,16.05,EX3664,"South Stockyard",14,,111
+M. Okafor,2026-01-19,11.3,0,0.8536,0.8628,0.7474,0.8746,0.8870,0.8564,83.88,15.76,EX3664,"South Stockyard",14,,161
+M. Okafor,2026-01-20,10.5,0,0.8473,0.8688,0.7762,0.8504,0.8665,0.8430,84.15,18.30,EX3664,"South Stockyard",14,,160
+M. Okafor,2026-01-21,11.2,0,0.8629,0.8411,0.7569,0.8601,0.8647,0.8223,83.87,15.81,EX3664,"South Stockyard",14,,139
+M. Okafor,2026-01-22,11.4,0,0.8513,0.8554,0.7365,0.8610,0.8689,0.8305,81.45,15.94,EX3664,"South Stockyard",14,,155
+M. Okafor,2026-01-23,10.7,0,0.8378,0.8649,0.7371,0.8510,0.8315,0.8444,82.50,16.73,EX3664,"South Stockyard",14,,139
+M. Okafor,2026-01-24,11,0,0.8405,0.8236,0.7241,0.8781,0.8685,0.8296,82.29,17.17,EX3664,"South Stockyard",14,,149
+M. Okafor,2026-01-25,11.3,0,0.8523,0.8663,0.7163,0.8464,0.8313,0.8371,82.14,18.06,EX3664,"South Stockyard",14,,178
+M. Okafor,2026-01-26,10.7,0,0.8388,0.8594,0.7560,0.8505,0.8558,0.8623,83.67,16.80,EX3664,"South Stockyard",14,,161
+M. Okafor,2026-01-27,10.8,0,0.8759,0.8369,0.7515,0.8961,0.8403,0.8661,80.87,17.78,EX3664,"South Stockyard",14,,118
+M. Okafor,2026-01-28,11.2,0,0.8359,0.8259,0.7039,0.8771,0.8357,0.8299,84.91,16.54,EX3664,"South Stockyard",14,,131
+M. Okafor,2026-01-29,10.1,0,0.8654,0.8556,0.7636,0.8977,0.8325,0.8498,83.37,17.03,EX3664,"South Stockyard",14,,109
+M. Okafor,2026-01-30,10.5,0,0.8738,0.8476,0.7515,0.8767,0.8715,0.8215,81.63,18.33,EX3664,"South Stockyard",14,,106
+M. Okafor,2026-01-31,10.3,0,0.8306,0.8239,0.7273,0.8466,0.8488,0.8458,81.46,16.18,EX3664,"South Stockyard",14,,126
+M. Okafor,2026-02-01,11.4,0,0.8546,0.8494,0.7157,0.8761,0.8456,0.8214,83.21,19.09,EX3664,"South Stockyard",14,,147
+M. Okafor,2026-02-02,11.2,0,0.8619,0.8521,0.7148,0.8802,0.8870,0.8637,84.88,18.08,EX3664,"South Stockyard",14,,131
+M. Okafor,2026-02-03,11.3,0,0.8350,0.8307,0.7145,0.8577,0.8857,0.8433,84.73,18.44,EX3664,"South Stockyard",14,,163
+M. Okafor,2026-02-04,10,0,0.8403,0.8569,0.7389,0.8460,0.8320,0.8702,80.27,16.80,EX3664,"South Stockyard",14,,121
+M. Okafor,2026-02-05,11.4,0,0.8347,0.8564,0.7734,0.8856,0.8807,0.8768,81.73,16.55,EX3664,"South Stockyard",14,,142
+M. Okafor,2026-02-06,10.8,0,0.8748,0.8681,0.7052,0.8991,0.8356,0.8247,83.46,17.67,EX3664,"South Stockyard",14,,161
+M. Okafor,2026-02-07,10,0,0.8356,0.8323,0.7534,0.8599,0.8655,0.8284,85.44,17.48,EX3664,"South Stockyard",14,,155
+M. Okafor,2026-02-08,11.2,0,0.8793,0.8455,0.7612,0.8865,0.8784,0.8619,81.06,16.50,EX3664,"South Stockyard",14,,140
+M. Okafor,2026-02-09,11.2,0,0.8777,0.8453,0.7559,0.8411,0.8519,0.8606,80.17,15.82,EX3664,"South Stockyard",14,,133
+M. Okafor,2026-02-10,10.3,0,0.8526,0.8626,0.7489,0.8745,0.8525,0.8393,80.29,17.53,EX3664,"South Stockyard",14,,176
+M. Okafor,2026-02-11,11.4,0,0.8488,0.8421,0.7024,0.8718,0.8562,0.8656,81.87,17.61,EX3664,"South Stockyard",14,,151
+M. Okafor,2026-02-12,10.7,0,0.8549,0.8428,0.7059,0.8596,0.8847,0.8300,85.76,17.21,EX3664,"South Stockyard",14,,123
+M. Okafor,2026-02-13,10.4,0,0.8385,0.8467,0.7727,0.8468,0.8384,0.8567,80.64,16.64,EX3664,"South Stockyard",14,,133
+M. Okafor,2026-02-14,11,0,0.8375,0.8206,0.7724,0.8461,0.8343,0.8491,85.87,19.22,EX3664,"South Stockyard",14,,145
+M. Okafor,2026-02-15,10.2,0,0.8536,0.8588,0.7047,0.8957,0.8685,0.8258,85.55,16.79,EX3664,"South Stockyard",14,,163
+M. Okafor,2026-02-16,10.2,0,0.8716,0.8518,0.7124,0.8994,0.8391,0.8644,84.62,15.89,EX3664,"South Stockyard",14,,128
+M. Okafor,2026-02-17,10.8,0,0.8698,0.8664,0.7007,0.8589,0.8817,0.8258,81.73,18.21,EX3664,"South Stockyard",14,,117
+M. Okafor,2026-02-18,10.3,0,0.8575,0.8282,0.7573,0.8408,0.8425,0.8242,83.51,18.49,EX3664,"South Stockyard",14,,111
+M. Okafor,2026-02-19,10.9,0,0.8649,0.8565,0.7391,0.8777,0.8597,0.8215,84.64,17.44,EX3664,"South Stockyard",14,,130
+M. Okafor,2026-02-20,10.7,0,0.8422,0.8336,0.7133,0.8775,0.8836,0.8350,84.97,18.38,EX3664,"South Stockyard",14,,179
+M. Okafor,2026-02-21,11,0,0.8357,0.8311,0.7222,0.8584,0.8626,0.8325,83.53,16.58,EX3664,"South Stockyard",14,,164
+M. Okafor,2026-02-22,10.6,0,0.8534,0.8593,0.7212,0.8907,0.8650,0.8243,85.37,16.16,EX3664,"South Stockyard",14,,148
+M. Okafor,2026-02-23,11.3,0,0.8764,0.8316,0.7244,0.8510,0.8597,0.8635,80.91,19.43,EX3664,"South Stockyard",14,,108
+M. Okafor,2026-02-24,10.5,0,0.8745,0.8257,0.7497,0.8402,0.8581,0.8564,85.37,17.19,EX3664,"South Stockyard",14,,146
+M. Okafor,2026-02-25,11.1,0,0.8421,0.8383,0.7060,0.8489,0.8723,0.8219,83.28,18.47,EX3664,"South Stockyard",14,,128
+M. Okafor,2026-02-26,11.1,0,0.8602,0.8533,0.7642,0.8530,0.8502,0.8407,84.11,17.64,EX3664,"South Stockyard",14,,131
+M. Okafor,2026-02-27,10.7,0,0.8777,0.8591,0.7018,0.8493,0.8424,0.8319,81.54,15.78,EX3664,"South Stockyard",14,,143
+M. Okafor,2026-02-28,11,0,0.8531,0.8324,0.7567,0.8620,0.8550,0.8333,84.48,18.94,EX3664,"South Stockyard",14,,114
+M. Okafor,2026-03-01,10.5,0,0.8681,0.8648,0.7694,0.8967,0.8763,0.8712,81.03,19.33,EX3664,"South Stockyard",14,,134
+M. Okafor,2026-03-02,10,0,0.8685,0.8398,0.7492,0.8431,0.8831,0.8726,80.65,18.48,EX3664,"South Stockyard",14,,179
+M. Okafor,2026-03-03,10.7,0,0.8323,0.8479,0.7572,0.8700,0.8710,0.8612,83.01,17.62,EX3664,"South Stockyard",14,,161
+M. Okafor,2026-03-04,10.3,0,0.8448,0.8533,0.7487,0.8508,0.8821,0.8687,84.59,19.36,EX3664,"South Stockyard",14,,171
+M. Okafor,2026-03-05,10.6,0,0.8584,0.8403,0.7226,0.8782,0.8521,0.8651,81.28,17.21,EX3664,"South Stockyard",14,,129
+J. Pearce,2026-01-05,10.8,0,0.8922,0.8572,0.7971,0.8827,0.8541,0.8769,83.91,18.45,EX3665,"Panel 4 North",14,,156
+J. Pearce,2026-01-06,10.5,0,0.8516,0.8617,0.7572,0.8797,0.8970,0.8850,85.30,16.02,EX3665,"Panel 4 North",14,,158
+J. Pearce,2026-01-07,10.7,0,0.8651,0.8650,0.7905,0.9131,0.8498,0.8408,84.34,17.61,EX3665,"Panel 4 North",14,,111
+J. Pearce,2026-01-08,10.9,0,0.8926,0.8636,0.7518,0.9085,0.8967,0.8974,82.60,18.50,EX3665,"Panel 4 North",14,,162
+J. Pearce,2026-01-09,10.6,0,0.8518,0.8754,0.7314,0.8865,0.8486,0.8547,84.98,16.97,EX3665,"Panel 4 North",14,,132
+J. Pearce,2026-01-10,11.3,0,0.8658,0.8411,0.7566,0.8991,0.8537,0.8540,82.91,17.77,EX3665,"Panel 4 North",14,,170
+J. Pearce,2026-01-11,10.5,0,0.8662,0.8886,0.7923,0.8662,0.8701,0.8768,85.42,14.75,EX3665,"Panel 4 North",14,,115
+J. Pearce,2026-01-12,11.7,0,0.8762,0.8500,0.7408,0.8830,0.8992,0.8933,83.08,16.70,EX3665,"Panel 4 North",14,,145
+J. Pearce,2026-01-13,11.3,0,0.8807,0.8442,0.8012,0.9089,0.8556,0.8547,82.51,15.74,EX3665,"Panel 4 North",14,,158
+J. Pearce,2026-01-14,10.9,0,0.8547,0.8524,0.7842,0.8565,0.8914,0.8548,84.76,15.05,EX3665,"Panel 4 North",14,,130
+J. Pearce,2026-01-15,10.9,0,0.8829,0.8846,0.7487,0.8882,0.8533,0.8488,87.61,17.01,EX3665,"Panel 4 North",14,,171
+J. Pearce,2026-01-16,11.5,0,0.8818,0.8467,0.7523,0.8988,0.8920,0.8481,84.04,16.32,EX3665,"Panel 4 North",14,,167
+J. Pearce,2026-01-17,11.7,0,0.8781,0.8573,0.7725,0.8727,0.8805,0.8402,84.02,17.87,EX3665,"Panel 4 North",14,,122
+J. Pearce,2026-01-18,11,0,0.8523,0.8635,0.7741,0.9124,0.8788,0.8607,82.77,17.05,EX3665,"Panel 4 North",14,,122
+J. Pearce,2026-01-19,11,0,0.8842,0.8505,0.8006,0.8778,0.8741,0.8599,87.68,15.44,EX3665,"Panel 4 North",14,,149
+J. Pearce,2026-01-20,10.3,0,0.8625,0.8487,0.7944,0.8709,0.8483,0.8744,88.20,18.13,EX3665,"Panel 4 North",14,,120
+J. Pearce,2026-01-21,11.3,0,0.8891,0.8415,0.8045,0.8892,0.8690,0.8858,85.10,18.01,EX3665,"Panel 4 North",14,,118
+J. Pearce,2026-01-22,10.8,0,0.8639,0.8841,0.7319,0.8648,0.8913,0.8975,83.21,17.07,EX3665,"Panel 4 North",14,,117
+J. Pearce,2026-01-23,11.7,0,0.8645,0.8522,0.7772,0.8934,0.8626,0.8643,86.00,17.22,EX3665,"Panel 4 North",14,,147
+J. Pearce,2026-01-24,10.3,0,0.8897,0.8524,0.7421,0.8949,0.8755,0.8823,85.50,17.82,EX3665,"Panel 4 North",14,,175
+J. Pearce,2026-01-25,11.5,0,0.8527,0.8480,0.7594,0.9065,0.8683,0.8492,86.96,15.70,EX3665,"Panel 4 North",14,,158
+J. Pearce,2026-01-26,10.8,0,0.8740,0.8770,0.7518,0.8971,0.8654,0.8471,84.03,16.60,EX3665,"Panel 4 North",14,,176
+J. Pearce,2026-01-27,11.4,0,0.8927,0.8457,0.7647,0.9139,0.9042,0.8439,84.83,15.84,EX3665,"Panel 4 North",14,,117
+J. Pearce,2026-01-28,10.4,0,0.8962,0.8543,0.7530,0.9112,0.8560,0.8499,88.06,14.88,EX3665,"Panel 4 North",14,,166
+J. Pearce,2026-01-29,11.7,0,0.8939,0.8888,0.7740,0.8668,0.8701,0.8997,86.26,16.13,EX3665,"Panel 4 North",14,,136
+J. Pearce,2026-01-30,10.4,0,0.8805,0.8641,0.7389,0.9054,0.8833,0.8954,88.11,16.94,EX3665,"Panel 4 North",14,,130
+J. Pearce,2026-01-31,10.6,0,0.8738,0.8664,0.7496,0.8950,0.8616,0.8589,86.42,15.45,EX3665,"Panel 4 North",14,,112
+J. Pearce,2026-02-01,10.6,0,0.8858,0.8682,0.7287,0.8889,0.8553,0.8568,83.70,15.93,EX3665,"Panel 4 North",14,,130
+J. Pearce,2026-02-02,10.9,0,0.8791,0.8471,0.7394,0.8637,0.8685,0.8573,83.93,15.27,EX3665,"Panel 4 North",14,,102
+J. Pearce,2026-02-03,11.1,0,0.8627,0.8703,0.7545,0.9035,0.8630,0.8975,83.22,15.53,EX3665,"Panel 4 North",14,,157
+J. Pearce,2026-02-04,10.4,0,0.8884,0.8597,0.7321,0.9104,0.8944,0.8870,85.69,17.28,EX3665,"Panel 4 North",14,,149
+J. Pearce,2026-02-05,11,0,0.8718,0.8689,0.7404,0.9061,0.8500,0.8829,82.99,15.21,EX3665,"Panel 4 North",14,,120
+J. Pearce,2026-02-06,11.6,0,0.8735,0.8745,0.8049,0.8650,0.8859,0.8836,87.27,17.29,EX3665,"Panel 4 North",14,,140
+J. Pearce,2026-02-07,10.8,0,0.8804,0.8421,0.7361,0.8836,0.9024,0.8761,86.27,18.12,EX3665,"Panel 4 North",14,,115
+J. Pearce,2026-02-08,10.9,0,0.8557,0.8560,0.7895,0.9084,0.8605,0.8807,86.09,16.07,EX3665,"Panel 4 North",14,,132
+J. Pearce,2026-02-09,10.9,0,0.8928,0.8704,0.7757,0.8615,0.8683,0.8961,86.07,18.05,EX3665,"Panel 4 North",14,,133
+J. Pearce,2026-02-10,10.9,0,0.8816,0.8760,0.7674,0.8827,0.8685,0.8773,86.40,16.61,EX3665,"Panel 4 North",14,,165
+J. Pearce,2026-02-11,11.6,0,0.8634,0.8642,0.7958,0.8819,0.8513,0.8869,86.32,17.06,EX3665,"Panel 4 North",14,,106
+J. Pearce,2026-02-12,11,0,0.8666,0.8655,0.7997,0.8865,0.8905,0.8471,83.27,16.73,EX3665,"Panel 4 North",14,,169
+J. Pearce,2026-02-13,10.7,0,0.8927,0.8514,0.7791,0.8998,0.8633,0.8687,84.11,17.14,EX3665,"Panel 4 North",14,,113
+J. Pearce,2026-02-14,11,0,0.8892,0.8550,0.7707,0.8887,0.8549,0.8426,84.32,17.68,EX3665,"Panel 4 North",14,,129
+J. Pearce,2026-02-15,11,0,0.8973,0.8855,0.7424,0.8699,0.9003,0.8666,86.24,15.13,EX3665,"Panel 4 North",14,,143
+J. Pearce,2026-02-16,11.5,0,0.8936,0.8802,0.7805,0.8767,0.8776,0.8861,83.45,18.53,EX3665,"Panel 4 North",14,,168
+J. Pearce,2026-02-17,10.3,0,0.8964,0.8849,0.7411,0.8912,0.8613,0.8707,83.09,17.56,EX3665,"Panel 4 North",14,,169
+J. Pearce,2026-02-18,11.3,0,0.8581,0.8687,0.7823,0.8892,0.8872,0.8792,85.82,16.71,EX3665,"Panel 4 North",14,,161
+J. Pearce,2026-02-19,10.4,0,0.8733,0.8600,0.7452,0.9121,0.8681,0.8525,87.70,17.70,EX3665,"Panel 4 North",14,,139
+J. Pearce,2026-02-20,10.8,0,0.8523,0.8698,0.7411,0.8723,0.8948,0.8554,87.15,16.07,EX3665,"Panel 4 North",14,,160
+J. Pearce,2026-02-21,10.4,0,0.8660,0.8845,0.7606,0.9116,0.8692,0.8714,86.59,16.35,EX3665,"Panel 4 North",14,,144
+J. Pearce,2026-02-22,10.9,0,0.8862,0.8608,0.7254,0.8852,0.8556,0.8556,83.75,15.14,EX3665,"Panel 4 North",14,,153
+J. Pearce,2026-02-23,11.6,0,0.8566,0.8576,0.7870,0.8664,0.9060,0.8975,87.84,16.39,EX3665,"Panel 4 North",14,,145
+J. Pearce,2026-02-24,11.7,0,0.8890,0.8785,0.7639,0.8863,0.8706,0.8700,87.16,17.17,EX3665,"Panel 4 North",14,,175
+J. Pearce,2026-02-25,10.8,0,0.8793,0.8599,0.7924,0.8575,0.8686,0.8663,82.87,15.58,EX3665,"Panel 4 North",14,,115
+J. Pearce,2026-02-26,11.1,0,0.8910,0.8620,0.7333,0.9071,0.8702,0.8688,88.36,16.92,EX3665,"Panel 4 North",14,,109
+J. Pearce,2026-02-27,11,0,0.8730,0.8543,0.7478,0.9033,0.8865,0.8840,88.38,17.23,EX3665,"Panel 4 North",14,,176
+J. Pearce,2026-02-28,10.9,0,0.8789,0.8802,0.7625,0.9005,0.8951,0.8844,88.47,17.26,EX3665,"Panel 4 North",14,,151
+J. Pearce,2026-03-01,11.3,0,0.8958,0.8608,0.7829,0.9147,0.8728,0.8475,88.11,15.37,EX3665,"Panel 4 North",14,,174
+J. Pearce,2026-03-02,11.5,0,0.8583,0.8894,0.7783,0.8901,0.8894,0.8739,83.76,18.31,EX3665,"Panel 4 North",14,,140
+J. Pearce,2026-03-03,11,0,0.8872,0.8660,0.7825,0.8578,0.8948,0.8814,85.66,17.39,EX3665,"Panel 4 North",14,,174
+J. Pearce,2026-03-04,11.1,0,0.8656,0.8866,0.7983,0.8563,0.8504,0.8806,86.23,16.70,EX3665,"Panel 4 North",14,,110
+J. Pearce,2026-03-05,11,0,0.8583,0.8754,0.8027,0.8898,0.8717,0.8952,84.95,16.99,EX3665,"Panel 4 North",14,,137
+L. Marshall,2026-01-05,11.1,0,0.9047,0.8790,0.8042,0.8968,0.8788,0.9118,87.26,15.48,EX3666,"South Stockyard",14,,167
+L. Marshall,2026-01-06,11.8,0,0.8655,0.8687,0.7552,0.9249,0.8924,0.8846,87.99,17.74,EX3666,"South Stockyard",14,,123
+L. Marshall,2026-01-07,12,0,0.8708,0.8978,0.7853,0.9163,0.9040,0.8803,85.92,17.18,EX3666,"South Stockyard",14,,159
+L. Marshall,2026-01-08,10.6,0,0.8694,0.8796,0.8019,0.8999,0.8721,0.8775,90.90,16.02,EX3666,"South Stockyard",14,,172
+L. Marshall,2026-01-09,11.2,0,0.9061,0.8890,0.7858,0.9120,0.8931,0.8916,90.20,14.39,EX3666,"South Stockyard",14,,164
+L. Marshall,2026-01-10,10.9,0,0.9096,0.8638,0.8100,0.9035,0.9145,0.8849,85.24,15.17,EX3666,"South Stockyard",14,,155
+L. Marshall,2026-01-11,12,0,0.8794,0.9034,0.8054,0.9035,0.9224,0.9049,90.97,14.60,EX3666,"South Stockyard",14,,124
+L. Marshall,2026-01-12,11.6,0,0.8863,0.8964,0.7798,0.9054,0.9130,0.8644,89.06,13.83,EX3666,"South Stockyard",14,,126
+L. Marshall,2026-01-13,10.7,0,0.8825,0.8812,0.7759,0.9032,0.8954,0.8627,88.01,17.41,EX3666,"South Stockyard",14,,174
+L. Marshall,2026-01-14,10.9,0,0.9087,0.8898,0.7945,0.9018,0.8917,0.8973,86.01,15.48,EX3666,"South Stockyard",14,,152
+L. Marshall,2026-01-15,10.8,0,0.9072,0.8926,0.7868,0.8897,0.9186,0.9157,90.53,14.71,EX3666,"South Stockyard",14,,111
+L. Marshall,2026-01-16,11.2,0,0.8699,0.8791,0.7586,0.8866,0.8741,0.8824,86.65,15.02,EX3666,"South Stockyard",14,,147
+L. Marshall,2026-01-17,10.8,0,0.8835,0.8851,0.8026,0.9087,0.8867,0.8741,90.71,15.17,EX3666,"South Stockyard",14,,177
+L. Marshall,2026-01-18,11.8,0,0.8810,0.8923,0.8140,0.8749,0.9245,0.9008,90.57,17.29,EX3666,"South Stockyard",14,,152
+L. Marshall,2026-01-19,11.7,0,0.9045,0.8790,0.7987,0.8755,0.9233,0.8972,90.99,16.27,EX3666,"South Stockyard",14,,150
+L. Marshall,2026-01-20,11.7,0,0.8795,0.8787,0.8149,0.8949,0.9238,0.9100,86.70,15.22,EX3666,"South Stockyard",14,,120
+L. Marshall,2026-01-21,11,0,0.9086,0.8662,0.7693,0.8703,0.8888,0.9020,85.76,15.71,EX3666,"South Stockyard",14,,155
+L. Marshall,2026-01-22,10.9,0,0.8918,0.8839,0.7518,0.9178,0.8723,0.9190,85.67,17.19,EX3666,"South Stockyard",14,,121
+L. Marshall,2026-01-23,11.5,0,0.8668,0.8938,0.7719,0.8813,0.8804,0.9042,89.71,17.38,EX3666,"South Stockyard",14,,102
+L. Marshall,2026-01-24,11.6,0,0.8823,0.8832,0.7957,0.9219,0.8945,0.8936,86.19,16.47,EX3666,"South Stockyard",14,,162
+L. Marshall,2026-01-25,10.5,0,0.8676,0.8656,0.7636,0.8916,0.9036,0.9075,85.55,17.54,EX3666,"South Stockyard",14,,174
+L. Marshall,2026-01-26,11.4,0,0.9148,0.9035,0.7846,0.8830,0.9201,0.8989,90.10,14.41,EX3666,"South Stockyard",14,,115
+L. Marshall,2026-01-27,10.5,0,0.8984,0.9021,0.7896,0.8714,0.9204,0.9200,86.16,14.26,EX3666,"South Stockyard",14,,105
+L. Marshall,2026-01-28,10.7,0,0.9024,0.8616,0.8213,0.9224,0.8737,0.8640,88.55,15.94,EX3666,"South Stockyard",14,,118
+L. Marshall,2026-01-29,11.4,0,0.8824,0.8745,0.8133,0.9260,0.9235,0.8725,87.88,17.65,EX3666,"South Stockyard",14,,115
+L. Marshall,2026-01-30,11.1,0,0.8997,0.8747,0.7727,0.9067,0.8814,0.9171,85.87,15.67,EX3666,"South Stockyard",14,,110
+L. Marshall,2026-01-31,11.9,0,0.8904,0.8914,0.7581,0.8871,0.8973,0.8611,90.90,14.24,EX3666,"South Stockyard",14,,177
+L. Marshall,2026-02-01,11.7,0,0.8763,0.9090,0.7888,0.9207,0.8851,0.8704,87.50,15.53,EX3666,"South Stockyard",14,,171
+L. Marshall,2026-02-02,11.4,0,0.9035,0.9010,0.7680,0.8797,0.8890,0.9151,85.35,13.90,EX3666,"South Stockyard",14,,115
+L. Marshall,2026-02-03,11.6,0,0.8956,0.8976,0.7548,0.9077,0.8841,0.8624,89.87,14.95,EX3666,"South Stockyard",14,,101
+L. Marshall,2026-02-04,10.7,0,0.9092,0.8650,0.8114,0.9022,0.8760,0.8810,87.14,16.52,EX3666,"South Stockyard",14,,154
+L. Marshall,2026-02-05,11.6,0,0.8723,0.8855,0.8153,0.8908,0.8722,0.8992,86.00,17.36,EX3666,"South Stockyard",14,,169
+L. Marshall,2026-02-06,10.9,0,0.8681,0.8707,0.7733,0.8934,0.8725,0.8963,87.76,17.55,EX3666,"South Stockyard",14,,120
+L. Marshall,2026-02-07,11.6,0,0.8793,0.8954,0.7858,0.8748,0.8758,0.8747,89.47,14.01,EX3666,"South Stockyard",14,,144
+L. Marshall,2026-02-08,11.8,0,0.9106,0.9097,0.8248,0.9070,0.8785,0.9093,88.44,15.60,EX3666,"South Stockyard",14,,168
+L. Marshall,2026-02-09,11.8,0,0.9135,0.8899,0.7755,0.9243,0.9055,0.8706,90.30,17.65,EX3666,"South Stockyard",14,,157
+L. Marshall,2026-02-10,10.6,0,0.8829,0.9081,0.7941,0.8804,0.8880,0.9099,88.94,17.33,EX3666,"South Stockyard",14,,122
+L. Marshall,2026-02-11,11.5,0,0.8880,0.8746,0.7733,0.8965,0.8843,0.8863,90.62,15.94,EX3666,"South Stockyard",14,,107
+L. Marshall,2026-02-12,11.9,0,0.8804,0.8668,0.8014,0.8853,0.8665,0.9046,90.66,17.09,EX3666,"South Stockyard",14,,153
+L. Marshall,2026-02-13,10.9,0,0.8862,0.9053,0.8223,0.8770,0.9200,0.9040,89.17,16.43,EX3666,"South Stockyard",14,,122
+L. Marshall,2026-02-14,10.8,0,0.8791,0.8620,0.8018,0.9074,0.9117,0.8984,89.05,15.09,EX3666,"South Stockyard",14,,116
+L. Marshall,2026-02-15,10.7,0,0.8703,0.8788,0.8009,0.8976,0.8978,0.8933,85.16,15.49,EX3666,"South Stockyard",14,,134
+L. Marshall,2026-02-16,11.8,0,0.9095,0.8717,0.7567,0.8961,0.8953,0.8910,88.77,14.00,EX3666,"South Stockyard",14,,119
+L. Marshall,2026-02-17,10.5,0,0.8661,0.8748,0.7765,0.8965,0.9178,0.8904,87.69,17.35,EX3666,"South Stockyard",14,,173
+L. Marshall,2026-02-18,11.9,0,0.8740,0.8955,0.7616,0.9182,0.9026,0.9055,85.13,15.91,EX3666,"South Stockyard",14,,102
+L. Marshall,2026-02-19,11.8,0,0.8691,0.8657,0.8104,0.9086,0.8852,0.8848,87.01,15.55,EX3666,"South Stockyard",14,,169
+L. Marshall,2026-02-20,11.9,0,0.8830,0.8701,0.7541,0.8711,0.9220,0.9157,90.95,15.76,EX3666,"South Stockyard",14,,124
+L. Marshall,2026-02-21,11.1,0,0.9149,0.8600,0.7936,0.9262,0.9093,0.9181,90.51,17.37,EX3666,"South Stockyard",14,,123
+L. Marshall,2026-02-22,10.9,0,0.8741,0.9093,0.8238,0.8944,0.8831,0.8907,87.33,16.52,EX3666,"South Stockyard",14,,157
+L. Marshall,2026-02-23,11.7,0,0.8679,0.8648,0.7772,0.8765,0.9096,0.8629,89.81,14.58,EX3666,"South Stockyard",14,,118
+L. Marshall,2026-02-24,11.3,0,0.8927,0.8888,0.7745,0.8773,0.8993,0.8902,90.59,15.23,EX3666,"South Stockyard",14,,119
+L. Marshall,2026-02-25,11.1,0,0.8973,0.8780,0.7847,0.9254,0.8689,0.8686,88.73,16.71,EX3666,"South Stockyard",14,,139
+L. Marshall,2026-02-26,11.5,0,0.8901,0.8941,0.7979,0.9201,0.8681,0.9093,88.06,16.46,EX3666,"South Stockyard",14,,172
+L. Marshall,2026-02-27,11.6,0,0.8800,0.8879,0.8120,0.8715,0.8923,0.9158,87.72,16.16,EX3666,"South Stockyard",14,,129
+L. Marshall,2026-02-28,11.1,0,0.8997,0.8954,0.7604,0.9138,0.8921,0.9156,86.95,14.34,EX3666,"South Stockyard",14,,150
+L. Marshall,2026-03-01,11.7,0,0.8922,0.9099,0.7610,0.9298,0.8688,0.8810,85.66,15.60,EX3666,"South Stockyard",14,,119
+L. Marshall,2026-03-02,11.4,0,0.9089,0.8924,0.7505,0.8854,0.8710,0.9163,85.85,16.92,EX3666,"South Stockyard",14,,168
+L. Marshall,2026-03-03,11,0,0.8764,0.8726,0.7632,0.9131,0.9084,0.8951,89.01,17.40,EX3666,"South Stockyard",14,,108
+L. Marshall,2026-03-04,11.7,0,0.8808,0.8611,0.7823,0.8761,0.8920,0.9175,89.98,16.48,EX3666,"South Stockyard",14,,149
+L. Marshall,2026-03-05,11.2,0,0.9144,0.9041,0.8201,0.8877,0.9139,0.9178,85.18,14.96,EX3666,"South Stockyard",14,,169
+R. Gilbert,2026-01-05,11,0,0.8931,0.8978,0.7810,0.9433,0.9177,0.9269,89.20,13.23,EX3667,"Panel 4 North",14,,116
+R. Gilbert,2026-01-06,11.5,0,0.9080,0.8951,0.8072,0.8852,0.9409,0.9373,91.79,14.43,EX3667,"Panel 4 North",14,,141
+R. Gilbert,2026-01-07,10.9,0,0.8981,0.9064,0.8335,0.9112,0.9003,0.9133,88.67,13.97,EX3667,"Panel 4 North",14,,126
+R. Gilbert,2026-01-08,10.8,0,0.8950,0.9033,0.8464,0.9062,0.9094,0.8868,93.37,14.75,EX3667,"Panel 4 North",14,,159
+R. Gilbert,2026-01-09,10.9,0,0.9090,0.9125,0.7990,0.9213,0.8836,0.8826,91.82,15.19,EX3667,"Panel 4 North",14,,132
+R. Gilbert,2026-01-10,11.7,0,0.9225,0.9269,0.7980,0.9000,0.9038,0.9374,92.53,13.38,EX3667,"Panel 4 North",14,,131
+R. Gilbert,2026-01-11,11.1,0,0.9255,0.8892,0.7889,0.9339,0.9110,0.9041,90.74,16.61,EX3667,"Panel 4 North",14,,158
+R. Gilbert,2026-01-12,10.8,0,0.9087,0.8985,0.8361,0.9170,0.9160,0.9378,93.06,15.18,EX3667,"Panel 4 North",14,,144
+R. Gilbert,2026-01-13,11.4,0,0.9134,0.9269,0.7790,0.9308,0.9159,0.9249,92.45,14.13,EX3667,"Panel 4 North",14,,149
+R. Gilbert,2026-01-14,11.4,0,0.9307,0.8995,0.7823,0.9389,0.9358,0.8917,90.62,16.61,EX3667,"Panel 4 North",14,,173
+R. Gilbert,2026-01-15,11.9,0,0.9265,0.9220,0.7757,0.9289,0.9074,0.9163,89.87,16.52,EX3667,"Panel 4 North",14,,105
+R. Gilbert,2026-01-16,10.8,0,0.9296,0.9067,0.8014,0.9384,0.8846,0.9400,89.09,15.42,EX3667,"Panel 4 North",14,,131
+R. Gilbert,2026-01-17,11,0,0.9293,0.9171,0.7792,0.9319,0.9404,0.9295,91.46,14.95,EX3667,"Panel 4 North",14,,167
+R. Gilbert,2026-01-18,11.9,0,0.8853,0.9058,0.8152,0.8918,0.9162,0.8832,90.72,15.65,EX3667,"Panel 4 North",14,,125
+R. Gilbert,2026-01-19,11.9,0,0.8914,0.8905,0.8179,0.8925,0.9030,0.9040,89.15,15.21,EX3667,"Panel 4 North",14,,177
+R. Gilbert,2026-01-20,11.9,0,0.9219,0.9102,0.8066,0.8905,0.9179,0.9371,89.74,15.81,EX3667,"Panel 4 North",14,,153
+R. Gilbert,2026-01-21,10.9,0,0.9205,0.9042,0.8434,0.8867,0.9052,0.8992,90.04,13.30,EX3667,"Panel 4 North",14,,160
+R. Gilbert,2026-01-22,11.8,0,0.9243,0.9130,0.8280,0.8853,0.8991,0.9034,88.86,13.06,EX3667,"Panel 4 North",14,,127
+R. Gilbert,2026-01-23,11.8,0,0.9057,0.9272,0.7763,0.8989,0.9166,0.9142,90.93,15.20,EX3667,"Panel 4 North",14,,165
+R. Gilbert,2026-01-24,11.1,0,0.9316,0.8941,0.7846,0.9273,0.8894,0.8988,91.10,15.71,EX3667,"Panel 4 North",14,,134
+R. Gilbert,2026-01-25,11.1,0,0.9175,0.9060,0.8095,0.9010,0.9063,0.9399,91.23,13.68,EX3667,"Panel 4 North",14,,145
+R. Gilbert,2026-01-26,10.9,0,0.9072,0.8978,0.8234,0.9160,0.8950,0.9243,92.24,16.27,EX3667,"Panel 4 North",14,,103
+R. Gilbert,2026-01-27,11.6,0,0.9296,0.8909,0.8518,0.8917,0.9128,0.9231,89.64,15.00,EX3667,"Panel 4 North",14,,152
+R. Gilbert,2026-01-28,11.2,0,0.9083,0.9150,0.8444,0.9120,0.9299,0.9163,88.49,14.31,EX3667,"Panel 4 North",14,,153
+R. Gilbert,2026-01-29,11.9,0,0.8934,0.8824,0.8129,0.9100,0.9021,0.8820,90.67,16.89,EX3667,"Panel 4 North",14,,171
+R. Gilbert,2026-01-30,11.5,0,0.8908,0.8869,0.7778,0.9265,0.9367,0.8981,92.75,15.32,EX3667,"Panel 4 North",14,,102
+R. Gilbert,2026-01-31,12.2,0,0.8869,0.9131,0.7793,0.9441,0.9365,0.9226,89.76,16.62,EX3667,"Panel 4 North",14,,110
+R. Gilbert,2026-02-01,12,0,0.8956,0.8803,0.8438,0.8897,0.8915,0.8861,88.97,15.92,EX3667,"Panel 4 North",14,,160
+R. Gilbert,2026-02-02,11.2,0,0.9218,0.8896,0.8108,0.9301,0.9245,0.9270,89.94,14.10,EX3667,"Panel 4 North",14,,137
+R. Gilbert,2026-02-03,12.1,0,0.8830,0.9097,0.7979,0.9206,0.8985,0.8989,92.68,14.87,EX3667,"Panel 4 North",14,,175
+R. Gilbert,2026-02-04,11.1,0,0.9195,0.9131,0.8007,0.9079,0.9303,0.8860,90.02,13.12,EX3667,"Panel 4 North",14,,142
+R. Gilbert,2026-02-05,11.1,0,0.8963,0.8928,0.7786,0.9138,0.9418,0.9202,89.04,15.59,EX3667,"Panel 4 North",14,,134
+R. Gilbert,2026-02-06,11.1,0,0.8840,0.9060,0.8016,0.9040,0.9288,0.9139,91.89,16.26,EX3667,"Panel 4 North",14,,147
+R. Gilbert,2026-02-07,11.9,0,0.9131,0.9153,0.7867,0.9123,0.9232,0.8891,92.87,14.88,EX3667,"Panel 4 North",14,,154
+R. Gilbert,2026-02-08,12.1,0,0.9204,0.9017,0.7782,0.9020,0.8843,0.8887,87.90,16.79,EX3667,"Panel 4 North",14,,140
+R. Gilbert,2026-02-09,12.2,0,0.8900,0.8917,0.7779,0.9147,0.9123,0.9253,92.48,14.24,EX3667,"Panel 4 North",14,,101
+R. Gilbert,2026-02-10,11.9,0,0.8996,0.9172,0.8406,0.9255,0.8932,0.8901,91.19,16.87,EX3667,"Panel 4 North",14,,102
+R. Gilbert,2026-02-11,11.3,0,0.9256,0.9247,0.8494,0.9088,0.9209,0.9209,91.95,16.76,EX3667,"Panel 4 North",14,,125
+R. Gilbert,2026-02-12,12,0,0.9078,0.9026,0.8381,0.8876,0.9031,0.8875,89.83,14.92,EX3667,"Panel 4 North",14,,117
+R. Gilbert,2026-02-13,11.1,0,0.9210,0.8812,0.8174,0.9383,0.8830,0.9368,90.86,13.19,EX3667,"Panel 4 North",14,,110
+R. Gilbert,2026-02-14,11.7,0,0.8931,0.8928,0.8119,0.9350,0.9318,0.8816,92.91,13.12,EX3667,"Panel 4 North",14,,115
+R. Gilbert,2026-02-15,11.7,0,0.9011,0.9032,0.8110,0.9265,0.9236,0.9355,91.17,16.50,EX3667,"Panel 4 North",14,,126
+R. Gilbert,2026-02-16,11.1,0,0.9113,0.9152,0.8233,0.8895,0.9271,0.9309,88.66,13.51,EX3667,"Panel 4 North",14,,149
+R. Gilbert,2026-02-17,11.1,0,0.9272,0.9249,0.8221,0.9085,0.9210,0.8849,90.93,13.44,EX3667,"Panel 4 North",14,,150
+R. Gilbert,2026-02-18,11.1,0,0.9079,0.8901,0.7896,0.9294,0.9214,0.9327,93.27,15.31,EX3667,"Panel 4 North",14,,103
+R. Gilbert,2026-02-19,11,0,0.8885,0.9261,0.7883,0.9404,0.9190,0.8823,91.06,13.83,EX3667,"Panel 4 North",14,,175
+R. Gilbert,2026-02-20,11.4,0,0.9206,0.8921,0.8065,0.9262,0.9173,0.9195,89.43,13.21,EX3667,"Panel 4 North",14,,138
+R. Gilbert,2026-02-21,12.1,0,0.9254,0.9270,0.8265,0.9057,0.9295,0.9201,92.51,14.92,EX3667,"Panel 4 North",14,,132
+R. Gilbert,2026-02-22,11.3,0,0.9231,0.9199,0.8264,0.8989,0.8924,0.9168,92.54,16.06,EX3667,"Panel 4 North",14,,128
+R. Gilbert,2026-02-23,11.8,0,0.8830,0.9114,0.8460,0.9346,0.9413,0.9286,87.74,13.93,EX3667,"Panel 4 North",14,,155
+R. Gilbert,2026-02-24,12.1,0,0.9295,0.9101,0.7931,0.9249,0.8936,0.9350,87.73,15.80,EX3667,"Panel 4 North",14,,100
+R. Gilbert,2026-02-25,10.9,0,0.8867,0.9160,0.8388,0.9070,0.8971,0.8860,90.60,14.72,EX3667,"Panel 4 North",14,,113
+R. Gilbert,2026-02-26,11,0,0.8920,0.8812,0.8064,0.9053,0.9012,0.9168,93.01,14.05,EX3667,"Panel 4 North",14,,143
+R. Gilbert,2026-02-27,12.2,0,0.8850,0.8935,0.8203,0.9022,0.8977,0.8893,93.41,13.36,EX3667,"Panel 4 North",14,,175
+R. Gilbert,2026-02-28,11.3,0,0.9097,0.9224,0.7883,0.9256,0.8993,0.9310,90.23,14.18,EX3667,"Panel 4 North",14,,156
+R. Gilbert,2026-03-01,11.4,0,0.9155,0.9243,0.8431,0.8946,0.8847,0.8802,91.22,13.69,EX3667,"Panel 4 North",14,,132
+R. Gilbert,2026-03-02,11,0,0.8847,0.8921,0.8320,0.8929,0.9339,0.8970,91.65,16.84,EX3667,"Panel 4 North",14,,128
+R. Gilbert,2026-03-03,12.2,0,0.9207,0.9235,0.8104,0.9022,0.9073,0.9381,90.57,13.41,EX3667,"Panel 4 North",14,,169
+R. Gilbert,2026-03-04,11,0,0.8905,0.9155,0.8341,0.9186,0.9037,0.9063,93.13,14.46,EX3667,"Panel 4 North",14,,162
+R. Gilbert,2026-03-05,10.9,0,0.9290,0.8924,0.8430,0.9234,0.9422,0.8828,91.51,15.56,EX3667,"Panel 4 North",14,,122
