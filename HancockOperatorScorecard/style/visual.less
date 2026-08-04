@@ -1,0 +1,258 @@
+@deepBlue: #006A9D;
+@midGrey: #7F7F7F;
+@white: #FFFFFF;
+
+.hos-host {
+    overflow: hidden;
+}
+
+.hos-root {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: @white;
+    color: #222222;
+    font-family: Gilroy, "Gilroy Semibold", Aptos, "Segoe UI", Arial, sans-serif;
+    box-sizing: border-box;
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+.hos-section {
+    flex-shrink: 0;
+}
+
+/* ---- hero ---- */
+.hos-hero {
+    position: relative;
+    flex: 0 0 30%;
+    min-height: 110px;
+    overflow: hidden;
+    color: @white;
+}
+
+.hos-hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hos-hero-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 14px 12px 14px;
+    color: @white;
+}
+
+.hos-hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.hos-site {
+    font-weight: 700;
+    letter-spacing: 0.14em;
+}
+
+.hos-titleblock {
+    text-align: right;
+}
+
+.hos-title {
+    font-weight: 700;
+    letter-spacing: 0.14em;
+}
+
+.hos-period {
+    opacity: 0.8;
+    letter-spacing: 0.1em;
+}
+
+.hos-headline-label {
+    letter-spacing: 0.14em;
+    opacity: 0.85;
+    margin-bottom: 2px;
+}
+
+.hos-headline-value {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    line-height: 1;
+}
+
+.hos-headline-num {
+    font-weight: 700;
+}
+
+.hos-headline-units {
+    opacity: 0.85;
+    font-weight: 600;
+}
+
+.hos-chips {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.hos-chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: @white;
+    background: @deepBlue;
+}
+
+/* ---- info strip ---- */
+.hos-info {
+    display: flex;
+    border-bottom: 1px solid fade(@midGrey, 30%);
+}
+
+.hos-info-cell {
+    flex: 1 1 0;
+    padding: 8px 14px;
+    min-width: 0;
+
+    & + .hos-info-cell {
+        border-left: 1px solid fade(@midGrey, 30%);
+    }
+}
+
+.hos-info-label {
+    color: @midGrey;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hos-info-value {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---- KPI tiles ---- */
+.hos-kpis {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+}
+
+.hos-tile {
+    flex: 1 1 0;
+    min-width: 0;
+    border: 1px solid fade(@midGrey, 25%);
+    border-top: 3px solid @midGrey;
+    border-radius: 3px;
+    padding: 8px 10px;
+    background: @white;
+}
+
+.hos-tile-label {
+    color: @midGrey;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hos-tile-value {
+    font-weight: 700;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hos-tile-delta {
+    margin-top: 3px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---- trend + quadrant ---- */
+.hos-trend {
+    flex: 1 1 22%;
+    min-height: 90px;
+    padding: 2px 6px 0 6px;
+}
+
+.hos-quad {
+    flex: 1.4 1 30%;
+    min-height: 120px;
+    padding: 2px 6px 0 6px;
+}
+
+.hos-trend-svg,
+.hos-quad-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---- summary ---- */
+.hos-summary {
+    padding: 8px 14px 12px 14px;
+}
+
+.hos-summary-box {
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.hos-summary-title {
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin-bottom: 4px;
+}
+
+.hos-summary-body {
+    line-height: 1.45;
+    white-space: pre-wrap;
+}
+
+/* ---- empty / landing ---- */
+.hos-empty {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    padding: 16px;
+}
+
+.hos-empty-brand {
+    color: @deepBlue;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    font-size: 10pt;
+}
+
+.hos-empty-msg {
+    color: @midGrey;
+    font-size: 10pt;
+    max-width: 320px;
+}

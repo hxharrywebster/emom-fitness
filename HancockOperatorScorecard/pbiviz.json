@@ -1,0 +1,26 @@
+{
+    "visual": {
+        "name": "hancockOperatorScorecard",
+        "displayName": "Hancock Operator Scorecard",
+        "guid": "hancockOperatorScorecardF1C4A18AEEF940B38A7B91F7861B6D03",
+        "visualClassName": "Visual",
+        "version": "1.0.0.0",
+        "description": "Full-page personal scorecard for Hancock Iron Ore / Roy Hill operators: hero headline with rank, info strip, KPI tiles, monthly trend, crew peer quadrant and swing summary — configurable per role from the format pane.",
+        "supportUrl": "https://haultrax.com",
+        "gitHubUrl": ""
+    },
+    "apiVersion": "5.11.1",
+    "author": {
+        "name": "Haultrax",
+        "email": "harry.webster@haultrax.com"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": [],
+    "version": "1.0.0.0"
+}

@@ -1,0 +1,391 @@
+{
+    "privileges": [
+        {
+            "name": "WebAccess",
+            "essential": false,
+            "parameters": [
+                "https://*"
+            ]
+        }
+    ],
+    "dataRoles": [
+        {
+            "displayName": "Person",
+            "name": "person",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Date",
+            "name": "date",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Headline Value",
+            "name": "headline",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Focus Person Flag",
+            "name": "focusFlag",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "KPI Values",
+            "name": "kpis",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Trend Values",
+            "name": "trendValues",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Quadrant X",
+            "name": "quadX",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Quadrant Y",
+            "name": "quadY",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Info Values",
+            "name": "info",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Summary Text",
+            "name": "summary",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tooltips",
+            "name": "tooltips",
+            "kind": "Measure"
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "person": { "max": 1 },
+                    "date": { "max": 1 },
+                    "headline": { "max": 1 },
+                    "focusFlag": { "max": 1 },
+                    "kpis": { "max": 4 },
+                    "trendValues": { "max": 2 },
+                    "quadX": { "max": 1 },
+                    "quadY": { "max": 1 },
+                    "info": { "max": 3 },
+                    "summary": { "max": 1 }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "select": [
+                        { "for": { "in": "person" } },
+                        { "for": { "in": "date" } }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": { "count": 30000 }
+                    }
+                },
+                "values": {
+                    "select": [
+                        { "for": { "in": "headline" } },
+                        { "for": { "in": "focusFlag" } },
+                        { "for": { "in": "kpis" } },
+                        { "for": { "in": "trendValues" } },
+                        { "for": { "in": "quadX" } },
+                        { "for": { "in": "quadY" } },
+                        { "for": { "in": "info" } },
+                        { "for": { "in": "summary" } },
+                        { "for": { "in": "tooltips" } }
+                    ]
+                }
+            }
+        }
+    ],
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        },
+        "roles": [
+            "tooltips"
+        ]
+    },
+    "supportsHighlight": true,
+    "supportsLandingPage": true,
+    "supportsMultiVisualSelection": true,
+    "sorting": {
+        "implicit": {
+            "clauses": [
+                { "role": "date", "direction": 1 }
+            ]
+        }
+    },
+    "objects": {
+        "sections": {
+            "properties": {
+                "showHero": { "type": { "bool": true } },
+                "showInfo": { "type": { "bool": true } },
+                "showKpis": { "type": { "bool": true } },
+                "showTrend": { "type": { "bool": true } },
+                "showQuadrant": { "type": { "bool": true } },
+                "showSummary": { "type": { "bool": true } }
+            }
+        },
+        "header": {
+            "properties": {
+                "siteName": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "siteName", "selector": ["person"] } }
+                },
+                "title": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "title", "selector": ["person"] } }
+                },
+                "periodLabel": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "periodLabel", "selector": ["person"] } }
+                },
+                "imageUrl": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "imageUrl", "selector": ["person"] } }
+                },
+                "scrimOpacity": { "type": { "numeric": true } }
+            }
+        },
+        "headline": {
+            "properties": {
+                "label": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "label", "selector": ["person"] } }
+                },
+                "units": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "units", "selector": ["person"] } }
+                },
+                "target": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "target", "selector": ["person"] } }
+                },
+                "higherIsBetter": { "type": { "bool": true } },
+                "showTargetChip": { "type": { "bool": true } },
+                "showRankChip": { "type": { "bool": true } }
+            }
+        },
+        "infoStrip": {
+            "properties": {
+                "label1": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "label1", "selector": ["person"] } }
+                },
+                "label2": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "label2", "selector": ["person"] } }
+                },
+                "label3": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "label3", "selector": ["person"] } }
+                },
+                "label4": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "headline", "output": { "property": "label4", "selector": ["person"] } }
+                }
+            }
+        },
+        "kpiTiles": {
+            "properties": {
+                "meetingColor": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "kpis", "output": { "property": "meetingColor", "selector": ["person"] } }
+                },
+                "belowColor": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "kpis", "output": { "property": "belowColor", "selector": ["person"] } }
+                }
+            }
+        },
+        "kpi1": {
+            "properties": {
+                "label": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "label", "selector": ["person"] } }
+                },
+                "units": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "units", "selector": ["person"] } }
+                },
+                "target": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "target", "selector": ["person"] } }
+                },
+                "higherIsBetter": { "type": { "bool": true } }
+            }
+        },
+        "kpi2": {
+            "properties": {
+                "label": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "label", "selector": ["person"] } }
+                },
+                "units": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "units", "selector": ["person"] } }
+                },
+                "target": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "target", "selector": ["person"] } }
+                },
+                "higherIsBetter": { "type": { "bool": true } }
+            }
+        },
+        "kpi3": {
+            "properties": {
+                "label": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "label", "selector": ["person"] } }
+                },
+                "units": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "units", "selector": ["person"] } }
+                },
+                "target": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "target", "selector": ["person"] } }
+                },
+                "higherIsBetter": { "type": { "bool": true } }
+            }
+        },
+        "kpi4": {
+            "properties": {
+                "label": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "label", "selector": ["person"] } }
+                },
+                "units": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "units", "selector": ["person"] } }
+                },
+                "target": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "kpis", "output": { "property": "target", "selector": ["person"] } }
+                },
+                "higherIsBetter": { "type": { "bool": true } }
+            }
+        },
+        "trend": {
+            "properties": {
+                "series1Label": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "trendValues", "output": { "property": "series1Label", "selector": ["person"] } }
+                },
+                "series2Label": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "trendValues", "output": { "property": "series2Label", "selector": ["person"] } }
+                },
+                "yMin": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "trendValues", "output": { "property": "yMin", "selector": ["person"] } }
+                },
+                "yMax": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "trendValues", "output": { "property": "yMax", "selector": ["person"] } }
+                },
+                "series1Color": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "trendValues", "output": { "property": "series1Color", "selector": ["person"] } }
+                },
+                "series2Color": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "trendValues", "output": { "property": "series2Color", "selector": ["person"] } }
+                }
+            }
+        },
+        "quadrant": {
+            "properties": {
+                "xThreshold": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "quadX", "output": { "property": "xThreshold", "selector": ["person"] } }
+                },
+                "yThreshold": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "quadY", "output": { "property": "yThreshold", "selector": ["person"] } }
+                },
+                "yInverted": { "type": { "bool": true } },
+                "labelTL": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "quadX", "output": { "property": "labelTL", "selector": ["person"] } }
+                },
+                "labelTR": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "quadX", "output": { "property": "labelTR", "selector": ["person"] } }
+                },
+                "labelBL": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "quadX", "output": { "property": "labelBL", "selector": ["person"] } }
+                },
+                "labelBR": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "quadX", "output": { "property": "labelBR", "selector": ["person"] } }
+                },
+                "fillTL": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "quadX", "output": { "property": "fillTL", "selector": ["person"] } }
+                },
+                "fillTR": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "quadX", "output": { "property": "fillTR", "selector": ["person"] } }
+                },
+                "fillBL": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "quadX", "output": { "property": "fillBL", "selector": ["person"] } }
+                },
+                "fillBR": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "quadX", "output": { "property": "fillBR", "selector": ["person"] } }
+                },
+                "peerDotColor": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "quadX", "output": { "property": "peerDotColor", "selector": ["person"] } }
+                },
+                "focusDotColor": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "quadX", "output": { "property": "focusDotColor", "selector": ["person"] } }
+                },
+                "labelFontSize": { "type": { "formatting": { "fontSize": true } } }
+            }
+        },
+        "summary": {
+            "properties": {
+                "title": {
+                    "type": { "text": true },
+                    "rule": { "inputRole": "summary", "output": { "property": "title", "selector": ["person"] } }
+                },
+                "boxColor": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "summary", "output": { "property": "boxColor", "selector": ["person"] } }
+                },
+                "textColor": {
+                    "type": { "fill": { "solid": { "color": true } } },
+                    "rule": { "inputRole": "summary", "output": { "property": "textColor", "selector": ["person"] } }
+                }
+            }
+        },
+        "text": {
+            "properties": {
+                "fontFamily": {
+                    "type": { "formatting": { "fontFamily": true } },
+                    "rule": { "inputRole": "headline", "output": { "property": "fontFamily", "selector": ["person"] } }
+                },
+                "headlineSize": { "type": { "formatting": { "fontSize": true } } },
+                "sectionHeaderSize": { "type": { "formatting": { "fontSize": true } } },
+                "tileValueSize": { "type": { "formatting": { "fontSize": true } } },
+                "bodySize": { "type": { "formatting": { "fontSize": true } } }
+            }
+        }
+    }
+}
