@@ -409,7 +409,8 @@ try {
                 objects[i] = {
                     quadrant: { focusDotColor: { solid: { color: "#123456" } } },
                     summary: { boxColor: { solid: { color: "#654321" } } },
-                    headline: { label: "FX HEADLINE" }
+                    headline: { label: "FX HEADLINE" },
+                    trend: { yMin: "0", yMax: "2" }
                 };
             }
             return objects;
@@ -419,11 +420,15 @@ try {
     const focusDot = qa("circle.hos-dot").find(d => Number(d.getAttribute("r")) > 5);
     const boxBg = q(".hos-summary-box")?.style.background;
     const label = q(".hos-headline-label")?.textContent;
-    record("fx override read from categories objects (colour + text)",
+    // trend yMin/yMax fx: data sits around 50–100 %, the override forces a 0–200 % axis
+    const trendTicks = qa(".hos-trend-svg .tick text").map(t => t.textContent);
+    const axisFollowsFx = trendTicks.some(t => t.includes("200")) && trendTicks.some(t => t.replace(/\s/g, "").startsWith("0"));
+    record("fx override read from categories objects (colour + text + trend y-domain)",
         focusDot?.getAttribute("fill") === "#123456"
             && (boxBg === "rgb(101, 67, 33)" || boxBg === "#654321")
-            && label === "FX HEADLINE",
-        `dot=${focusDot?.getAttribute("fill")}, box=${boxBg}, label="${label}" (row ${focusRowIdx})`);
+            && label === "FX HEADLINE"
+            && axisFollowsFx,
+        `dot=${focusDot?.getAttribute("fill")}, box=${boxBg}, label="${label}", yTicks=[${trendTicks.join(" ")}] (row ${focusRowIdx})`);
 } catch (e) { record("fx override read from categories objects (colour + text)", false, e.stack.split("\n")[0]); }
 
 /* 8 — formatting pane */

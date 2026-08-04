@@ -177,7 +177,7 @@ class SummaryCard extends FormattingSettingsCard {
 
 class TextCard extends FormattingSettingsCard {
     fontFamily = new formattingSettings.FontPicker({
-        name: "fontFamily", value: BRAND.fontStack, ...FX
+        name: "fontFamily", displayName: "Font family", value: BRAND.fontStack, ...FX
     });
     headlineSize = new formattingSettings.NumUpDown({ name: "headlineSize", displayName: "Headline size", value: 54 });
     sectionHeaderSize = new formattingSettings.NumUpDown({ name: "sectionHeaderSize", displayName: "Section header size", value: 10 });

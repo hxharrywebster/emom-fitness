@@ -690,8 +690,8 @@ export class Visual implements IVisual {
             .range([0, w]);
 
         const allVals = vm.trend.flatMap(t => t.values.filter((v): v is number => v !== null));
-        let yMin = parseNum(s.trend.yMin.value);
-        let yMax = parseNum(s.trend.yMax.value);
+        let yMin = parseNum(this.fxTextVal("trend", "yMin", s.trend.yMin.value, vm));
+        let yMax = parseNum(this.fxTextVal("trend", "yMax", s.trend.yMax.value, vm));
         const dataMin = d3.min(allVals) ?? 0;
         const dataMax = d3.max(allVals) ?? 1;
         if (yMin === null) yMin = dataMin - (dataMax - dataMin) * 0.1;
