@@ -60,9 +60,8 @@ func main() {
 
 	// get API key from environment
 	apiKey := os.Getenv("MCP_API_KEY")
-	if apiKey == "" {
-		log.Println("Warning: MCP_API_KEY not set, using default (insecure!)")
-		apiKey = "change-me-in-production"
+	if apiKey == "" || apiKey == "your-secret-api-key-here" || apiKey == "paste-your-generated-key-here" {
+		log.Fatal("MCP_API_KEY is not set (or still the example placeholder). Generate one with `openssl rand -hex 32` and set it in .env")
 	}
 
 	// get HTTP port from environment
